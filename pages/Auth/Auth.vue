@@ -30,9 +30,12 @@
 
 <script>
 import InputBlock from './InputBlock'
-import {getCaptcha, init, login} from '../../api/auth.js'
-import {ref} from 'vue'
+import { getCaptcha, init, login } from '../../api/auth.js'
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 import encrypt from '../../hook/aes'
+import { SAVE_LOGIN_TOKEN } from '../../store/mutations-type'
+import { SAVE_STATE_TO_LOCAL } from '../../store/actions-type'
 
 export default {
   name: 'AuthPage',
@@ -40,6 +43,7 @@ export default {
     InputBlock
   },
   setup() {
+    const store = useStore()
     const username = ref('')
     const password = ref('')
     const captcha = ref('')
@@ -53,6 +57,7 @@ export default {
      * 初始化验证
      */
     const initAuth = () => {
+      isInitSuccess.value = false
       init().then(resp => {
         if (resp.code === 0) {
           console.log('初始化')
@@ -118,6 +123,9 @@ export default {
           initAuth()
         } else {
           console.log('登录成功')
+          uni.setStorageSync('Authorization', resp.data)
+          store.commit(SAVE_LOGIN_TOKEN, resp.data)
+          store.dispatch(SAVE_STATE_TO_LOCAL)
         }
         console.log(resp)
       }).catch(() => {

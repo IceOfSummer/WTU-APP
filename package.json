@@ -21,5 +21,8 @@
     "eslint-plugin-vue": "^8.1.1"
   },
   "keywords": [],
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "vuex": "^4.0.2"
+  }
 }

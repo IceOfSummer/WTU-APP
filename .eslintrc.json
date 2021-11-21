@@ -19,7 +19,11 @@
     "semi": [2, "never"],
     "no-undef": "off",
     "quotes": ["error", "single"],
-    "vue/no-v-model-argument": "off"
+    "vue/no-v-model-argument": "off",
+    "object-curly-spacing": ["error", "always"],
+    "template-curly-spacing": "error",
+    "space-infix-ops": "error",
+    "space-before-blocks": "error"
   },
   "root": true
 }

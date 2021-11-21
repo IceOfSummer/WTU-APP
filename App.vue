@@ -1,15 +1,18 @@
 <script>
-	export default {
-		onLaunch: function() {
-			console.log('App Launch')
-		},
-		onShow: function() {
-			console.log('App Show')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
-	}
+import { useStore } from 'vuex'
+import { LOAD_LOCAL_STORAGE } from './store/mutations-type'
+export default {
+  onLaunch: function() {
+    const store = useStore()
+    store.commit(LOAD_LOCAL_STORAGE)
+  },
+  onShow: function() {
+    console.log('App Show')
+  },
+  onHide: function() {
+    console.log('App Hide')
+  }
+}
 </script>
 
 <style lang="scss">
