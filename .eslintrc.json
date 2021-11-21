@@ -1,0 +1,25 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/essential"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6
+//    "sourceType": "module"
+  },
+  "plugins": [
+    "vue"
+  ],
+  "rules": {
+    "no-extra-semi": "error",
+    "semi": [2, "never"],
+    "no-undef": "off",
+    "quotes": ["error", "single"],
+    "vue/no-v-model-argument": "off"
+  },
+  "root": true
+}
