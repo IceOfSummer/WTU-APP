@@ -56,11 +56,10 @@ const missionManager = {
  */
 function baseAjax(config) {
   return new Promise((resolve, reject) => {
-    const token = uni.getStorageSync('Authorization')
+    const token = uni.getStorageSync('token')
     const url = BASE_URL + config.url
 
     missionManager.checkMission(url, config.rejectPolicy ? config.rejectPolicy : 'REJECT_IF_EXIST')
-    console.log(config.method ? config.method : 'GET')
     const task = uni.request({
       url,
       data: config.data,

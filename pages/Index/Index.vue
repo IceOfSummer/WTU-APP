@@ -1,6 +1,9 @@
 <template>
   <view class="content">
-    <text>index</text>
+    <text>如你所见,我打算制作一个纺大的专属app</text>
+    <text>当然,这纯粹出于个人兴趣</text>
+    <text>目前还只是一个测试版</text>
+    <text>希望自己能坚持下去吧!</text>
   </view>
 </template>
 

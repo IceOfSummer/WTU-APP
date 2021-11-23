@@ -1,20 +1,15 @@
 import * as TYPE from './mutations-type'
-
-const LOCAL_STORAGE_KEY = 'wtu-app'
+import useStorage from '../hook/storage'
+const storage = useStorage()
 
 export default {
   /**
    * 同步加载本地数据
    * @param state 本地数据
    */
-  // eslint-disable-next-line no-unused-vars
-  [TYPE.LOAD_LOCAL_STORAGE] (state) {
-    try {
-      state = JSON.parse(uni.getStorageSync(LOCAL_STORAGE_KEY))
-    } catch (e) {
-      // JSON解析失败
-      console.log(e)
-    }
+  [TYPE.INIT_STORE] (state) {
+    state.schoolToken = storage.schoolToken
+    state.token = storage.token
   },
   /**
    * 将登陆成功后的token保存到vuex中
@@ -24,5 +19,13 @@ export default {
   [TYPE.SAVE_LOGIN_TOKEN] (state, token) {
     console.log(`set token: ${token}`)
     state.authorization = token
+  },
+  /**
+   * 登出
+   * @param state state
+   */
+  [TYPE.LOG_OUT] (state) {
+    state.schoolToken = ''
+    storage.schoolToken = ''
   }
 }

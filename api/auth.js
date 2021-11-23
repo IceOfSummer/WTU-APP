@@ -1,4 +1,4 @@
-import {noRepeatAjax} from '../hook/ajax'
+import { noRepeatAjax } from '../hook/ajax'
 
 /**
  * 初始化登录请求
@@ -11,6 +11,6 @@ export const init = () => noRepeatAjax('/auth/init')
  * @param session 验证码
  * @return {Promise<unknown>} 图形验证码
  */
-export const getCaptcha = (session) => noRepeatAjax('/auth/captcha', 'GET', {session})
+export const getCaptcha = (session) => noRepeatAjax('/auth/captcha', 'GET', { session })
 
-export const login = (username, password, captcha, session) => noRepeatAjax('/auth/login', 'POST', {username, password, captcha, session})
+export const login = (username, password, captcha, session) => noRepeatAjax('/auth/login', 'POST', { username, password, captcha, session })

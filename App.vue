@@ -1,10 +1,11 @@
 <script>
 import { useStore } from 'vuex'
-import { LOAD_LOCAL_STORAGE } from './store/mutations-type'
+import { INIT_STORE } from './store/mutations-type'
+
 export default {
   onLaunch: function() {
     const store = useStore()
-    store.commit(LOAD_LOCAL_STORAGE)
+    store.commit(INIT_STORE)
   },
   onShow: function() {
     console.log('App Show')

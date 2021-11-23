@@ -12,6 +12,30 @@
 				"navigationBarTitleText": "认证页面",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/WtuAppList/WtuAppList",
+			"style": {
+				"navigationBarTitleText": "其它应用"
+			}
+		},
+		{
+			"path": "pages/Classes/Classes",
+			"style": {
+				"navigationBarTitleText": "课程表"
+			}
+		},
+		{
+			"path": "pages/Profile/Profile",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		},
+		{
+			"path": "pages/SchoolAuth/SchoolAuth",
+			"style": {
+				"navigationBarTitleText": "校园登录"
+			}
 		}
 	],
 	"globalStyle": {
@@ -19,5 +43,25 @@
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"list": [
+			{
+				"pagePath": "pages/Index/Index",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/Classes/Classes",
+				"text": "课程表"
+			},
+			{
+				"pagePath": "pages/WtuAppList/WtuAppList",
+				"text": "其它应用"
+			},
+			{
+				"pagePath": "pages/Profile/Profile",
+				"text": "个人中心"
+			}
+		]
 	}
 }

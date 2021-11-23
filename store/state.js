@@ -1,6 +1,10 @@
 export default {
   /**
-   * 验证token
+   * 登录token
    */
-  authorization: ''
+  token: '',
+  /**
+   * 教务系统token
+   */
+  schoolToken: ''
 }

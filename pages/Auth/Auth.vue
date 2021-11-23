@@ -32,10 +32,8 @@
 import InputBlock from './InputBlock'
 import { getCaptcha, init, login } from '../../api/auth.js'
 import { ref } from 'vue'
-import { useStore } from 'vuex'
 import encrypt from '../../hook/aes'
-import { SAVE_LOGIN_TOKEN } from '../../store/mutations-type'
-import { SAVE_STATE_TO_LOCAL } from '../../store/actions-type'
+import storage from '../../hook/storage'
 
 export default {
   name: 'AuthPage',
@@ -43,7 +41,6 @@ export default {
     InputBlock
   },
   setup() {
-    const store = useStore()
     const username = ref('')
     const password = ref('')
     const captcha = ref('')
@@ -91,6 +88,7 @@ export default {
       if (isInitSuccess.value) {
         getCaptcha(session).then(resp => {
           captchaImage.value = resp.data
+          console.log(resp)
         }).catch(() => {
           uni.showToast({
             title: '连接服务器失败, 请检查你的网络',
@@ -123,9 +121,7 @@ export default {
           initAuth()
         } else {
           console.log('登录成功')
-          uni.setStorageSync('Authorization', resp.data)
-          store.commit(SAVE_LOGIN_TOKEN, resp.data)
-          store.dispatch(SAVE_STATE_TO_LOCAL)
+          storage.token = resp.data
         }
         console.log(resp)
       }).catch(() => {
