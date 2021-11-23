@@ -33,7 +33,8 @@ import InputBlock from './InputBlock'
 import { getCaptcha, init, login } from '../../api/auth.js'
 import { ref } from 'vue'
 import encrypt from '../../hook/aes'
-import storage from '../../hook/storage'
+import { useStore } from 'vuex'
+import { SAVE_SCHOOL_LOGIN_TOKEN } from '../../store/mutations-type'
 
 export default {
   name: 'AuthPage',
@@ -41,6 +42,8 @@ export default {
     InputBlock
   },
   setup() {
+    const store = useStore()
+
     const username = ref('')
     const password = ref('')
     const captcha = ref('')
@@ -121,7 +124,7 @@ export default {
           initAuth()
         } else {
           console.log('登录成功')
-          storage.token = resp.data
+          store.commit(SAVE_SCHOOL_LOGIN_TOKEN, resp.data)
         }
         console.log(resp)
       }).catch(() => {

@@ -1,13 +1,13 @@
 export interface AesStatic {
-  encrypt(secret, aesEncryptPassword, iv): string
+  (secret, aesEncryptPassword, iv): string
 }
 
 export interface RandomIv {
-  randomStr(length: number): string
+  (length: number): string
 }
 
 export interface WtuEncrypt {
-  wtuEncrypt(password, secret): string
+  (password, secret): string
 }
 
 declare const encrypt: AesStatic

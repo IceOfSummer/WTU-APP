@@ -25,12 +25,13 @@
 import { ref } from 'vue'
 import { getCaptcha, init, login } from '../../api/schoolAuth'
 import { wtuEncrypt } from '../../hook/aes'
-import useStorage from '../../hook/storage'
+import { SAVE_SCHOOL_LOGIN_TOKEN } from '../../store/mutations-type'
+import { useStore } from 'vuex'
 
 export default {
   name: 'SchoolAuth',
   setup () {
-    const storage = useStorage()
+    const store = useStore()
     const isInitSuccess = ref(false)
 
     const username = ref('')
@@ -94,13 +95,13 @@ export default {
           if (resp.code === 0) {
             // success
             isLoginSuccess = true
-            storage.schoolToken = resp.data
+            store.commit(SAVE_SCHOOL_LOGIN_TOKEN, resp.data)
             uni.showToast({
               title: '登录成功',
               icon: 'none',
               position: 'bottom'
             })
-            uni.switchTab({ url: '/pages/Index/Index' })
+            uni.navigateBack()
           } else {
             uni.showToast({
               title: '登录失败,请检查你提交的数据',
@@ -109,7 +110,6 @@ export default {
             })
           }
         }).finally(() => {
-          console.log(isInitSuccess)
           if (!isLoginSuccess) {
             tryInit()
           }

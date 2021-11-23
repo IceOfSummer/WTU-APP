@@ -16,9 +16,9 @@ export default {
    * @param state state
    * @param token {string} token
    */
-  [TYPE.SAVE_LOGIN_TOKEN] (state, token) {
-    console.log(`set token: ${token}`)
-    state.authorization = token
+  [TYPE.SAVE_SCHOOL_LOGIN_TOKEN] (state, token) {
+    storage.schoolToken = token
+    state.schoolToken = token
   },
   /**
    * 登出

@@ -16,12 +16,13 @@ export default {
   name: 'MyProfile',
   setup () {
     const store = useStore()
+    console.log()
     /**
      * 跳转到指定页面
      * @param path {string} url
      */
     const jump = (path) => {
-      uni.redirectTo({ url: path })
+      uni.navigateTo({ url: path })
     }
 
     /**
@@ -43,6 +44,8 @@ export default {
     }
   },
   onShow () {
+    const store = useStore()
+    console.log(store.state.schoolToken)
   }
 }
 </script>
