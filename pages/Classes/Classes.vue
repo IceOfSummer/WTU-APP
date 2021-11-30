@@ -88,10 +88,16 @@
 import ClassItem from './ClassItem'
 import { ref } from 'vue'
 import { getClasses } from '../../api/schoolApp'
+import useStorage from '../../hook/storage'
+import { useStore } from 'vuex'
+import { LOG_OUT } from '../../store/mutations-type'
 export default {
   name: 'SchoolClasses',
   components: { ClassItem },
   setup () {
+    const storage = useStorage()
+    const store = useStore()
+
     const today = new Date()
     // 1-12
     const curMonth = today.getMonth() + 1
@@ -133,10 +139,29 @@ export default {
     }
 
     const classesData = ref([])
-    // 获取课表
-    getClasses(2021, 3).then(resp => {
-      classesData.value = resp.kbList
-    })
+    if (storage.classes.length !== 0) {
+      // 直接使用缓存数据
+      classesData.value = storage.classes
+    } else {
+      // 重新获取课表
+      getClasses(2021, 3).then(resp => {
+        if (resp.kbList) {
+          classesData.value = resp.kbList
+          // 保存到本地
+          storage.classes = resp.kbList
+        } else {
+          // 登录失效,提示用户并登出
+          store.commit(LOG_OUT)
+          uni.showToast({
+            title: '登录失效, 请重新登录',
+            icon: 'none',
+            position: 'bottom'
+          })
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+    }
     return {
       calendar,
       classesData

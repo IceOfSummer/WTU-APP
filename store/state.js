@@ -6,5 +6,5 @@ export default {
   /**
    * 教务系统token
    */
-  schoolToken: ''
+  schoolToken: '',
 }

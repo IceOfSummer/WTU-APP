@@ -6,8 +6,11 @@
 
 <script>
 
+
 export default {
-  name: 'WtuAppList'
+  name: 'WtuAppList',
+  setup () {
+  }
 }
 </script>
 

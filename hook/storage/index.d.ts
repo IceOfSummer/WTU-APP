@@ -4,6 +4,7 @@ export type storage = {
   token: string
   schoolToken: string
   schoolUsername: string
+  classes: Array<object>
 }
 
 export type refStorage = {

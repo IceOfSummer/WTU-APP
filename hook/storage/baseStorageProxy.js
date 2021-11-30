@@ -9,13 +9,18 @@ export default function baseStorageProxy(obj) {
     get(target, p) {
       if (obj[p]) {
         // 直接使用缓存
-        return obj[p]
-      } else {
-        const data = uni.getStorageSync(p)
-        // 添加缓存
-        obj[p] = data
-        return data
+        if (Array.isArray(obj[p])) {
+          if (obj[p].length !== 0) {
+            return obj[p]
+          }
+        } else {
+          return obj[p]
+        }
       }
+      const data = uni.getStorageSync(p)
+      // 添加缓存
+      obj[p] = data
+      return data
     },
     set(target, p, value) {
       let key = null
@@ -24,6 +29,7 @@ export default function baseStorageProxy(obj) {
       } else {
         key = p
       }
+      console.log(value)
       // 更新缓存
       if (value) {
         uni.setStorage({

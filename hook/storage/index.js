@@ -11,7 +11,11 @@ const storage = {
   /**
    * 校园账号的用户名
    */
-  schoolUsername: ''
+  schoolUsername: '',
+  /**
+   * 课程表
+   */
+  classes: []
 }
 
 const baseStorage = baseStorageProxy(storage)
