@@ -3,6 +3,7 @@ import {Ref} from "vue";
 export type storage = {
   token: string
   schoolToken: string
+  schoolUsername: string
 }
 
 export type refStorage = {

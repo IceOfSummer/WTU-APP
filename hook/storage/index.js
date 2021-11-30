@@ -7,7 +7,11 @@ const storage = {
   /**
    * 教务系统token
    */
-  schoolToken: ''
+  schoolToken: '',
+  /**
+   * 校园账号的用户名
+   */
+  schoolUsername: ''
 }
 
 const baseStorage = baseStorageProxy(storage)

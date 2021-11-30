@@ -57,7 +57,7 @@ const missionManager = {
 function baseAjax(config) {
   return new Promise((resolve, reject) => {
     const token = uni.getStorageSync('token')
-    const url = BASE_URL + config.url
+    const url = config.url.startsWith('http') ? config.url : BASE_URL + config.url
 
     missionManager.checkMission(url, config.rejectPolicy ? config.rejectPolicy : 'REJECT_IF_EXIST')
     const task = uni.request({
@@ -67,7 +67,9 @@ function baseAjax(config) {
       sslVerify: false,
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': token ? token : ''
+        'Authorization': token ? token : '',
+        // eslint-disable-next-line
+        ...config.headers
       },
       complete() {
         missionManager.removeMission(url)
@@ -110,4 +112,6 @@ export function cancelOldAjax(url, method = 'GET', data = {}) {
     rejectPolicy: 'CANCEL_OLD_TASK'
   })
 }
+
+export default baseAjax
 

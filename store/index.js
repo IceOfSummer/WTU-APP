@@ -5,5 +5,5 @@ import state from './state'
 export default createStore({
   state,
   mutations,
-  actions,
+  actions
 })

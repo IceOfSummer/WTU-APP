@@ -9,10 +9,12 @@
   },
   "main": "main.js",
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/eslint-parser": "^7.16.3",
     "@types/uni-app": "^1.4.4",
     "@vue/cli-plugin-eslint": "^4.5.15",
     "@vue/eslint-config-standard": "^6.1.0",
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
