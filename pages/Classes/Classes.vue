@@ -86,16 +86,14 @@
 
 <script>
 import ClassItem from './ClassItem'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { getClasses } from '../../api/schoolApp'
-import useStorage from '../../hook/storage'
 import { useStore } from 'vuex'
-import { LOG_OUT } from '../../store/mutations-type'
+import { LOG_OUT, SET_CLASSES } from '../../store/mutations-type'
 export default {
   name: 'SchoolClasses',
   components: { ClassItem },
   setup () {
-    const storage = useStorage()
     const store = useStore()
 
     const today = new Date()
@@ -138,34 +136,35 @@ export default {
       calendar.value.push(`${tempMonth}/${tempDate < 10 ? '0' + tempDate : tempDate}`)
     }
 
-    const classesData = ref([])
-    if (storage.classes.length !== 0) {
-      // 直接使用缓存数据
-      classesData.value = storage.classes
-    } else {
-      // 重新获取课表
-      getClasses(2021, 3).then(resp => {
+    if (store.state.classes.list.length === 0) {
+      // 尝试获取课表
+      getClasses(2021, 3, store.state.schoolUsername, store.state.schoolToken).then(resp => {
+        console.log(resp.kbList)
         if (resp.kbList) {
-          classesData.value = resp.kbList
-          // 保存到本地
-          storage.classes = resp.kbList
+          // 保存到vuex
+          store.commit(SET_CLASSES, resp.kbList)
         } else {
           // 登录失效,提示用户并登出
-          store.commit(LOG_OUT)
-          uni.showToast({
-            title: '登录失效, 请重新登录',
-            icon: 'none',
-            position: 'bottom'
-          })
+          // store.commit(LOG_OUT)
+          // uni.showToast({
+          //   title: '登录失效, 请重新登录',
+          //   icon: 'none',
+          //   position: 'bottom'
+          // })
         }
       }).catch(e => {
         console.log(e)
       })
     }
+
+
     return {
       calendar,
-      classesData
+      classesData: computed(() => store.state.classes.list)
     }
+  },
+  onNavigationBarButtonTap (e) {
+
   }
 }
 </script>

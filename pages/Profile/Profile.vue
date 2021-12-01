@@ -45,7 +45,6 @@ export default {
   },
   onShow () {
     const store = useStore()
-    console.log(store.state.schoolToken)
   }
 }
 </script>

@@ -34,7 +34,7 @@ import { getCaptcha, init, login } from '../../api/auth.js'
 import { ref } from 'vue'
 import encrypt from '../../hook/aes'
 import { useStore } from 'vuex'
-import { SAVE_SCHOOL_LOGIN_TOKEN } from '../../store/mutations-type'
+import { SAVE_SCHOOL_LOGIN_INFO } from '../../store/mutations-type'
 
 export default {
   name: 'AuthPage',
@@ -124,7 +124,7 @@ export default {
           initAuth()
         } else {
           console.log('登录成功')
-          store.commit(SAVE_SCHOOL_LOGIN_TOKEN, resp.data)
+          store.commit(SAVE_SCHOOL_LOGIN_INFO, resp.data)
         }
         console.log(resp)
       }).catch(() => {

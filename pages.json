@@ -22,7 +22,14 @@
 		{
 			"path": "pages/Classes/Classes",
 			"style": {
-				"navigationBarTitleText": "课程表"
+				"navigationBarTitleText": "课程表",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{"type": "menu"}
+						]
+					}
+				}
 			}
 		},
 		{
@@ -36,12 +43,24 @@
 			"style": {
 				"navigationBarTitleText": "校园登录"
 			}
+		},
+		{
+			"path": "pages/Classes/ClassesInfo/ClassesInfo",
+			"style": {
+				"navigationBarTitleText": "详细信息"
+			}
+		},
+		{
+			"path": "pages/Classes/Options/Options",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {

@@ -1,11 +1,7 @@
 <script>
-import { useStore } from 'vuex'
-import { INIT_STORE } from './store/mutations-type'
 
 export default {
   onLaunch: function() {
-    const store = useStore()
-    store.commit(INIT_STORE)
   },
   onShow: function() {
     console.log('App Show')
@@ -26,5 +22,8 @@ export default {
   }
 .iconfont {
     font-family: iconfont, sans-serif;
+}
+page{
+  background-color: rgb(248, 248, 248);
 }
 </style>

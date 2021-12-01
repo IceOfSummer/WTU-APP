@@ -25,9 +25,8 @@
 import { ref } from 'vue'
 import { getCaptcha, init, login } from '../../api/schoolAuth'
 import { wtuEncrypt } from '../../hook/aes'
-import { SAVE_SCHOOL_LOGIN_TOKEN } from '../../store/mutations-type'
+import { SAVE_SCHOOL_LOGIN_INFO } from '../../store/mutations-type'
 import { useStore } from 'vuex'
-import useStorage from '../../hook/storage'
 
 export default {
   name: 'SchoolAuth',
@@ -96,8 +95,7 @@ export default {
           if (resp.code === 0) {
             // success
             isLoginSuccess = true
-            store.commit(SAVE_SCHOOL_LOGIN_TOKEN, resp.data)
-            useStorage().schoolUsername = username.value
+            store.commit(SAVE_SCHOOL_LOGIN_INFO, { token: resp.data, username: username.value })
             uni.showToast({
               title: '登录成功',
               icon: 'none',

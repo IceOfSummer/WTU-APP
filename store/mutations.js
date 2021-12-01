@@ -1,24 +1,14 @@
 import * as TYPE from './mutations-type'
-import useStorage from '../hook/storage'
-const storage = useStorage()
 
 export default {
   /**
-   * 同步加载本地数据
-   * @param state 本地数据
-   */
-  [TYPE.INIT_STORE] (state) {
-    state.schoolToken = storage.schoolToken
-    state.token = storage.token
-  },
-  /**
    * 将登陆成功后的token保存到vuex中
    * @param state state
-   * @param token {string} token
+   * @param data {{token: string, username: string}} token
    */
-  [TYPE.SAVE_SCHOOL_LOGIN_TOKEN] (state, token) {
-    storage.schoolToken = token
-    state.schoolToken = token
+  [TYPE.SAVE_SCHOOL_LOGIN_INFO] (state, data) {
+    state.schoolToken = data.token
+    state.schoolUsername = data.username
   },
   /**
    * 登出
@@ -26,6 +16,13 @@ export default {
    */
   [TYPE.LOG_OUT] (state) {
     state.schoolToken = ''
-    storage.schoolToken = ''
+  },
+  /**
+   * 添加课程表
+   * @param state state
+   * @param data {Array<Object>}
+   */
+  [TYPE.SET_CLASSES] (state, data) {
+    state.classes.list = data
   }
 }

@@ -1,11 +1,12 @@
 <template>
   <view class="class-item" :style="'top:' + beginAt * 110 + 'rpx; left:' + week * 100 + 'rpx;height:' + (110 * duration - 10) + 'rpx'">
-    <text>{{detail.kcmc}}</text>
+    <text>{{limitSize(detail.kcmc)}}\n@{{detail.cdmc}}</text>
   </view>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { limitSize } from '../../hook/utils/StringUtils'
 
 export default {
   name: 'ClassItem',
@@ -27,11 +28,22 @@ export default {
     const week = ref(Number.parseInt(props.detail.xqj) - 1)
     const duration = ref(end - start + 1)
 
+    // 查看课表详细信息
+    const seeDetail = () => {
+      uni.navigateTo({
+        url: `/pages/Classes/ClassesInfo/ClassesInfo?start=${start}&week=${week}`
+      })
+    }
+
     return {
       beginAt,
       week,
-      duration
+      duration,
+      seeDetail
     }
+  },
+  methods: {
+    limitSize
   }
 }
 </script>
@@ -42,9 +54,11 @@ export default {
   background-color: skyblue;
   width: 90rpx;
   border-radius: 10px;
+  box-sizing: border-box;
   text-align: center;
+  text-wrap: normal;
   > text {
-    font-size: 16px;
+    font-size: 15px;
   }
 }
 </style>
