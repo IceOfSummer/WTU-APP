@@ -1,4 +1,4 @@
-import ajax from '../hook/ajax'
+import ajax, { noRepeatAjax } from '../hook/ajax'
 
 /**
  * 获取课表
@@ -19,3 +19,9 @@ export const getClasses = (year, time, username, token) => ajax({
     Cookie: 'JSESSIONID=' + token
   }
 })
+
+/**
+ * 从服务器获取当前周
+ * @return {Promise<unknown>}
+ */
+export const getCurWeekFromServer = () => noRepeatAjax('/wtu/app')

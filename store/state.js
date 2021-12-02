@@ -34,7 +34,15 @@ export default {
       /**
        * 隐藏已经结课的课程
        */
-      hideClosedClasses: false
+      hideClosedClasses: false,
+      /**
+       * 入学年份
+       */
+      year: 0,
+      /**
+       * 哪个学期
+       */
+      term: 1
     }
   }
 }

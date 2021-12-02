@@ -1,78 +1,46 @@
 <template>
-  <view class="class-info">
-    <view class="class-info-title">
-      <text>{{detail.kcmc}}</text>
-    </view>
-    <view class="class-info-detail">
-      <view>
-        <text>教室</text>
-        <text>{{detail.cdmc}}</text>
-      </view>
-      <view>
-        <text>周数</text>
-        <text>{{detail.zcd}}</text>
-      </view>
-      <view>
-        <text>课程类型</text>
-        <text>{{detail.kclb}}</text>
-      </view>
-      <view>
-        <text>老师</text>
-        <text>{{detail.xm}}</text>
-      </view>
-      <view>
-        <text>课程安排</text>
-        <text>{{detail.kcxszc}}</text>
-      </view>
-    </view>
+  <view>
+    <classes-info-item v-for="(item, index) in detail" :key="index" :detail="item" :type="item.type"/>
   </view>
 </template>
 
 <script>
-import { ref } from 'vue'
+
+import { useStore } from 'vuex'
+import ClassesInfoItem from './ClassesInfoItem'
 
 export default {
   name: 'ClassesInfo',
+  components: { ClassesInfoItem },
   data () {
     return {
       detail: []
     }
   },
   onLoad ({ start, week }) {
+    const store = useStore()
 
-    // const strDuration = classes.jcs.toString().split('-')
-    //
-    // const start = Number.parseInt(strDuration[0]) - 1
-    // const week = Number.parseInt(props.detail.xqj) - 1
-    // console.log(start + week)
+    /**
+     * 获取当前课程由第几节课开始
+     * @param classes {Object} 要解析的课程对象
+     * @return {number} 第几节课开始上课
+     */
+    const getStartTime = (classes) => {
+      return Number.parseInt(classes.jcs.split('-')[0])
+    }
+    console.log(start + '---' + week)
 
+    store.state.classes.list.forEach(value => {
+      console.log(value.kcmc + '------' + getStartTime(value) + '-----' + value.xqj)
+      if (getStartTime(value) === Number.parseInt(start) && Number.parseInt(value.xqj) === Number.parseInt(week)) {
+        this.detail.push(value)
+      }
+    })
   },
   setup () {}
 }
 </script>
 
 <style lang="scss">
-.class-info-detail{
-  > view {
-    margin: 10px 0;
-    font-size: 15px;
-    text:first-child {
-      color: $uni-text-color-grey;
-    }
-    text:last-child {
-      color: $uni-text-color;
-      margin-left: 10px;
-    }
-  }
-}
-.class-info{
-  box-sizing: border-box;
-  padding: 30rpx;
-  background-color: #fff;
 
-}
-.class-info-title{
-  color: $uni-color-primary;
-  font-size: 30px;
-}
 </style>

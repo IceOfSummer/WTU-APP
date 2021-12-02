@@ -91,7 +91,6 @@ export default {
         const encryptedPassword = wtuEncrypt(password.value, encryptSalt)
         let isLoginSuccess = false
         login(session, lt, encryptedPassword, captcha.value, route, username.value).then(resp => {
-          console.log(resp)
           if (resp.code === 0) {
             // success
             isLoginSuccess = true

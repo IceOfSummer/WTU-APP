@@ -30,8 +30,8 @@ export default {
   height: 70rpx;
   box-sizing: border-box;
   padding: 0 20rpx;
-  border-top: 1px solid $uni-border-color;
-  border-bottom: 1px solid $uni-border-color;
+  //border-top: 1px solid $uni-border-color;
+  //border-bottom: 1px solid $uni-border-color;
   text {
     color: $uni-text-color-grey;
     font-size: 20px;

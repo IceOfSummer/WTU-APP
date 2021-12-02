@@ -90,6 +90,25 @@ import { computed, ref } from 'vue'
 import { getClasses } from '../../api/schoolApp'
 import { useStore } from 'vuex'
 import { LOG_OUT, SET_CLASSES } from '../../store/mutations-type'
+import { ADJUST_CUR_WEEK } from '../../store/actions-type'
+
+const getClassFromServer = (store) => getClasses(store.state.classes.classesOptions.year, store.state.classes.classesOptions.term, store.state.schoolUsername, store.state.schoolToken).then(resp => {
+  if (resp.kbList) {
+    // 保存到vuex
+    store.commit(SET_CLASSES, resp.kbList)
+  } else {
+    // 登录失效,提示用户并登出
+    store.commit(LOG_OUT)
+    uni.showToast({
+      title: store.state.token ? '登录失效, 请重新登录' : '请先登录',
+      icon: 'none',
+      position: 'bottom'
+    })
+  }
+}).catch(e => {
+  console.log(e)
+})
+
 export default {
   name: 'SchoolClasses',
   components: { ClassItem },
@@ -136,35 +155,31 @@ export default {
       calendar.value.push(`${tempMonth}/${tempDate < 10 ? '0' + tempDate : tempDate}`)
     }
 
+    // 缓存没有保存课表信息, 尝试从服务器获取
     if (store.state.classes.list.length === 0) {
       // 尝试获取课表
-      getClasses(2021, 3, store.state.schoolUsername, store.state.schoolToken).then(resp => {
-        console.log(resp.kbList)
-        if (resp.kbList) {
-          // 保存到vuex
-          store.commit(SET_CLASSES, resp.kbList)
-        } else {
-          // 登录失效,提示用户并登出
-          store.commit(LOG_OUT)
-          uni.showToast({
-            title: '登录失效, 请重新登录',
-            icon: 'none',
-            position: 'bottom'
-          })
-        }
-      }).catch(e => {
-        console.log(e)
-      })
+      getClassFromServer(store)
+
     }
+
+    // 尝试校准当前周
+    store.dispatch(ADJUST_CUR_WEEK)
+
 
 
     return {
       calendar,
-      classesData: computed(() => store.state.classes.list)
+      classesData: computed(() => store.state.classes.list),
+      curWeek: computed(() => store.state.classes.classesOptions.curWeek)
     }
   },
   onNavigationBarButtonTap () {
     uni.navigateTo({ url: '/pages/Classes/Options/Options' })
+  },
+  onPullDownRefresh () {
+    getClassFromServer(useStore()).finally(() => {
+      uni.stopPullDownRefresh()
+    })
   }
 }
 </script>
@@ -206,7 +221,7 @@ $height-per-class: 100rpx;
     width: 100%;
     margin-bottom: 10rpx;
     font-size: 15px;
-    background-color: cornflowerblue;
+    //background-color: cornflowerblue;
     text:first-child{
       font-weight: bold;
     }

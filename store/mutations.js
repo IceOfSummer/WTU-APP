@@ -23,6 +23,42 @@ export default {
    * @param data {Array<Object>}
    */
   [TYPE.SET_CLASSES] (state, data) {
+    console.log('reset')
+    /**
+     * 分离开始和结束周
+     * @param classes {Object} 课程信息
+     * @return {{start: number, end: number}}
+     */
+    const getWeek = (classes) => {
+      const temp = classes.zcd.replace('周', '').split('-')
+      const start = Number.parseInt(temp[0])
+      const end = Number.parseInt(temp[1])
+      return {
+        start,
+        end
+      }
+    }
+
+    const curWeek = state.classes.classesOptions.curWeek
+
+    /**
+     * type-> 0: 当前正在上的课  1: 已结课  2:未开始
+     * @see ClassesInfoItem.vue
+     */
+    data.forEach(value => {
+      const week = getWeek(value)
+      if (week.end < curWeek) {
+        // 结课
+        value.type = 1
+      } else if (week.start > curWeek) {
+        // 未开始
+        value.type = 2
+      } else {
+        // 正在上
+        value.type = 0
+      }
+    })
+
     state.classes.list = data
   },
   /**
@@ -32,7 +68,12 @@ export default {
    */
   [TYPE.SET_CLASSES_OPTIONS] (state, option) {
     if (Object.hasOwnProperty.call(state.classes.classesOptions, option.key)) {
+      if (option.key === 'curWeek') {
+        // 特殊配置
+        state.classes.classesOptions.curWeekLastUpdate = Date.now()
+      }
       state.classes.classesOptions[option.key] = option.value
+
     } else {
       console.error(`can not find key: ${option.key} in state.classes.classesOptions`)
     }
