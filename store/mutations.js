@@ -24,5 +24,17 @@ export default {
    */
   [TYPE.SET_CLASSES] (state, data) {
     state.classes.list = data
+  },
+  /**
+   * 配置课程表的设置
+   * @param state state
+   * @param option {{key: string, value: unknown}}
+   */
+  [TYPE.SET_CLASSES_OPTIONS] (state, option) {
+    if (Object.hasOwnProperty.call(state.classes.classesOptions, option.key)) {
+      state.classes.classesOptions[option.key] = option.value
+    } else {
+      console.error(`can not find key: ${option.key} in state.classes.classesOptions`)
+    }
   }
 }

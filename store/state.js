@@ -28,6 +28,10 @@ export default {
        */
       curWeek: 0,
       /**
+       * curWeek上次更新时间 Date对象
+       */
+      curWeekLastUpdate: '',
+      /**
        * 隐藏已经结课的课程
        */
       hideClosedClasses: false

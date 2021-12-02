@@ -145,12 +145,12 @@ export default {
           store.commit(SET_CLASSES, resp.kbList)
         } else {
           // 登录失效,提示用户并登出
-          // store.commit(LOG_OUT)
-          // uni.showToast({
-          //   title: '登录失效, 请重新登录',
-          //   icon: 'none',
-          //   position: 'bottom'
-          // })
+          store.commit(LOG_OUT)
+          uni.showToast({
+            title: '登录失效, 请重新登录',
+            icon: 'none',
+            position: 'bottom'
+          })
         }
       }).catch(e => {
         console.log(e)
@@ -163,8 +163,8 @@ export default {
       classesData: computed(() => store.state.classes.list)
     }
   },
-  onNavigationBarButtonTap (e) {
-
+  onNavigationBarButtonTap () {
+    uni.navigateTo({ url: '/pages/Classes/Options/Options' })
   }
 }
 </script>
