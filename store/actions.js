@@ -10,18 +10,30 @@ export default {
     const lastUpdate = state.classes.classesOptions.curWeekLastUpdate
     if (lastUpdate) {
       // 存在本地记录, 使用缓存
-      const lastWeek = state.classes.classesOptions.curWeek
-      // 上次更新,(换算为天数)
-      const last = lastUpdate / 1000 / 60 / 24
-      const today = Date.now() / 1000 / 60 / 24
+      let week = state.classes.classesOptions.curWeek
 
-      let duration = 0
-      let temp = today - last
-      while (temp >= 7) {
-        duration++
-        temp -= 7
+      // 上次更新,(换算为天数)
+      const lastDate = Math.floor(lastUpdate / 1000 / 60 / 60 / 24)
+      const curDate = Math.floor(Date.now() / 1000 / 60 / 60 / 24)
+
+      // 相差多少天
+      let duration = curDate - lastDate
+
+      // 上次更新是周几
+      let temp = new Date(lastUpdate).getDay()
+      // 周日对应的值是0, 将其变为7
+      temp = temp === 0 ? 7 : temp
+
+      for (let i = 0; i < duration; i++) {
+        temp++
+        if (temp === 8) {
+          week++
+          temp = 0
+        }
       }
-      commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: lastWeek + duration })
+
+
+      commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: week })
       commit(SET_CLASSES_OPTIONS, { key: 'curWeekLastUpdate', value: Date.now() })
 
     } else {

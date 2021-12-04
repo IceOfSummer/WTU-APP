@@ -53,7 +53,6 @@ export default {
 
     watch(hideFinishedClass, () => {
       store.commit(SET_CLASSES_OPTIONS, { key: 'hideClosedClasses', value: hideFinishedClass.value })
-      console.log(store.state.classes.classesOptions)
     })
 
     const selectWeek = (event) => {

@@ -91,7 +91,6 @@ export default {
       if (isInitSuccess.value) {
         getCaptcha(session).then(resp => {
           captchaImage.value = resp.data
-          console.log(resp)
         }).catch(() => {
           uni.showToast({
             title: '连接服务器失败, 请检查你的网络',
