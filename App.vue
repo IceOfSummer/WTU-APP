@@ -13,13 +13,12 @@ export default {
 </script>
 
 <style lang="scss">
-	/*每个页面公共css */
-  @font-face {
-    font-family: 'iconfont';  /* Project id 2550207 */
-    src: url('https://at.alicdn.com/t/font_2550207_u7ma3buwhw.woff2?t=1637418107679') format('woff2'),
-    url('https://at.alicdn.com/t/font_2550207_u7ma3buwhw.woff?t=1637418107679') format('woff'),
-    url('https://at.alicdn.com/t/font_2550207_u7ma3buwhw.ttf?t=1637418107679') format('truetype');
-  }
+@font-face {
+  font-family: 'iconfont';  /* Project id 2550207 */
+  src: url('https://at.alicdn.com/t/font_2550207_tcmrufsdjo.woff2?t=1638606270083') format('woff2'),
+  url('https://at.alicdn.com/t/font_2550207_tcmrufsdjo.woff?t=1638606270083') format('woff'),
+  url('https://at.alicdn.com/t/font_2550207_tcmrufsdjo.ttf?t=1638606270083') format('truetype');
+}
 .iconfont {
     font-family: iconfont, sans-serif;
 }
