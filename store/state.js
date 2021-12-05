@@ -4,14 +4,6 @@ export default {
    */
   token: '',
   /**
-   * 教务系统token
-   */
-  schoolToken: '',
-  /**
-   * 学校的用户名
-   */
-  schoolUsername: '',
-  /**
    * 课表
    */
   classes: {
@@ -44,5 +36,35 @@ export default {
        */
       term: 1
     }
+  },
+  /**
+   * 用户信息
+   */
+  user: {
+    /**
+     * 头像(存储base64)
+     */
+    headIcon: ''
+  },
+  /**
+   * 教务系统信息
+   */
+  eduSystemUser: {
+    /**
+     * 用户名
+     */
+    username: '',
+    /**
+     * 密码
+     */
+    password: '',
+    /**
+     * 登录成功的token
+     */
+    token: '',
+    /**
+     * token是否有效
+     */
+    isUsableToken: false
   }
 }

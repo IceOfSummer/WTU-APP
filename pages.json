@@ -36,7 +36,8 @@
 		{
 			"path": "pages/Profile/Profile",
 			"style": {
-				"navigationBarTitleText": "个人中心"
+				"navigationBarTitleText": "个人中心",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -55,6 +56,12 @@
 			"path": "pages/Classes/Options/Options",
 			"style": {
 				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/Profile/EducationSystem/EducationSystem",
+			"style": {
+				"navigationBarTitleText": "教务系统"
 			}
 		}
 	],

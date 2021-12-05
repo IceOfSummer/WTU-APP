@@ -1,4 +1,5 @@
 export const SAVE_SCHOOL_LOGIN_INFO = 'saveSchoolLoginToken'
-export const LOG_OUT = 'logout'
+export const EDU_SYSTEM_LOG_OUT = 'eduSystemLogout'
 export const SET_CLASSES = 'setClasses'
 export const SET_CLASSES_OPTIONS = 'setClassesOptions'
+export const INVALID_EDU_SYSTEM_TOKEN = 'invalidEduSystemToken'

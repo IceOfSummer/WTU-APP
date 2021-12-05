@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import { getCaptcha, init, login } from '../../api/schoolAuth'
 import { wtuEncrypt } from '../../hook/aes'
 import { SAVE_SCHOOL_LOGIN_INFO } from '../../store/mutations-type'
@@ -42,6 +42,8 @@ export default {
     let lt = null
     let route = null
     let encryptSalt = null
+
+    let interval
     /**
      * 初始化登录请求
      */
@@ -66,13 +68,20 @@ export default {
             position: 'bottom'
           })
           // 重试
-          setTimeout(() => {
+          interval = setTimeout(() => {
             tryInit()
           }, 5000)
         }
       })
     }
     tryInit()
+
+    onUnmounted(() => {
+      if (interval) {
+        console.log('clear')
+        clearTimeout(interval)
+      }
+    })
 
     const captchaBase64 = ref('')
     /**
@@ -94,7 +103,7 @@ export default {
           if (resp.code === 0) {
             // success
             isLoginSuccess = true
-            store.commit(SAVE_SCHOOL_LOGIN_INFO, { token: resp.data, username: username.value })
+            store.commit(SAVE_SCHOOL_LOGIN_INFO, { token: resp.data, username: username.value, password: password.value })
             uni.showToast({
               title: '登录成功',
               icon: 'none',

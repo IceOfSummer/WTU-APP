@@ -4,18 +4,21 @@ export default {
   /**
    * 将登陆成功后的token保存到vuex中
    * @param state state
-   * @param data {{token: string, username: string}} token
+   * @param data {{token: string, username: string, password: string}} token
    */
   [TYPE.SAVE_SCHOOL_LOGIN_INFO] (state, data) {
-    state.schoolToken = data.token
-    state.schoolUsername = data.username
+    state.eduSystemUser.token = data.token
+    state.eduSystemUser.username = data.username
+    state.eduSystemUser.password = data.password
+    state.eduSystemUser.isUsableToken = true
   },
   /**
    * 登出
    * @param state state
    */
-  [TYPE.LOG_OUT] (state) {
-    state.schoolToken = ''
+  [TYPE.EDU_SYSTEM_LOG_OUT] (state) {
+    state.eduSystemUser.token = ''
+    state.eduSystemUser.isUsableToken = false
   },
   /**
    * 添加课程表
@@ -23,7 +26,6 @@ export default {
    * @param data {Array<Object>}
    */
   [TYPE.SET_CLASSES] (state, data) {
-    console.log('reset')
     /**
      * 分离开始和结束周
      * @param classes {Object} 课程信息
@@ -77,5 +79,12 @@ export default {
     } else {
       console.error(`can not find key: ${option.key} in state.classes.classesOptions`)
     }
+  },
+  /**
+   * 无效化教务系统的token
+   * @param state state
+   */
+  [TYPE.INVALID_EDU_SYSTEM_TOKEN] (state) {
+    state.eduSystemUser.isUsableToken = false
   }
 }

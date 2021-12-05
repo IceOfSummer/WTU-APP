@@ -75,3 +75,17 @@ $uni-font-size-subtitle:36rpx;
 $uni-color-paragraph: #3F536E; // 文章段落颜色
 $uni-font-size-paragraph:30rpx;
 
+@mixin right-arrow($color, $size) {
+    width: $size;
+    height: $size;
+    border-top: 2px solid $color;
+    border-right: 2px solid $color;
+    transform: rotate(45deg);
+}
+@mixin split-line($color, $width) {
+    height: 1px;
+    width: $width;
+    margin-left: auto;
+    margin-right: auto;
+    border-top: 2px solid $color;
+}

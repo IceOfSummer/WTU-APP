@@ -1,37 +1,30 @@
 <template>
   <view class="classes-option">
-    <view>
-      <picker :range="['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
-    '第十一周', '第十二周', '第十三周', '第十四周', '第十五周', '第十六周', '第十七周', '第十八周', '第十九周', '第二十周']"
-              @change="selectWeek" :value="curWeek - 1">
-        <view class="options-block">
-          <text>选择当前周</text>
-          <text>第{{curWeek}}周</text>
-        </view>
-      </picker>
-    </view>
-    <view>
-      <picker :range="yearData" @change="selectYear" :value="yearData.indexOf(year)">
-        <view class="options-block">
-          <text>选择学年</text>
-          <text>{{year}}年</text>
-        </view>
-      </picker>
-    </view>
-    <view>
-      <picker :range="termData" @change="selectTerm" :value="term - 1">
-        <view class="options-block">
-          <text>选择学期</text>
-          <text>{{termData[term - 1]}}</text>
-        </view>
-      </picker>
-    </view>
+    <picker :range="['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
+  '第十一周', '第十二周', '第十三周', '第十四周', '第十五周', '第十六周', '第十七周', '第十八周', '第十九周', '第二十周']"
+            @change="selectWeek" :value="curWeek - 1" class="options-block">
+      <text>选择当前周</text>
+      <text>第{{ curWeek }}周</text>
+    </picker>
+    <view class="option-split-line"></view>
+    <picker :range="yearData" @change="selectYear" :value="yearData.indexOf(year)" class="options-block">
+      <text>选择学年</text>
+      <text>{{ year }}年</text>
+    </picker>
+    <view class="option-split-line"></view>
+    <picker :range="termData" @change="selectTerm" :value="term - 1" class="options-block">
+      <text>选择学期</text>
+      <text>{{ termData[term - 1] }}</text>
+    </picker>
+    <view class="option-split-line"></view>
     <view>
       <options-switch v-model="hideFinishedClass" title="隐藏已经结课的课程"/>
     </view>
+    <view class="option-split-line"></view>
     <view class="options-block options-cur-week" @click="tryAdjustCurWeekFromServer">
       <text>从服务器校准当前周</text>
     </view>
+    <view class="option-split-line"></view>
     <view class="options-block" @click="clearClassData">
       <text style="color: #dd524d">清空本地课表缓存数据</text>
     </view>
@@ -44,10 +37,11 @@ import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../../store/mutations-type'
 import { ADJUST_CUR_WEEK_FROM_SERVER } from '../../../store/actions-type'
+
 export default {
   name: 'ClassesOptions',
   components: { OptionsSwitch },
-  setup () {
+  setup() {
     const store = useStore()
     const hideFinishedClass = ref(store.state.classes.classesOptions.hideClosedClasses)
 
@@ -78,7 +72,7 @@ export default {
       uni.showModal({
         title: '校准当前周',
         content: '确定要从服务器校准当前周吗?',
-        success ({ confirm }) {
+        success({ confirm }) {
           if (confirm) {
             store.dispatch(ADJUST_CUR_WEEK_FROM_SERVER).then(() => {
               uni.showToast({
@@ -105,7 +99,7 @@ export default {
       uni.showModal({
         title: '清除数据',
         content: '确定要清除本地课表数据吗',
-        success ({ confirm }) {
+        success({ confirm }) {
           if (confirm) {
             store.commit(SET_CLASSES, [])
             uni.showToast({
@@ -136,24 +130,21 @@ export default {
 </script>
 
 <style lang="scss">
-.options-cur-week{
+.option-split-line{
+  @include split-line($uni-bg-color-grey, 750rpx)
+}
+.options-cur-week {
   color: $uni-color-primary;
 }
-.options-block > text:last-child{
+.options-block > text:last-child {
   color: $uni-color-primary;
 }
-.classes-option-picker{
-  width: 100rpx;
-}
-.classes-option{
-  padding-top: 10rpx;
+.classes-option {
+  padding-top: 10 rpx;
   background-color: #fff;
-  border-bottom: 1px solid $uni-border-color;
-  > * {
-    border-top: 1px solid $uni-border-color;
-  }
 }
-.options-block-text{
+
+.options-block-text {
   color: $uni-text-color-grey;
   font-size: 20px;
 }

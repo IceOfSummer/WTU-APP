@@ -25,3 +25,15 @@ export const getClasses = (year, time, username, token) => ajax({
  * @return {Promise<unknown>}
  */
 export const getCurWeekFromServer = () => noRepeatAjax('/wtu/app')
+
+/**
+ * 获取用户信息
+ * @param username {string} 用户名
+ * @param token {string} token
+ */
+export const getUserInfo = (username, token) => ajax({
+  url: `http://jwglxt.wtu.edu.cn/xsxxxggl/xsgrxxwh_cxXsgrxx.html?gnmkdm=N100801&layout=default&su=${username}`,
+  headers: {
+    Cookie: 'JSESSIONID=' + token
+  }
+})

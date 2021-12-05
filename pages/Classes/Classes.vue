@@ -89,25 +89,31 @@ import ClassItem from './ClassItem'
 import { computed, ref } from 'vue'
 import { getClasses } from '../../api/schoolApp'
 import { useStore } from 'vuex'
-import { LOG_OUT, SET_CLASSES } from '../../store/mutations-type'
+import { INVALID_EDU_SYSTEM_TOKEN, SET_CLASSES } from '../../store/mutations-type'
 import { ADJUST_CUR_WEEK } from '../../store/actions-type'
 
-const getClassFromServer = (store) => getClasses(store.state.classes.classesOptions.year, store.state.classes.classesOptions.term, store.state.schoolUsername, store.state.schoolToken).then(resp => {
-  if (resp.kbList) {
-    // 保存到vuex
-    store.commit(SET_CLASSES, resp.kbList)
-  } else {
-    // 登录失效,提示用户并登出
-    store.commit(LOG_OUT)
-    uni.showToast({
-      title: store.state.token ? '登录失效, 请重新登录' : '请先登录',
-      icon: 'none',
-      position: 'bottom'
-    })
-  }
-}).catch(e => {
-  console.log(e)
-})
+const getClassFromServer = (store) => getClasses(store.state.classes.classesOptions.year,
+    store.state.classes.classesOptions.term, store.state.eduSystemUser.username, store.state.eduSystemUser.token).then(resp => {
+    if (resp.kbList) {
+      // 保存到vuex
+      store.commit(SET_CLASSES, resp.kbList)
+      uni.showToast({
+        title: '刷新成功',
+        icon: 'none',
+        position: 'bottom'
+      })
+    } else {
+      // 登录失效,提示用户并登出
+      store.commit(INVALID_EDU_SYSTEM_TOKEN)
+      uni.showToast({
+        title: '登录失效, 请重新登录',
+        icon: 'none',
+        position: 'bottom'
+      })
+    }
+  }).catch(e => {
+    console.log(e)
+  })
 
 export default {
   name: 'SchoolClasses',
@@ -157,9 +163,17 @@ export default {
 
     // 缓存没有保存课表信息, 尝试从服务器获取
     if (store.state.classes.list.length === 0) {
-      // 尝试获取课表
-      getClassFromServer(store)
-
+      if (store.state.eduSystemUser.token) {
+        // 尝试获取课表
+        getClassFromServer(store)
+      } else {
+        // 未登录
+        uni.showToast({
+          title: '请先登录',
+          icon: 'none',
+          position: 'bottom'
+        })
+      }
     }
 
     // 尝试校准当前周
@@ -177,9 +191,22 @@ export default {
     uni.navigateTo({ url: '/pages/Classes/Options/Options' })
   },
   onPullDownRefresh () {
-    getClassFromServer(useStore()).finally(() => {
+    const store = useStore()
+    if (store.state.eduSystemUser.token) {
+      // 尝试获取课表
+      getClassFromServer(useStore()).finally(() => {
+        uni.stopPullDownRefresh()
+      })
+    } else {
+      // 未登录
+      uni.showToast({
+        title: '请先登录',
+        icon: 'none',
+        position: 'bottom'
+      })
       uni.stopPullDownRefresh()
-    })
+    }
+
   }
 }
 </script>
