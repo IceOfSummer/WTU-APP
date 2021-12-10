@@ -89,7 +89,7 @@ import ClassItem from './ClassItem'
 import { computed, ref } from 'vue'
 import { getClasses } from '../../api/schoolApp'
 import { useStore } from 'vuex'
-import { SET_CLASSES } from '../../store/mutations-type'
+import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../store/mutations-type'
 import { ADJUST_CUR_WEEK, PROXY_SCHOOL_APP_AJAX } from '../../store/actions-type'
 
 const getClassFromServer = (store) => store.dispatch(PROXY_SCHOOL_APP_AJAX, getClasses(store.state.classes.classesOptions.year,
@@ -152,6 +152,21 @@ export default {
         }
       }
       calendar.value.push(`${tempMonth}/${tempDate < 10 ? '0' + tempDate : tempDate}`)
+    }
+
+    // 检查设置中是否有空值
+    const classesOptions = store.state.classes.classesOptions
+    if (!classesOptions.year) {
+      store.commit(SET_CLASSES_OPTIONS, { key: 'year', value: new Date().getFullYear() })
+    }
+    if (!classesOptions.term) {
+      const month = new Date().getMonth()
+      // 0是一月
+      let term = month >= 1 && month < 8 ? 1 : 2
+      store.commit(SET_CLASSES_OPTIONS, { key: 'term', value: term })
+    }
+    if (!classesOptions.curWeek) {
+      store.commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: 1 })
     }
 
     // 缓存没有保存课表信息, 尝试从服务器获取

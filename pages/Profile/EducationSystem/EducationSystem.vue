@@ -7,7 +7,8 @@
         <text v-else>未登录</text>
       </view>
       <view class="edu-system-header-sub-title-text">
-        <text v-if="!token || !isUsableToken">登录失效并不代表你需要重新登录,可能是由于服务器连接超时造成</text>
+        <text v-if="token && !isUsableToken">登录失效并不代表你需要重新登录,可能是由于服务器连接超时造成</text>
+        <text v-if="!token">登录获取更多支持</text>
       </view>
       <view class="edu-system-header-btn" v-if="!token || !isUsableToken">
         <button @click="jump('/pages/SchoolAuth/SchoolAuth')">登录</button>
