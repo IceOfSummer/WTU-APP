@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { getUserInfo } from '../../../api/schoolApp'
 import { EDU_SYSTEM_LOG_OUT, INVALID_EDU_SYSTEM_TOKEN } from '../../../store/mutations-type'
@@ -50,8 +50,8 @@ export default {
       uni.navigateTo({ url })
     }
 
-    const token = store.state.eduSystemUser.token
-    const isUsableToken = store.state.eduSystemUser.isUsableToken
+    const token = computed(() => store.state.eduSystemUser.token)
+    const isUsableToken = computed(() => store.state.eduSystemUser.isUsableToken)
     const username = store.state.eduSystemUser.username
 
     let userInfo = reactive({
@@ -66,12 +66,11 @@ export default {
      * 发送ajax请求, 获取用户信息
      */
     const getUserInfoAjax = () => {
-      console.log(token)
-      console.log(isUsableToken)
-      if (token && isUsableToken) {
+      console.log(token.value)
+      if (token.value && isUsableToken.value) {
         // 获取用户信息
         console.log('run')
-        store.dispatch(PROXY_SCHOOL_APP_AJAX, getUserInfo(username, token)).then(resp => {
+        store.dispatch(PROXY_SCHOOL_APP_AJAX, getUserInfo(username, token.value)).then(resp => {
           // 分离值
           const splitValue = (str) => str.replace('<p class="form-control-static">', '').replace('</p>', '')
 
@@ -89,7 +88,7 @@ export default {
           userInfo.name = splitValue(values[1])
           // 入学日期
           userInfo.enterTime = splitValue(values[10])
-
+          console.log('success')
           loadInfoStatus.value = 2
         }).catch(e => {
           loadInfoStatus.value = 1
@@ -98,16 +97,18 @@ export default {
       }
     }
 
-    getUserInfoAjax()
 
 
 
-    /**
-     * 当登录完成后立即加载用户信息
-     */
-    watch(() => store.state.eduSystemUser.token, () => {
-      console.log('login!!')
-      if (store.state.eduSystemUser.token) {
+    // /**
+    //  * 当登录完成后立即加载用户信息
+    //  */
+    // watch(() => store.state.eduSystemUser.token, () => {
+    //   getUserInfoAjax()
+    // })
+    watchEffect(() => {
+      console.log('eff')
+      if (token.value) {
         getUserInfoAjax()
       }
     })
