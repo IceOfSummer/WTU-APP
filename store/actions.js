@@ -1,5 +1,5 @@
 import * as TYPE from './actions-type'
-import { SET_CLASSES_OPTIONS } from './mutations-type'
+import { INVALID_EDU_SYSTEM_TOKEN, SET_CLASSES_OPTIONS } from './mutations-type'
 import { getCurWeekFromServer } from '../api/schoolApp'
 export default {
   /**
@@ -55,6 +55,29 @@ export default {
           reject(resp.message)
         }
       })
+    })
+  },
+  /**
+   * 代理学校接口响应
+   * @param commit commit
+   * @param promise {Promise}
+   */
+  [TYPE.PROXY_SCHOOL_APP_AJAX] ({ commit }, promise) {
+    return new Promise((resolve, reject) => {
+      promise.then(resp => {
+        if (!resp) {
+          // 登录失效
+          commit(INVALID_EDU_SYSTEM_TOKEN)
+          uni.showToast({
+            title: '登录失效, 请重新登录',
+            icon: 'none',
+            position: 'bottom'
+          })
+          reject('登录失效')
+        }
+        // success
+        resolve(resp)
+      }).catch(e => reject(e))
     })
   }
 }

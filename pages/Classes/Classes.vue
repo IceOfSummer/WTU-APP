@@ -89,11 +89,11 @@ import ClassItem from './ClassItem'
 import { computed, ref } from 'vue'
 import { getClasses } from '../../api/schoolApp'
 import { useStore } from 'vuex'
-import { INVALID_EDU_SYSTEM_TOKEN, SET_CLASSES } from '../../store/mutations-type'
-import { ADJUST_CUR_WEEK } from '../../store/actions-type'
+import { SET_CLASSES } from '../../store/mutations-type'
+import { ADJUST_CUR_WEEK, PROXY_SCHOOL_APP_AJAX } from '../../store/actions-type'
 
-const getClassFromServer = (store) => getClasses(store.state.classes.classesOptions.year,
-    store.state.classes.classesOptions.term, store.state.eduSystemUser.username, store.state.eduSystemUser.token).then(resp => {
+const getClassFromServer = (store) => store.dispatch(PROXY_SCHOOL_APP_AJAX, getClasses(store.state.classes.classesOptions.year,
+    store.state.classes.classesOptions.term, store.state.eduSystemUser.username, store.state.eduSystemUser.token)).then(resp => {
     if (resp.kbList) {
       // 保存到vuex
       store.commit(SET_CLASSES, resp.kbList)
@@ -102,18 +102,11 @@ const getClassFromServer = (store) => getClasses(store.state.classes.classesOpti
         icon: 'none',
         position: 'bottom'
       })
-    } else {
-      // 登录失效,提示用户(此操作不清除token)
-      store.commit(INVALID_EDU_SYSTEM_TOKEN)
-      uni.showToast({
-        title: '登录失效, 请重新登录',
-        icon: 'none',
-        position: 'bottom'
-      })
     }
   }).catch(e => {
     console.log(e)
   })
+
 
 export default {
   name: 'SchoolClasses',

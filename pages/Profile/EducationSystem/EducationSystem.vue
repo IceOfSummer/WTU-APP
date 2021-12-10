@@ -7,15 +7,21 @@
         <text v-else>未登录</text>
       </view>
       <view class="edu-system-header-sub-title-text">
-        <text v-if="!token || !isUsableToken">登录获取更多支持</text>
+        <text v-if="!token || !isUsableToken">登录失效并不代表你需要重新登录,可能是由于服务器连接超时造成</text>
       </view>
       <view class="edu-system-header-btn" v-if="!token || !isUsableToken">
         <button @click="jump('/pages/SchoolAuth/SchoolAuth')">登录</button>
       </view>
-      <view v-else-if="userInfo.name" class="edu-system-header-info">
+      <view v-else-if="userInfo.name && loadInfoStatus === 2" class="edu-system-header-info">
         <text>姓名: {{userInfo.name}}</text>
         <text>学号: {{userInfo.idNumber}}</text>
         <text>入学日期: {{userInfo.enterTime}}</text>
+      </view>
+      <view class="edu-system-header-info" v-else-if="loadInfoStatus === 1">
+        <text>加载个人信息超时, 请稍后再试</text>
+      </view>
+      <view class="edu-system-header-info" v-else>
+        <text>加载个人信息中</text>
       </view>
     </view>
     <view v-if="token">
@@ -26,11 +32,12 @@
 </template>
 
 <script>
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { getUserInfo } from '../../../api/schoolApp'
 import { EDU_SYSTEM_LOG_OUT, INVALID_EDU_SYSTEM_TOKEN } from '../../../store/mutations-type'
 import OptionsBlock from '../../../component/OptionsBlock/OptionsBlock'
+import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
 
 export default {
   name: 'EducationSystem',
@@ -52,13 +59,18 @@ export default {
       enterTime: ''
     })
 
+    // 加载个人信息的目前状态, 0: 加载中或还没登录 1: 加载失败 2: 加载成功
+    const loadInfoStatus = ref(0)
     /**
      * 发送ajax请求, 获取用户信息
      */
     const getUserInfoAjax = () => {
+      console.log(token)
+      console.log(isUsableToken)
       if (token && isUsableToken) {
         // 获取用户信息
-        getUserInfo(username, token).then(resp => {
+        console.log('run')
+        store.dispatch(PROXY_SCHOOL_APP_AJAX, getUserInfo(username, token)).then(resp => {
           // 分离值
           const splitValue = (str) => str.replace('<p class="form-control-static">', '').replace('</p>', '')
 
@@ -77,7 +89,10 @@ export default {
           // 入学日期
           userInfo.enterTime = splitValue(values[10])
 
-          console.log(userInfo.name)
+          loadInfoStatus.value = 2
+        }).catch(e => {
+          loadInfoStatus.value = 1
+          console.log(e)
         })
       }
     }
@@ -90,6 +105,7 @@ export default {
      * 当登录完成后立即加载用户信息
      */
     watch(() => store.state.eduSystemUser.token, () => {
+      console.log('login!!')
       if (store.state.eduSystemUser.token) {
         getUserInfoAjax()
       }
@@ -107,7 +123,8 @@ export default {
       isUsableToken: computed(() => store.state.eduSystemUser.isUsableToken),
       jump,
       userInfo,
-      logout
+      logout,
+      loadInfoStatus
     }
   }
 }
@@ -137,12 +154,12 @@ export default {
   }
 }
 .edu-system-header-sub-title-text{
-  font-size: 16px;
+  font-size: 20rpx;
   text-align: center;
   color: $uni-text-color-grey;
 }
 .edu-system-header-title{
-  font-size: 30px;
+  font-size: 50rpx;
   text-align: center;
   color: $uni-color-primary;
 }

@@ -24,7 +24,7 @@ export default {
 
     const start = Number.parseInt(strDuration[0]) - 1
     const end = Number.parseInt(strDuration[1]) - 1
-    console.log(`${props.detail.kcmc} ---- ${start} ----- ${end}`)
+    // console.log(`${props.detail.kcmc} ---- ${start} ----- ${end}`)
 
 
     const beginAt = ref(start)
