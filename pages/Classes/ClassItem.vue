@@ -20,11 +20,11 @@ export default {
   setup (props) {
     const store = useStore()
 
-
     const strDuration = props.detail.jcs.toString().split('-')
 
     const start = Number.parseInt(strDuration[0]) - 1
     const end = Number.parseInt(strDuration[1]) - 1
+    console.log(`${props.detail.kcmc} ---- ${start} ----- ${end}`)
 
 
     const beginAt = ref(start)
@@ -70,10 +70,11 @@ export default {
   width: 90rpx;
   border-radius: 10px;
   box-sizing: border-box;
+  padding: 0 10rpx;
   text-align: center;
   text-wrap: normal;
   > text {
-    font-size: 15px;
+    font-size: 16rpx;
   }
 }
 </style>

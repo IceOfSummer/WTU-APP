@@ -1,7 +1,8 @@
 <template>
   <view class="options-block">
     <view>
-      <text>{{title}}</text>
+      <text v-if="type === 'danger'" style="color: #dd524d">{{title}}</text>
+      <text v-else style="color: #999">{{title}}</text>
       <slot name="left"/>
     </view>
     <view>
@@ -17,7 +18,12 @@ export default {
     title: {
       type: String,
       required: false
-    }
+    },
+    /**
+     * 选项框类型:
+     * info | danger
+     */
+    type: String
   }
 }
 </script>
@@ -27,14 +33,12 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70rpx;
+  height: 90rpx;
   box-sizing: border-box;
   padding: 0 20rpx;
-  //border-top: 1px solid $uni-border-color;
-  //border-bottom: 1px solid $uni-border-color;
+  border-bottom: 1rpx solid $uni-border-color;
   text {
-    color: $uni-text-color-grey;
-    font-size: 20px;
+    font-size: 24rpx;
   }
 }
 </style>

@@ -109,6 +109,7 @@ export default {
               icon: 'none',
               position: 'bottom'
             })
+            console.log(resp.data)
             uni.navigateBack()
           } else {
             uni.showToast({

@@ -8,7 +8,7 @@
   <view class="profile">
     <view class="profile-user">
       <view class="profile-user-options">
-        <text class="iconfont">&#xe60f;</text>
+        <text class="iconfont">&#xe600;</text>
       </view>
       <view class="profile-user-info">
         <view class="profile-user-info-block">
@@ -22,7 +22,7 @@
       </view>
     </view>
     <view>
-      <profile-app-item title="教务系统" icon-url="static/image/earth.png" @click="jump('/pages/Profile/EducationSystem/EducationSystem')"/>
+      <profile-app-item title="教务系统" @click="jump('/pages/Profile/EducationSystem/EducationSystem')">&#xe643;</profile-app-item>
     </view>
   </view>
 </template>

@@ -1,4 +1,4 @@
-import ajax, { noRepeatAjax } from '../hook/ajax'
+import { noRepeatAjax } from '../hook/ajax'
 
 /**
  * 获取课表
@@ -8,32 +8,17 @@ import ajax, { noRepeatAjax } from '../hook/ajax'
  * @param token {string} 登录验证token
  * @return {Promise<unknown>}
  */
-export const getClasses = (year, time, username, token) => ajax({
-  url: 'http://jwglxt.wtu.edu.cn/kbcx/xskbcx_cxXsKb.html?gnmkdm=N2151&su=' + username,
-  data: {
-    xnm: year,
-    xqm: time
-  },
-  methods: 'POST',
-  headers: {
-    Cookie: 'JSESSIONID=' + token
-  }
-})
-
+export const getClasses = (year, time, username, token) => noRepeatAjax('/wtu/eduSystem/subject/list',
+  'GET', { username, year, time, token })
 /**
  * 从服务器获取当前周
  * @return {Promise<unknown>}
  */
-export const getCurWeekFromServer = () => noRepeatAjax('/wtu/app')
+export const getCurWeekFromServer = () => noRepeatAjax('/wtu/eduSystem/subject/adjust')
 
 /**
  * 获取用户信息
  * @param username {string} 用户名
  * @param token {string} token
  */
-export const getUserInfo = (username, token) => ajax({
-  url: `http://jwglxt.wtu.edu.cn/xsxxxggl/xsgrxxwh_cxXsgrxx.html?gnmkdm=N100801&layout=default&su=${username}`,
-  headers: {
-    Cookie: 'JSESSIONID=' + token
-  }
-})
+export const getUserInfo = (username, token) => noRepeatAjax('/wtu/eduSystem/info', 'GET', { username, token })

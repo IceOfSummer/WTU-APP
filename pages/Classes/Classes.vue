@@ -103,7 +103,7 @@ const getClassFromServer = (store) => getClasses(store.state.classes.classesOpti
         position: 'bottom'
       })
     } else {
-      // 登录失效,提示用户并登出
+      // 登录失效,提示用户(此操作不清除token)
       store.commit(INVALID_EDU_SYSTEM_TOKEN)
       uni.showToast({
         title: '登录失效, 请重新登录',
@@ -222,7 +222,7 @@ $height-per-class: 100rpx;
     justify-content: space-between;
     > text {
       width: 100rpx;
-      font-size: 16px;
+      font-size: 16rpx;
       text-align: center;
     }
   }
@@ -247,7 +247,7 @@ $height-per-class: 100rpx;
     height: $height-per-class;
     width: 100%;
     margin-bottom: 10rpx;
-    font-size: 15px;
+    font-size: 16rpx;
     //background-color: cornflowerblue;
     text:first-child{
       font-weight: bold;

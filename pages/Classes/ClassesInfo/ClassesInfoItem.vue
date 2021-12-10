@@ -47,7 +47,7 @@ export default {
 .class-info-item-detail{
   > view {
     margin: 10px 0;
-    font-size: 15px;
+    font-size: 20rpx;
     text:first-child {
       color: $uni-text-color-grey;
     }
@@ -60,7 +60,7 @@ export default {
 .class-info-item{
   box-sizing: border-box;
   padding: 30rpx;
-  border-bottom: 1px solid $uni-border-color;
+  border-bottom: 1rpx solid $uni-border-color;
   background-color: #fff;
 }
 .class-info-title{

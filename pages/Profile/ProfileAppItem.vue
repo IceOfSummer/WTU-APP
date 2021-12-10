@@ -1,7 +1,7 @@
 <template>
   <view class="profile-app-item">
     <view class="profile-app-item-block">
-      <image :src="iconUrl"/>
+      <text class="iconfont"><slot></slot></text>
       <text>{{title}}</text>
     </view>
     <view class="profile-app-item-more"></view>
@@ -12,8 +12,7 @@
 export default {
   name: 'ProfileAppItem',
   props: {
-    title: String,
-    iconUrl: String
+    title: String
   }
 }
 </script>
@@ -21,10 +20,11 @@ export default {
 <style lang="scss">
 .profile-app-item-block{
   display: flex;
-  > image {
-    margin-right: 33rpx;
-    width: 45rpx;
-    height: 45rpx;
+  align-items: center;
+  > .iconfont {
+    margin-right: 10rpx;
+    font-size: 45rpx;
+    color: skyblue;
   }
 }
 .profile-app-item-more{

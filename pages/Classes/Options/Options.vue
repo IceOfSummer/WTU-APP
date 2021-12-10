@@ -130,6 +130,18 @@ export default {
 </script>
 
 <style lang="scss">
+.options-block{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70rpx;
+  box-sizing: border-box;
+  padding: 0 20rpx;
+  > text{
+    color: $uni-text-color-grey;
+    font-size: 24rpx;
+  }
+}
 .option-split-line{
   @include split-line($uni-bg-color-grey, 750rpx)
 }
@@ -140,12 +152,12 @@ export default {
   color: $uni-color-primary;
 }
 .classes-option {
-  padding-top: 10 rpx;
+  padding-top: 10rpx;
   background-color: #fff;
 }
 
 .options-block-text {
   color: $uni-text-color-grey;
-  font-size: 20px;
+  font-size: 24rpx;
 }
 </style>

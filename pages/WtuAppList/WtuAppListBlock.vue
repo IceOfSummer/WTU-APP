@@ -30,7 +30,7 @@ export default {
   background-color: white;
   > view:first-child{
     border-bottom: 1px solid $uni-border-color;
-    font-size: 18px;
+    font-size: 24rpx;
     color: $uni-text-color-grey;
   }
 }

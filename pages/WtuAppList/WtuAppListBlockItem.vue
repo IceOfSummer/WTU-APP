@@ -1,7 +1,9 @@
 <template>
   <view class="wtu-app-block-item">
     <view>
-      <image :src="image" class="wtu-app-block-item-img"/>
+      <text class="iconfont">
+        <slot></slot>
+      </text>
     </view>
     <view>
       <text>{{title}}</text>
@@ -13,8 +15,7 @@
 export default {
   name: 'WtuAppListBlockItem',
   props: {
-    title: String,
-    image: String
+    title: String
   }
 }
 </script>
@@ -31,10 +32,12 @@ export default {
   width: 172rpx;
   margin: 30rpx 0;
   > view:first-child{
+    font-size: 50rpx;
+    color: skyblue;
     margin-bottom: 5rpx;
   }
   > view:last-child{
-    font-size: 16px;
+    font-size: 20rpx;
   }
 }
 </style>

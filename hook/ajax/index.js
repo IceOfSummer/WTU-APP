@@ -7,7 +7,8 @@ function getNoParamUrl(url) {
   return url.replace(/\?\S+/, '')
 }
 
-const BASE_URL = 'http://10.181.216.32:8080'
+const BASE_URL = 'http://119.91.97.176:8080'
+// const BASE_URL = 'http://10.181.216.32:8080'
 /**
  * 任务管理器
  */
@@ -56,7 +57,7 @@ const missionManager = {
  */
 function baseAjax(config) {
   return new Promise((resolve, reject) => {
-    const token = uni.getStorageSync('token')
+    // const token = uni.getStorageSync('token')
     const url = config.url.startsWith('http') ? config.url : BASE_URL + config.url
 
     missionManager.checkMission(url, config.rejectPolicy ? config.rejectPolicy : 'REJECT_IF_EXIST')
@@ -67,7 +68,7 @@ function baseAjax(config) {
       sslVerify: false,
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': token ? token : '',
+        // 'Authorization': token ? token : '',
         // eslint-disable-next-line
         ...config.headers
       },
@@ -114,4 +115,3 @@ export function cancelOldAjax(url, method = 'GET', data = {}) {
 }
 
 export default baseAjax
-

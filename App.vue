@@ -1,5 +1,4 @@
 <script>
-
 export default {
   onLaunch: function() {
   },
@@ -14,10 +13,8 @@ export default {
 
 <style lang="scss">
 @font-face {
-  font-family: 'iconfont';  /* Project id 2550207 */
-  src: url('https://at.alicdn.com/t/font_2550207_tcmrufsdjo.woff2?t=1638606270083') format('woff2'),
-  url('https://at.alicdn.com/t/font_2550207_tcmrufsdjo.woff?t=1638606270083') format('woff'),
-  url('https://at.alicdn.com/t/font_2550207_tcmrufsdjo.ttf?t=1638606270083') format('truetype');
+  font-family: 'iconfont';  /* Project id 3002046 */
+  src: url('https://at.alicdn.com/t/font_3002046_m8b53e0j0lf.ttf?t=1639108562674') format('truetype');
 }
 .iconfont {
     font-family: iconfont, sans-serif;
@@ -25,16 +22,5 @@ export default {
 page{
   background-color: rgb(248, 248, 248);
 }
-.options-block{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 70rpx;
-  box-sizing: border-box;
-  padding: 0 20rpx;
-  > text{
-    color: $uni-text-color-grey;
-    font-size: 20px;
-  }
-}
+
 </style>
