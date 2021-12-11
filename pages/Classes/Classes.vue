@@ -97,13 +97,23 @@ const getClassFromServer = (store) => store.dispatch(PROXY_SCHOOL_APP_AJAX, getC
     if (resp.kbList) {
       // 保存到vuex
       store.commit(SET_CLASSES, resp.kbList)
-      uni.showToast({
-        title: '刷新成功',
-        icon: 'none',
-        position: 'bottom'
-      })
+      if (resp.kbList.length === 0) {
+        uni.showToast({
+          title: '该学期下没有课哦!请重新选择',
+          icon: 'none',
+          position: 'bottom'
+        })
+      } else {
+        uni.showToast({
+          title: '刷新成功',
+          icon: 'none',
+          position: 'bottom'
+        })
+      }
     }
+    console.log(resp)
   }).catch(e => {
+  console.log(store.state.classes.classesOptions.term)
     console.log(e)
   })
 
@@ -159,13 +169,14 @@ export default {
     if (!classesOptions.year) {
       store.commit(SET_CLASSES_OPTIONS, { key: 'year', value: new Date().getFullYear() })
     }
-    if (!classesOptions.term) {
+    if (classesOptions.term === 0) {
       const month = new Date().getMonth()
       // 0是一月
-      let term = month >= 1 && month < 8 ? 1 : 2
+      let term = month >= 1 && month < 8 ? 2 : 1
       store.commit(SET_CLASSES_OPTIONS, { key: 'term', value: term })
     }
     if (!classesOptions.curWeek) {
+      console.log('modify')
       store.commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: 1 })
     }
 

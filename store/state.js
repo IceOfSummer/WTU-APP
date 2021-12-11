@@ -34,7 +34,7 @@ export default {
       /**
        * 哪个学期
        */
-      term: 1
+      term: 0
     }
   },
   /**
