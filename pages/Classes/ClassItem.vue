@@ -1,7 +1,7 @@
 <template>
-  <view class="class-item" :style="'top:' + beginAt * 110 + 'rpx; left:' + week * 100 + 'rpx;height:' + (110 * duration - 10) + 'rpx'" v-if="show" @click="seeDetail">
-    <text>{{limitSize(detail.kcmc)}}\n@{{detail.cdmc}}</text>
-  </view>
+    <view class="class-item" :style="'top:' + beginAt * 110 + 'rpx; left:' + week * 100 + 'rpx;height:' + (110 * duration - 10) + 'rpx'" v-if="show" @click="seeDetail">
+      <text>{{limitSize(detail.kcmc)}}\n@{{detail.cdmc}}</text>
+    </view>
 </template>
 
 <script>
@@ -24,7 +24,6 @@ export default {
 
     const start = Number.parseInt(strDuration[0]) - 1
     const end = Number.parseInt(strDuration[1]) - 1
-    // console.log(`${props.detail.kcmc} ---- ${start} ----- ${end}`)
 
 
     const beginAt = ref(start)
@@ -43,6 +42,7 @@ export default {
       if (store.state.classes.classesOptions.hideClosedClasses) {
         const curWeek = store.state.classes.classesOptions.curWeek
         const endWeek = Number.parseInt(props.detail.zcd.replace('周', '').split('-')[1])
+        // console.log(`${props.detail.kcmc} ------ ${curWeek} ---------- ${endWeek}`)
         return endWeek >= curWeek
       } else {
         return true
@@ -73,7 +73,7 @@ export default {
   padding: 0 10rpx;
   text-align: center;
   text-wrap: normal;
-  > text {
+  text {
     font-size: 16rpx;
   }
 }

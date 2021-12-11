@@ -43,7 +43,7 @@ export default {
   components: { OptionsSwitch },
   setup() {
     const store = useStore()
-    const hideFinishedClass = ref(store.state.classes.classesOptions.hideClosedClasses)
+    const hideFinishedClass = ref(!!store.state.classes.classesOptions.hideClosedClasses)
 
     watch(hideFinishedClass, () => {
       store.commit(SET_CLASSES_OPTIONS, { key: 'hideClosedClasses', value: hideFinishedClass.value })

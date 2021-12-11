@@ -169,7 +169,7 @@ export default {
     if (!classesOptions.year) {
       store.commit(SET_CLASSES_OPTIONS, { key: 'year', value: new Date().getFullYear() })
     }
-    if (classesOptions.term === 0) {
+    if (!classesOptions.term) {
       const month = new Date().getMonth()
       // 0是一月
       let term = month >= 1 && month < 8 ? 2 : 1
