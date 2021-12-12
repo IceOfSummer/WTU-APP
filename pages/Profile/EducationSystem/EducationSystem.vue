@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { computed, reactive, ref, watch, watchEffect } from 'vue'
+import { computed, reactive, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { getUserInfo } from '../../../api/schoolApp'
 import { EDU_SYSTEM_LOG_OUT, INVALID_EDU_SYSTEM_TOKEN } from '../../../store/mutations-type'
@@ -107,7 +107,6 @@ export default {
     //   getUserInfoAjax()
     // })
     watchEffect(() => {
-      console.log('eff')
       if (token.value) {
         getUserInfoAjax()
       }

@@ -75,18 +75,26 @@
 		"list": [
 			{
 				"pagePath": "pages/Index/Index",
+				"iconPath": "static/image/index.png",
+				"selectedIconPath": "static/image/index_selected.png",
 				"text": "首页"
 			},
 			{
 				"pagePath": "pages/Classes/Classes",
+				"iconPath": "static/image/subject.png",
+				"selectedIconPath": "static/image/subject_selected.png",
 				"text": "课程表"
 			},
 			{
 				"pagePath": "pages/WtuAppList/WtuAppList",
+				"iconPath": "static/image/app.png",
+				"selectedIconPath": "static/image/app_selected.png",
 				"text": "其它应用"
 			},
 			{
 				"pagePath": "pages/Profile/Profile",
+				"iconPath": "static/image/profile.png",
+				"selectedIconPath": "static/image/profile_selected.png",
 				"text": "个人中心"
 			}
 		]
