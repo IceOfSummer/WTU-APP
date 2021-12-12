@@ -2,8 +2,8 @@
     "name" : "wtu-app",
     "appid" : "__UNI__5C91DCE",
     "description" : "",
-    "versionName" : "0.1.0-ALPHA",
-    "versionCode" : 1,
+    "versionName" : "0.1.0",
+    "versionCode" : 2,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
