@@ -22,7 +22,7 @@ export default {
     modelValue: String,
     errorMsg: String
   },
-  emits: ['update:errorMsg'],
+  emits: ['update:errorMsg', 'onUpdate:modelValue'],
   setup (props, { emit }) {
     const isEnter = ref(props.modelValue.length !== 0)
 

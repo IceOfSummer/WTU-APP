@@ -1,5 +1,48 @@
 import * as TYPE from './mutations-type'
 
+/**
+ * 根据当前周,调整课表信息
+ * @param subjects {Array} 课表信息, 该操作会修改数组原有的值
+ * @param curWeek {number} 当前周
+ * @return {Void} 该操作会修改subjects原有的值
+ */
+function adjustSubjectList(subjects, curWeek) {
+
+  /**
+   * 分离开始和结束周
+   * @param classes {Object} 课程信息
+   * @return {{start: number, end: number}}
+   */
+  const getWeek = (classes) => {
+    const temp = classes.zcd.replace('周', '').split('-')
+    const start = Number.parseInt(temp[0])
+    const end = Number.parseInt(temp[1])
+    return {
+      start,
+      end
+    }
+  }
+
+  /**
+   * type-> 0: 当前正在上的课  1: 已结课  2:未开始
+   * @see ClassesInfoItem.vue
+   */
+  subjects.forEach(value => {
+    const week = getWeek(value)
+    if (week.end < curWeek) {
+      // 结课
+      value.type = 1
+    } else if (week.start > curWeek) {
+      // 未开始
+      value.type = 2
+    } else {
+      // 正在上
+      value.type = 0
+    }
+  })
+
+}
+
 export default {
   /**
    * 将登陆成功后的token保存到vuex中
@@ -26,40 +69,10 @@ export default {
    * @param data {Array<Object>}
    */
   [TYPE.SET_CLASSES] (state, data) {
-    /**
-     * 分离开始和结束周
-     * @param classes {Object} 课程信息
-     * @return {{start: number, end: number}}
-     */
-    const getWeek = (classes) => {
-      const temp = classes.zcd.replace('周', '').split('-')
-      const start = Number.parseInt(temp[0])
-      const end = Number.parseInt(temp[1])
-      return {
-        start,
-        end
-      }
-    }
-
+    console.log(data)
     const curWeek = state.classes.classesOptions.curWeek
 
-    /**
-     * type-> 0: 当前正在上的课  1: 已结课  2:未开始
-     * @see ClassesInfoItem.vue
-     */
-    data.forEach(value => {
-      const week = getWeek(value)
-      if (week.end < curWeek) {
-        // 结课
-        value.type = 1
-      } else if (week.start > curWeek) {
-        // 未开始
-        value.type = 2
-      } else {
-        // 正在上
-        value.type = 0
-      }
-    })
+    adjustSubjectList(data, curWeek)
 
     state.classes.list = data
   },
@@ -73,6 +86,8 @@ export default {
       if (option.key === 'curWeek') {
         // 特殊配置
         state.classes.classesOptions.curWeekLastUpdate = Date.now()
+        // 重新给课表排序
+        adjustSubjectList(state.classes.list, option.value)
       }
       state.classes.classesOptions[option.key] = option.value
 

@@ -111,7 +111,6 @@ const getClassFromServer = (store) => store.dispatch(PROXY_SCHOOL_APP_AJAX, getC
         })
       }
     }
-    console.log(resp)
   }).catch(e => {
   console.log(store.state.classes.classesOptions.term)
     console.log(e)
