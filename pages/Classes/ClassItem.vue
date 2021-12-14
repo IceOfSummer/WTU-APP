@@ -38,7 +38,7 @@ export default {
         url: `/pages/Classes/ClassesInfo/ClassesInfo?start=${start + 1}&week=${week.value + 1}`
       })
     }
-
+    console.log(`${props.detail.kcmc} ------ ${start} ----- ${week.value}`)
     /**
      * 检查当前课程所显示的位置是否有其他的课程
      * @return {boolean} 返回true表示有其他的课程
@@ -49,7 +49,6 @@ export default {
         if (Number.parseInt(curValue.xqj) === week.value + 1) {
           const curStartTime = Number.parseInt(curValue.jcs.split('-')[0])
           if (curStartTime === start + 1 && props.detail.kcmc !== curValue.kcmc) {
-            // console.log(`${props.detail.kcmc} ------ ${start} ----- ${week.value}`)
             return true
           }
         }

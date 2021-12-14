@@ -86,7 +86,9 @@ export default {
         // 特殊配置
         state.classes.classesOptions.curWeekLastUpdate = Date.now()
         // 重新给课表排序
-        adjustSubjectList(state.classes.list, option.value)
+        if (state.classes.list) {
+          adjustSubjectList(state.classes.list, option.value)
+        }
       }
       state.classes.classesOptions[option.key] = option.value
 
