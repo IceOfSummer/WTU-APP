@@ -43,7 +43,8 @@
 		{
 			"path": "pages/SchoolAuth/SchoolAuth",
 			"style": {
-				"navigationBarTitleText": "校园登录"
+				"navigationBarTitleText": "校园登录",
+				"navigationStyle": "custom"
 			}
 		},
 		{

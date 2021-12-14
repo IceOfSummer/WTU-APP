@@ -45,7 +45,10 @@ export default {
   components: { OptionsBlock },
   setup () {
     const store = useStore()
-
+    if (!store.state.eduSystemUser.token) {
+      // 未登录, 直接转跳
+      uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
+    }
     const jump = (url) => {
       uni.navigateTo({ url })
     }
@@ -98,14 +101,6 @@ export default {
     }
 
 
-
-
-    // /**
-    //  * 当登录完成后立即加载用户信息
-    //  */
-    // watch(() => store.state.eduSystemUser.token, () => {
-    //   getUserInfoAjax()
-    // })
     watchEffect(() => {
       if (token.value) {
         getUserInfoAjax()

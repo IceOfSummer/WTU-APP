@@ -14,7 +14,7 @@ export default {
 <style lang="scss">
 @font-face {
   font-family: 'iconfont';  /* Project id 3002046 */
-  src: url('https://at.alicdn.com/t/font_3002046_m8b53e0j0lf.ttf?t=1639108562674') format('truetype');
+  src: url('https://at.alicdn.com/t/font_3002046_ocg2rab1i4a.ttf?t=1639320175114') format('truetype');
 }
 .iconfont {
     font-family: iconfont, sans-serif;

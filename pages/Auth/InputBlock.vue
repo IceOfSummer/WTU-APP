@@ -25,9 +25,9 @@ export default {
     }
   },
   emits: ['update:value'],
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     // 更新文字
-    const updateText = ({detail}) => {
+    const updateText = ({ detail }) => {
       emit('update:value', detail.value)
     }
 
