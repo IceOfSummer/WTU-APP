@@ -24,6 +24,7 @@
       <br/>
       <text>为了节省服务器资源, 在登录时出现错误无法查看哪个地方填错了</text>
     </view>
+    <loading-mask ref="loading"/>
   </view>
 </template>
 
@@ -34,13 +35,17 @@ import { wtuEncrypt } from '../../hook/aes'
 import { SAVE_SCHOOL_LOGIN_INFO } from '../../store/mutations-type'
 import { useStore } from 'vuex'
 import AnimatedInput from '../../component/AnimatedInput/AnimatedInput'
+import LoadingMask from '../../component/LoadingMask/LoadingMask'
 
 export default {
   name: 'SchoolAuth',
-  components: { AnimatedInput },
+  components: { LoadingMask, AnimatedInput },
   setup () {
     const store = useStore()
     const isInitSuccess = ref(false)
+
+    // loading组件
+    const loading = ref()
 
     const username = ref(store.state.eduSystemUser.username)
     const userNameErrorMsg = ref('')
@@ -136,6 +141,7 @@ export default {
         return
       }
       if (isInitSuccess.value) {
+        loading.value.showLoading()
         const encryptedPassword = wtuEncrypt(password.value, encryptSalt)
         let isLoginSuccess = false
         login(session, lt, encryptedPassword, captcha.value, route, username.value).then(resp => {
@@ -158,6 +164,7 @@ export default {
             })
           }
         }).finally(() => {
+          loading.value.hideLoading()
           if (!isLoginSuccess) {
             tryInit()
           }
@@ -176,7 +183,8 @@ export default {
       back,
       userNameErrorMsg: userNameErrorMsg,
       passwordErrorMsg: passwordErrorMsg,
-      captchaErrorMsg: captchaErrorMsg
+      captchaErrorMsg: captchaErrorMsg,
+      loading
     }
   }
 }
