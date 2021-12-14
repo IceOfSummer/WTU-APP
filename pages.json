@@ -56,13 +56,19 @@
 		{
 			"path": "pages/Classes/Options/Options",
 			"style": {
-				"navigationBarTitleText": "设置"
+				"navigationBarTitleText": "课程表设置"
 			}
 		},
 		{
 			"path": "pages/Profile/EducationSystem/EducationSystem",
 			"style": {
 				"navigationBarTitleText": "教务系统"
+			}
+		},
+		{
+			"path": "pages/Profile/ConfigCenter/ConfigCenter",
+			"style": {
+				"navigationBarTitleText": "配置中心"
 			}
 		}
 	],

@@ -78,8 +78,8 @@ $uni-font-size-paragraph:30rpx;
 @mixin right-arrow($color, $size) {
     width: $size;
     height: $size;
-    border-top: 2px solid $color;
-    border-right: 2px solid $color;
+    border-top: 2rpx solid $color;
+    border-right: 2rpx solid $color;
     transform: rotate(45deg);
 }
 @mixin split-line($color, $width) {
@@ -87,5 +87,5 @@ $uni-font-size-paragraph:30rpx;
     width: $width;
     margin-left: auto;
     margin-right: auto;
-    border-top: 2rpx solid $color;
+    border-top: 1rpx solid $color;
 }

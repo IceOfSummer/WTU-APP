@@ -1,14 +1,8 @@
 <template>
-<!--  <view>-->
-<!--    <view @click="jump('/pages/SchoolAuth/SchoolAuth')" v-if="!schoolToken">登录教务系统</view>-->
-<!--    <view style="color: red" @click="logout" v-else>注销教务系统登录</view>-->
-<!--    <view>{{schoolToken}}</view>-->
-<!--    <view @click="jump('/pages/Auth/Auth')">登录</view>-->
-<!--  </view>-->
   <view class="profile">
     <view class="profile-user">
       <view class="profile-user-options">
-        <text class="iconfont">&#xe600;</text>
+        <text class="iconfont" @click="jump('/pages/Profile/ConfigCenter/ConfigCenter')">&#xe600;</text>
       </view>
       <view class="profile-user-info">
         <view class="profile-user-info-block">
@@ -111,6 +105,7 @@ export default {
 .profile-user-options{
   margin-right: 20rpx;
   margin-top: 20rpx;
+  font-size: 52rpx;
   color: #fff;
   text-align: right;
 }
