@@ -31,7 +31,7 @@ export default {
     console.log(start + '---' + week)
 
     store.state.classes.list.forEach(value => {
-      console.log(value.kcmc + '------' + getStartTime(value) + '-----' + value.xqj)
+      // console.log(value.kcmc + '------' + getStartTime(value) + '-----' + value.xqj)
       if (getStartTime(value) === Number.parseInt(start) && Number.parseInt(value.xqj) === Number.parseInt(week)) {
         this.detail.push(value)
       }

@@ -30,6 +30,8 @@ export default {
     const week = ref(Number.parseInt(props.detail.xqj) - 1)
     const duration = ref(end - start + 1)
 
+
+
     // 查看课表详细信息
     const seeDetail = () => {
       uni.navigateTo({
@@ -37,8 +39,39 @@ export default {
       })
     }
 
-    // 计算当前课程是否需要隐藏
+    /**
+     * 检查当前课程所显示的位置是否有其他的课程
+     * @return {boolean} 返回true表示有其他的课程
+     */
+    const checkIsPosRepeat = () => {
+      for (let i = 0, len = store.state.classes.list.length; i < len; i++) {
+        const curValue = store.state.classes.list[i]
+        if (Number.parseInt(curValue.xqj) === week.value + 1) {
+          const curStartTime = Number.parseInt(curValue.jcs.split('-')[0])
+          if (curStartTime === start + 1 && props.detail.kcmc !== curValue.kcmc) {
+            // console.log(`${props.detail.kcmc} ------ ${start} ----- ${week.value}`)
+            return true
+          }
+        }
+      }
+      return false
+    }
+
+
+
+    /**
+     * 计算当前课程是否需要隐藏
+     * @type {ComputedRef<boolean>} 返回true表示显示
+     */
     const show = computed(() => {
+      if (props.detail.type === 2) {
+        // 这个课程没有开始
+        if (checkIsPosRepeat()) {
+          console.log('hide')
+          // 重复了 不显示
+          return false
+        }
+      }
       if (store.state.classes.classesOptions.hideClosedClasses) {
         const curWeek = store.state.classes.classesOptions.curWeek
         const endWeek = Number.parseInt(props.detail.zcd.replace('周', '').split('-')[1])

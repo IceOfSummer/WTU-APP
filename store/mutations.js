@@ -69,7 +69,6 @@ export default {
    * @param data {Array<Object>}
    */
   [TYPE.SET_CLASSES] (state, data) {
-    console.log(data)
     const curWeek = state.classes.classesOptions.curWeek
 
     adjustSubjectList(data, curWeek)
