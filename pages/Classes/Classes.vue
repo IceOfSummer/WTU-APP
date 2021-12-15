@@ -281,6 +281,7 @@ $height-per-class: 100rpx;
   }
 }
 .classes-bg{
+  height: 100vh;
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }

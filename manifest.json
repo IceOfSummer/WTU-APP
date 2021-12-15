@@ -53,7 +53,7 @@
             "splashscreen" : {
                 "androidStyle" : "default",
                 "android" : {
-                    "xxhdpi" : "static/image/start_image.png"
+                    "xxhdpi" : ""
                 },
                 "useOriginalMsgbox" : false
             }
