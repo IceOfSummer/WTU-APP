@@ -1,5 +1,6 @@
 <template>
-    <view class="class-item" :style="'top:' + beginAt * 110 + 'rpx; left:' + week * 100 + 'rpx;height:' + (110 * duration - 10) + 'rpx'" v-if="show" @click="seeDetail">
+    <view class="class-item" :style="'top:' + beginAt * 110 + 'rpx; left:' + week * 100 + 'rpx;height:' + (110 * duration - 10) + 'rpx'"
+          v-if="show" @click="seeDetail" :class="{'class-item-active': detail.type === 0, 'class-item-closed': detail.type === 1, 'class-item-not-started': detail.type === 2}">
       <text>{{limitSize(detail.kcmc)}}\n@{{detail.cdmc}}</text>
     </view>
 </template>
@@ -38,7 +39,7 @@ export default {
         url: `/pages/Classes/ClassesInfo/ClassesInfo?start=${start + 1}&week=${week.value + 1}`
       })
     }
-    console.log(`${props.detail.kcmc} ------ ${start} ----- ${week.value}`)
+    // console.log(`${props.detail.kcmc} ------ ${start} ----- ${week.value}`)
     /**
      * 检查当前课程所显示的位置是否有其他的课程
      * @return {boolean} 返回true表示有其他的课程
@@ -96,9 +97,17 @@ export default {
 </script>
 
 <style lang="scss">
+.class-item-active{
+  background-color: skyblue;
+}
+.class-item-closed{
+  background-color: $uni-color-success;
+}
+.class-item-not-started{
+  background-color: $uni-color-warning;
+}
 .class-item{
   position: absolute;
-  background-color: skyblue;
   width: 90rpx;
   border-radius: 10px;
   box-sizing: border-box;

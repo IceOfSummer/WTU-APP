@@ -34,7 +34,11 @@ export default {
       /**
        * 哪个学期
        */
-      term: 0
+      term: 0,
+      /**
+       * 背景图片url
+       */
+      backgroundImagePath: ''
     }
   },
   /**

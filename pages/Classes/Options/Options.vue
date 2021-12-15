@@ -21,6 +21,8 @@
       <options-switch v-model="hideFinishedClass" title="隐藏已经结课的课程"/>
     </view>
     <view class="option-split-line"></view>
+    <options-block title="设置背景图(测试中)" @click="selectBackgroundImage"></options-block>
+    <view class="option-split-line"></view>
     <view class="options-block options-cur-week" @click="tryAdjustCurWeekFromServer">
       <text>从服务器校准当前周</text>
     </view>
@@ -28,6 +30,8 @@
     <view class="options-block" @click="clearClassData">
       <text style="color: #dd524d">清空本地课表缓存数据</text>
     </view>
+    <view class="option-split-line"></view>
+    <options-block title="重置背景图片" type="danger" @click="resetBackgroundImage"></options-block>
   </view>
 </template>
 
@@ -37,10 +41,11 @@ import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../../store/mutations-type'
 import { ADJUST_CUR_WEEK_FROM_SERVER } from '../../../store/actions-type'
+import OptionsBlock from '../../../component/OptionsBlock/OptionsBlock'
 
 export default {
   name: 'ClassesOptions',
-  components: { OptionsSwitch },
+  components: { OptionsBlock, OptionsSwitch },
   setup() {
     const store = useStore()
     const hideFinishedClass = ref(!!store.state.classes.classesOptions.hideClosedClasses)
@@ -63,6 +68,42 @@ export default {
 
     const selectTerm = (event) => {
       store.commit(SET_CLASSES_OPTIONS, { key: 'term', value: event.detail.value + 1 })
+    }
+
+    const selectBackgroundImage = () => {
+      uni.chooseImage({
+        count: 1,
+        success ({ tempFilePaths }) {
+          uni.saveFile({
+            tempFilePath: tempFilePaths[0],
+            success ({ savedFilePath }) {
+              store.commit(SET_CLASSES_OPTIONS, { key: 'backgroundImagePath', value: savedFilePath })
+              uni.showToast({
+                title: '更换成功',
+                icon: 'none',
+                position: 'bottom'
+              })
+            }
+          })
+        }
+      })
+    }
+
+    const resetBackgroundImage = () => {
+      uni.showModal({
+        title: '重置背景图片',
+        content: '确定要重置背景图片吗?',
+        success({ confirm }) {
+          if (confirm) {
+            store.commit(SET_CLASSES_OPTIONS, { key: 'backgroundImagePath', value: '' })
+            uni.showToast({
+              title: '重置成功',
+              icon: 'none',
+              position: 'bottom'
+            })
+          }
+        }
+      })
     }
 
     /**
@@ -123,7 +164,9 @@ export default {
       selectYear,
       selectTerm,
       yearData,
-      termData
+      termData,
+      selectBackgroundImage,
+      resetBackgroundImage
     }
   }
 }

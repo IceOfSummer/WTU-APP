@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view :style="'background-image: url(' + absoluteBackgroundImage + ')'" class="classes-bg">
     <view class="classes-header">
       <view>
         <text>星期一</text>
@@ -86,7 +86,7 @@
 
 <script>
 import ClassItem from './ClassItem'
-import { computed, ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { getClasses } from '../../api/schoolApp'
 import { useStore } from 'vuex'
 import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../store/mutations-type'
@@ -197,12 +197,20 @@ export default {
     // 尝试校准当前周
     store.dispatch(ADJUST_CUR_WEEK)
 
+    // 背景图片url
+    const backgroundImagePath = computed(() => store.state.classes.classesOptions.backgroundImagePath)
+    const absoluteBackgroundImage = ref('')
 
+    watchEffect(() => {
+      absoluteBackgroundImage.value = plus.io.convertLocalFileSystemURL(backgroundImagePath.value)
+      console.log(absoluteBackgroundImage.value)
+    })
 
     return {
       calendar,
       classesData: computed(() => store.state.classes.list),
-      curWeek: computed(() => store.state.classes.classesOptions.curWeek)
+      curWeek: computed(() => store.state.classes.classesOptions.curWeek),
+      absoluteBackgroundImage
     }
   },
   onNavigationBarButtonTap () {
@@ -271,5 +279,9 @@ $height-per-class: 100rpx;
       font-weight: bold;
     }
   }
+}
+.classes-bg{
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 </style>
