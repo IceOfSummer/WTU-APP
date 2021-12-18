@@ -89,3 +89,10 @@ $uni-font-size-paragraph:30rpx;
     margin-right: auto;
     border-top: 1rpx solid $color;
 }
+@mixin down-arrow($color, $size) {
+    width: $size;
+    height: $size;
+    border-top: 2rpx solid $color;
+    border-right: 2rpx solid $color;
+    transform: rotate(135deg);
+}

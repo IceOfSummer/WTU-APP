@@ -1,18 +1,18 @@
 <template>
   <view class="classes-option">
-    <picker :range="['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
+    <picker :yearRange="['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
   '第十一周', '第十二周', '第十三周', '第十四周', '第十五周', '第十六周', '第十七周', '第十八周', '第十九周', '第二十周']"
             @change="selectWeek" :value="curWeek - 1" class="options-block">
       <text>选择当前周</text>
       <text>第{{ curWeek }}周</text>
     </picker>
     <view class="option-split-line"></view>
-    <picker :range="yearData" @change="selectYear" :value="yearData.indexOf(year)" class="options-block">
+    <picker :yearRange="yearData" @change="selectYear" :value="yearData.indexOf(year)" class="options-block">
       <text>选择学年</text>
       <text>{{ year }}年</text>
     </picker>
     <view class="option-split-line"></view>
-    <picker :range="termData" @change="selectTerm" :value="term - 1" class="options-block">
+    <picker :yearRange="termData" @change="selectTerm" :value="term - 1" class="options-block">
       <text>选择学期</text>
       <text>{{ termData[term - 1] }}</text>
     </picker>
@@ -36,12 +36,12 @@
 </template>
 
 <script>
-import OptionsSwitch from '../../../component/OptionsSwitch/OptionsSwitch'
+import OptionsSwitch from '../../../component/OptionsComponent/OptionsSwitch/OptionsSwitch'
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../../store/mutations-type'
 import { ADJUST_CUR_WEEK_FROM_SERVER } from '../../../store/actions-type'
-import OptionsBlock from '../../../component/OptionsBlock/OptionsBlock'
+import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/OptionsBlock'
 
 export default {
   name: 'ClassesOptions',

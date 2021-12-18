@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import OptionsBlock from '../../../component/OptionsBlock/OptionsBlock'
+import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/OptionsBlock'
 export default {
   name: 'ConfigCenter',
   components: { OptionsBlock },

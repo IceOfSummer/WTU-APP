@@ -70,6 +70,12 @@
 			"style": {
 				"navigationBarTitleText": "配置中心"
 			}
+		},
+		{
+			"path": "pages/WtuAppList/EmptyClassroomQuery/EmptyClassroomQuery",
+			"style": {
+				"navigationBarTitleText": "查询空课表"
+			}
 		}
 	],
 	"globalStyle": {

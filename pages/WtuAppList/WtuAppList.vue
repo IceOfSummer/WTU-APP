@@ -1,7 +1,7 @@
 <template>
   <view class="wtu-app">
     <wtu-app-list-block title="推荐">
-      <wtu-app-list-block-item title="查询空闲教室">&#xe661;</wtu-app-list-block-item>
+      <wtu-app-list-block-item title="查询空闲教室" @click="navTo('EmptyClassroomQuery')">&#xe661;</wtu-app-list-block-item>
       <wtu-app-list-block-item title="成绩查询">&#xe65e;</wtu-app-list-block-item>
       <wtu-app-list-block-item title="选课工具">&#xe668;</wtu-app-list-block-item>
       <wtu-app-list-block-item title="登录教务系统">&#xe67a;</wtu-app-list-block-item>
@@ -12,10 +12,31 @@
 <script>
 import WtuAppListBlock from './WtuAppListBlock'
 import WtuAppListBlockItem from './WtuAppListBlockItem'
+import { useStore } from 'vuex'
 export default {
   name: 'WtuAppList',
   components: { WtuAppListBlockItem, WtuAppListBlock },
   setup () {
+    const store = useStore()
+    const navTo = (name) => {
+      // 检查是否登录
+      if (store.state.eduSystemUser.token) {
+        // 已登录
+        uni.navigateTo({ url: `/pages/WtuAppList/${name}/${name}` })
+      } else {
+        // 未登录
+        uni.showToast({
+          title: '请先登录教务系统',
+          icon: 'none',
+          position: 'bottom'
+        })
+        uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
+      }
+    }
+
+    return {
+      navTo
+    }
   }
 }
 </script>

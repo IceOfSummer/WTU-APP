@@ -237,7 +237,7 @@ export default {
 }
 .school-auth-exit{
   margin-top: 10rpx;
-  margin-right: 15rpx;
+  margin-right: 25rpx;
   font-weight: bold;
   text-align: end;
 }
