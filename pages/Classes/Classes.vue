@@ -93,28 +93,28 @@ import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../store/mutations-type'
 import { ADJUST_CUR_WEEK, PROXY_SCHOOL_APP_AJAX } from '../../store/actions-type'
 
 const getClassFromServer = (store) => store.dispatch(PROXY_SCHOOL_APP_AJAX, getClasses(store.state.classes.classesOptions.year,
-    store.state.classes.classesOptions.term, store.state.eduSystemUser.username, store.state.eduSystemUser.token)).then(resp => {
-    if (resp.kbList) {
-      // 保存到vuex
-      store.commit(SET_CLASSES, resp.kbList)
-      if (resp.kbList.length === 0) {
-        uni.showToast({
-          title: '该学期下没有课哦!请重新选择',
-          icon: 'none',
-          position: 'bottom'
-        })
-      } else {
-        uni.showToast({
-          title: '刷新成功',
-          icon: 'none',
-          position: 'bottom'
-        })
-      }
+  store.state.classes.classesOptions.term, store.state.eduSystemUser.username, store.state.eduSystemUser.token)).then(resp => {
+  if (resp.kbList) {
+    // 保存到vuex
+    store.commit(SET_CLASSES, resp.kbList)
+    if (resp.kbList.length === 0) {
+      uni.showToast({
+        title: '该学期下没有课哦!请重新选择',
+        icon: 'none',
+        position: 'bottom'
+      })
+    } else {
+      uni.showToast({
+        title: '刷新成功',
+        icon: 'none',
+        position: 'bottom'
+      })
     }
-  }).catch(e => {
+  }
+}).catch(e => {
   console.log(store.state.classes.classesOptions.term)
-    console.log(e)
-  })
+  console.log(e)
+})
 
 
 export default {
@@ -203,7 +203,6 @@ export default {
 
     watchEffect(() => {
       absoluteBackgroundImage.value = plus.io.convertLocalFileSystemURL(backgroundImagePath.value)
-      console.log(absoluteBackgroundImage.value)
     })
 
     return {

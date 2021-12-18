@@ -7,6 +7,14 @@ function getNoParamUrl(url) {
   return url.replace(/\?\S+/, '')
 }
 
+const showErrorMsg = (msg) => {
+  uni.showToast({
+    title: msg,
+    icon: 'none',
+    position: 'bottom'
+  })
+}
+
 // const BASE_URL = 'http://119.91.97.176:8080'
 const BASE_URL = 'http://10.181.216.32:8080'
 /**
@@ -76,8 +84,8 @@ function baseAjax(config) {
         missionManager.removeMission(url)
       },
       success({ data, statusCode }) {
-        if (statusCode === 403) {
-          // TODO 跳转登录页面
+        if (data.code !== 0) {
+          showErrorMsg(data.message)
         }
         resolve(data)
       },

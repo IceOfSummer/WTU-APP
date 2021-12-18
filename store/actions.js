@@ -65,18 +65,13 @@ export default {
   [TYPE.PROXY_SCHOOL_APP_AJAX] ({ commit }, promise) {
     return new Promise((resolve, reject) => {
       promise.then(resp => {
-        if (!resp) {
+        if (resp.code === 100) {
           // 登录失效
           commit(INVALID_EDU_SYSTEM_TOKEN)
-          uni.showToast({
-            title: '登录失效, 请重新登录',
-            icon: 'none',
-            position: 'bottom'
-          })
           reject('登录失效')
         }
         // success
-        resolve(resp)
+        resolve(JSON.parse(resp.data))
       }).catch(e => reject(e))
     })
   }
