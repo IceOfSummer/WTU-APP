@@ -43,8 +43,6 @@ import { getCurDay } from '../../../hook/utils/DateUtils'
 import { useStore } from 'vuex'
 import OptionsButton from '../../../component/OptionsComponent/OptionsButton/OptionsButton'
 import { showToast } from '../../../hook/utils/TipUtils'
-import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
-import { getEmptyClassroom } from '../../../api/schoolApp'
 export default {
   name: 'EmptyClassroomQuery',
   components: { OptionsButton, LineCheckBoxGroup, AnimatedCollapse, OptionsDivider, OptionsPicker },
@@ -62,7 +60,7 @@ export default {
     // 上课地点可用范围 全部->空  YG体-> YGti  YG图 -> YGtu
     const classPosRange = ['全部', 'YG03', 'YG04', 'YG05', 'YG06', 'YG07', 'YG08', 'YG09', 'YG体', 'YG图']
     // 传参时所用的字符串
-    const paramMapOfClassPosRange = ['0', 'YG03', 'YG04', 'YG05', 'YG06', 'YG07', 'YG08', 'YG09', 'YGti', 'YGtu']
+    const paramMapOfClassPosRange = ['', 'YG03', 'YG04', 'YG05', 'YG06', 'YG07', 'YG08', 'YG09', 'YGti', 'YGtu']
     // 当前选中的查询地点
     const curClassPosSelect = ref(0)
 
@@ -79,7 +77,7 @@ export default {
      * 检查表单是否有效，如没有填写某个值
      * @return {boolean} 返回true表示有效
      */
-    const preCheckFrom = () => {
+    function preCheckFrom () {
       if (selectedWeek.value === 0) {
         showToast('请选择要查询的周')
       } else if (selectedDay.value === 0) {
@@ -94,10 +92,6 @@ export default {
 
     const tryQuery = () => {
       if (preCheckFrom()) {
-
-        /**
-         * 将选中的星期转换为字符串
-         */
         let tempDayStr = ''
         for (let i = 0; i < 7; i++) {
           if ((selectedDay.value >> i & 1) === 1) {
@@ -107,10 +101,14 @@ export default {
         }
         // 替换最后多余的逗号
         const dayStr = tempDayStr.substr(0, tempDayStr.length - 1)
-
-        store.dispatch(PROXY_SCHOOL_APP_AJAX,  getEmptyClassroom(yearRange[curYearSelect.value], paramMapOfClassPosRange[curClassPosSelect.value], selectedWeek.value,
-          dayStr, selectedClassTime.value, store.state.eduSystemUser.token)).then(resp => {
-          console.log(resp)
+        uni.navigateTo({
+          url: `/pages/WtuAppList/EmptyClassroomQuery/QueryResultPage/QueryResultPage?queryParam=${JSON.stringify({
+            year: yearRange[curYearSelect.value],
+            classPos: paramMapOfClassPosRange[curClassPosSelect.value],
+            week: selectedWeek.value,
+            day: dayStr,
+            duration: selectedClassTime.value,
+          })}`
         })
       }
 

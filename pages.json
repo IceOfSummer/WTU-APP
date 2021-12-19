@@ -76,6 +76,12 @@
 			"style": {
 				"navigationBarTitleText": "查询空课表"
 			}
+		},
+		{
+			"path": "pages/WtuAppList/EmptyClassroomQuery/QueryResultPage/QueryResultPage",
+			"style": {
+				"navigationBarTitleText": "查询结果"
+			}
 		}
 	],
 	"globalStyle": {
