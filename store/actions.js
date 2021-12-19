@@ -71,7 +71,12 @@ export default {
           reject('登录失效')
         }
         // success
-        resolve(JSON.parse(resp.data))
+        try {
+          resolve(JSON.parse(resp.data))
+        } catch (e) {
+          // JSON解析失败
+          resolve(resp.data)
+        }
       }).catch(e => reject(e))
     })
   }
