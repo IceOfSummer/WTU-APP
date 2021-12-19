@@ -82,6 +82,12 @@
 			"style": {
 				"navigationBarTitleText": "查询结果"
 			}
+		},
+		{
+			"path": "pages/WtuAppList/ScoreQuery/ScoreQuery",
+			"style": {
+				"navigationBarTitleText": "成绩查询"
+			}
 		}
 	],
 	"globalStyle": {

@@ -1,4 +1,5 @@
 import { noRepeatAjax } from '../hook/ajax'
+import { getCurTerm } from '../hook/utils/DateUtils'
 
 /**
  * 获取课表
@@ -38,10 +39,19 @@ export const getEmptyClassroom = (year, classroomPos, week, day, duration, token
     schoolPos: 2,
     classroomPos,
     year,
-    term: 3,
+    term: getCurTerm(),
     week,
     day,
     duration,
     token,
     page
   })
+
+/**
+ * 获取学生成绩
+ * @param year {number} 年份
+ * @param username {string} 用户名
+ * @param token {string} token
+ * @param term {number} 学期
+ */
+export const getStudentScore = (year, username, token, term = getCurTerm()) => noRepeatAjax('/wtu/eduSystem/score/query', 'GET', { year, username, token, term })

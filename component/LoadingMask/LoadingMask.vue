@@ -23,7 +23,6 @@ export default {
     const isLoading = ref(false)
 
     const showLoading = () => {
-      console.log('start')
       isLoading.value = true
     }
 

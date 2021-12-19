@@ -1,6 +1,7 @@
 import * as TYPE from './actions-type'
 import { INVALID_EDU_SYSTEM_TOKEN, SET_CLASSES_OPTIONS } from './mutations-type'
 import { getCurWeekFromServer } from '../api/schoolApp'
+import { showToast } from '../hook/utils/TipUtils'
 export default {
   /**
    * 校准课表显示的当前周
@@ -77,7 +78,10 @@ export default {
           // JSON解析失败
           resolve(resp.data)
         }
-      }).catch(e => reject(e))
+      }).catch(e => {
+        showToast('出错了! 请重新尝试')
+        reject(e)
+      })
     })
   }
 }

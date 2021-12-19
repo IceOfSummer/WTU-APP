@@ -2,9 +2,9 @@
   <view class="wtu-app">
     <wtu-app-list-block title="推荐">
       <wtu-app-list-block-item title="查询空闲教室" @click="navTo('EmptyClassroomQuery')">&#xe661;</wtu-app-list-block-item>
-      <wtu-app-list-block-item title="成绩查询">&#xe65e;</wtu-app-list-block-item>
-      <wtu-app-list-block-item title="选课工具">&#xe668;</wtu-app-list-block-item>
-      <wtu-app-list-block-item title="登录教务系统">&#xe67a;</wtu-app-list-block-item>
+      <wtu-app-list-block-item title="成绩查询"  @click="navTo('ScoreQuery')">&#xe65e;</wtu-app-list-block-item>
+      <wtu-app-list-block-item title="选课工具" @click="showToast('敬请期待')">&#xe668;</wtu-app-list-block-item>
+      <wtu-app-list-block-item title="登录教务系统" @click="showToast('敬请期待')">&#xe67a;</wtu-app-list-block-item>
     </wtu-app-list-block>
   </view>
 </template>
@@ -13,6 +13,7 @@
 import WtuAppListBlock from './WtuAppListBlock'
 import WtuAppListBlockItem from './WtuAppListBlockItem'
 import { useStore } from 'vuex'
+import { showToast } from '../../hook/utils/TipUtils'
 export default {
   name: 'WtuAppList',
   components: { WtuAppListBlockItem, WtuAppListBlock },
@@ -35,7 +36,8 @@ export default {
     }
 
     return {
-      navTo
+      navTo,
+      showToast
     }
   }
 }
