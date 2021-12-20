@@ -1,11 +1,8 @@
 <template>
   <view class="content">
-    <text>目前仅支持课程表功能, 点击个人中心 -> 教务系统登录后即可查看课程表</text>
-    <text>课程表下拉可以刷新, 使用前需要在右上角设置相关参数</text>
-    <text>Android直接添加桌面小部件(类似超级课程表一样的)</text>
-    <text>IOS出于经济(要MacBook才能开发)和能力(要用Objective-C)暂不支持添加桌面小部件</text>
-    <text>IOS由于我自己无法调试(搞不了苹果虚拟机), 所以出问题了基本很难修复</text>
-    <text>个人建议IOS还是用超级课程表吧(穷b玩不起IOS 2333)</text>
+    <text>目前已经支持所有功能(除了选课工具,该应用将之后制作)</text>
+    <text>课程表可用添加桌面小部件</text>
+    <text>课程表桌面小部件每次可能需要手动刷新!</text>
     <text>当前版本: {{version}}</text>
   </view>
 </template>

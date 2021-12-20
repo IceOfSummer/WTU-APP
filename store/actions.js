@@ -29,7 +29,7 @@ export default {
         temp++
         if (temp === 8) {
           week++
-          temp = 0
+          temp = 1
         }
       }
 
