@@ -83,6 +83,9 @@ export default {
   justify-content: center;
   border-bottom: 1rpx solid $uni-border-color;
   > view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     width: 200rpx;
     font-size: 20rpx;

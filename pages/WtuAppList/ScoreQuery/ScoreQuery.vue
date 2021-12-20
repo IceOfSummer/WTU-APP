@@ -13,23 +13,38 @@
     <view v-if="isEmpty" class="score-query-tip">
       <text>没有相关学期的成绩, 请切换其它学期</text>
     </view>
+    <view v-else class="score-query-tip-info">
+      <text>成绩大于等于75分用绿色标记, 60分到75分为橙色, 小于60分为红色</text>
+    </view>
+    <loading-mask ref="mask"/>
   </view>
 </template>
 
 <script>
-import { ref, watchEffect } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import ScoreBlock from './ScoreBlock'
 import { useStore } from 'vuex'
 import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
 import { getCurTerm } from '../../../hook/utils/DateUtils'
 import { getStudentScore } from '../../../api/schoolApp'
 import { showToast } from '../../../hook/utils/TipUtils'
+import LoadingMask from '../../../component/LoadingMask/LoadingMask'
 
 export default {
   name: 'ScoreQuery',
-  components: { ScoreBlock },
+  components: { LoadingMask, ScoreBlock },
   setup () {
     const store = useStore()
+
+    // 加载条组件
+    const mask = ref()
+    let showLoading = null
+    let stopLoading = null
+
+    onMounted(() => {
+      showLoading = mask.value.showLoading
+      stopLoading = mask.value.stopLoading
+    })
 
     const cur = new Date()
     // 1: 上学期 2: 下学期
@@ -67,14 +82,25 @@ export default {
     // 是否为空
     const isEmpty = ref(false)
 
+    /**
+     * 清空成绩信息
+     * @param bool {boolean} 设置标记的状态, true代表完全清空
+     */
+    function setEmpty (bool = false) {
+      majorSubject.value = []
+      normalSubject.value = []
+      practiceSubject.value = []
+      optionalSubject.value = []
+      isEmpty.value = bool
+    }
+
     watchEffect(() => {
+      if (showLoading) {
+        showLoading()
+      }
       doQueryAjax(curSelectIndex.value).then(resp => {
-        isEmpty.value = false
         if (resp.items) {
-          majorSubject.value = []
-          normalSubject.value = []
-          practiceSubject.value = []
-          optionalSubject.value = []
+          setEmpty ()
           resp.items.forEach(value => {
             switch (value.kclbmc) {
               case MAJOR_SUBJECT_KEY :
@@ -118,7 +144,14 @@ export default {
           isEmpty.value = true
           showToast('加载失败, 请重试')
         }
-      }).catch(e => console.log(e))
+      }).catch((e) => {
+        console.log(e)
+        setEmpty(true)
+      }).finally(() => {
+        if (stopLoading) {
+          stopLoading()
+        }
+      })
     })
 
 
@@ -134,13 +167,20 @@ export default {
       normalSubject,
       practiceSubject,
       optionalSubject,
-      isEmpty
+      isEmpty,
+      mask
     }
   }
 }
 </script>
 
 <style lang="scss">
+.score-query-tip-info{
+  padding: 40rpx;
+  font-size: 20rpx;
+  text-align: center;
+  color: $uni-text-color-grey;
+}
 .score-query-tip{
   padding: 40rpx;
   font-size: 24rpx;
