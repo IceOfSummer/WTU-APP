@@ -1,37 +1,23 @@
 <template>
   <view class="classes-option">
-    <picker :range="['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
+    <options-picker :range="['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
   '第十一周', '第十二周', '第十三周', '第十四周', '第十五周', '第十六周', '第十七周', '第十八周', '第十九周', '第二十周']"
-            @change="selectWeek" :value="curWeek - 1" class="options-block">
-      <text>选择当前周</text>
-      <text>第{{ curWeek }}周</text>
-    </picker>
-    <view class="option-split-line"></view>
-    <picker :range="yearData" @change="selectYear" :value="yearData.indexOf(year)" class="options-block">
-      <text>选择学年</text>
-      <text>{{ year }}年</text>
-    </picker>
-    <view class="option-split-line"></view>
-    <picker :range="termData" @change="selectTerm" :value="term - 1" class="options-block">
-      <text>选择学期</text>
-      <text>{{ termData[term - 1] }}</text>
-    </picker>
-    <view class="option-split-line"></view>
-    <view>
-      <options-switch v-model="hideFinishedClass" title="隐藏已经结课的课程"/>
-    </view>
-    <view class="option-split-line"></view>
-    <options-block title="设置背景图(测试中)" @click="selectBackgroundImage"></options-block>
-    <view class="option-split-line"></view>
-    <view class="options-block options-cur-week" @click="tryAdjustCurWeekFromServer">
-      <text>从服务器校准当前周</text>
-    </view>
-    <view class="option-split-line"></view>
-    <view class="options-block" @click="clearClassData">
-      <text style="color: #dd524d">清空本地课表缓存数据</text>
-    </view>
-    <view class="option-split-line"></view>
+                    title="选择当前周" @change="selectWeek">第{{curWeek}}周</options-picker>
+    <options-divider/>
+    <options-picker :range="yearData" @change="selectYear" :model-value="yearData.indexOf(year)" title="选择学年">{{year}}年</options-picker>
+    <options-divider/>
+    <options-picker :range="termData" @change="selectTerm" :model-value="term - 1" title="选择学期">{{ termData[term - 1] }}</options-picker>
+    <options-divider/>
+    <options-switch title="隐藏已经结课的课程" v-model="hideFinishedClass"/>
+    <options-divider/>
+    <options-block title="设置背景图" @click="selectBackgroundImage"></options-block>
+    <options-divider/>
+    <options-block title="从服务器校准当前周" @click="tryAdjustCurWeekFromServer" type="primary"/>
+    <options-divider/>
+    <options-block @click="clearClassData" type="danger" title="情况本地课表缓存数据"/>
+    <options-divider/>
     <options-block title="重置背景图片" type="danger" @click="resetBackgroundImage"></options-block>
+    <options-divider/>
   </view>
 </template>
 
@@ -42,10 +28,12 @@ import { useStore } from 'vuex'
 import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../../store/mutations-type'
 import { ADJUST_CUR_WEEK_FROM_SERVER } from '../../../store/actions-type'
 import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/OptionsBlock'
+import OptionsPicker from '../../../component/OptionsComponent/OptionsPicker/OptionsPicker'
+import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
 
 export default {
   name: 'ClassesOptions',
-  components: { OptionsBlock, OptionsSwitch },
+  components: { OptionsDivider, OptionsPicker, OptionsBlock, OptionsSwitch },
   setup() {
     const store = useStore()
     const hideFinishedClass = ref(!!store.state.classes.classesOptions.hideClosedClasses)
@@ -173,21 +161,6 @@ export default {
 </script>
 
 <style lang="scss">
-.options-block{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 70rpx;
-  box-sizing: border-box;
-  padding: 0 20rpx;
-  > text{
-    color: $uni-text-color-grey;
-    font-size: 24rpx;
-  }
-}
-.option-split-line{
-  @include split-line($uni-bg-color-grey, 750rpx)
-}
 .options-cur-week {
   color: $uni-color-primary;
 }

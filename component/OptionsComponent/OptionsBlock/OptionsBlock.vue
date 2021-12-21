@@ -2,6 +2,7 @@
   <view class="options-block">
     <view>
       <text v-if="type === 'danger'" style="color: #dd524d">{{title}}</text>
+      <text v-else-if="type === 'primary'" style="color: #007aff">{{title}}</text>
       <text v-else style="color: #999">{{title}}</text>
       <slot name="left"/>
     </view>
@@ -21,7 +22,7 @@ export default {
     },
     /**
      * 选项框类型:
-     * info | danger
+     * info | danger | primary
      */
     type: String
   }
@@ -29,16 +30,17 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../OptionStyle";
 .options-block{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 90rpx;
+  height: $form-height;
   box-sizing: border-box;
+  margin: $form-margin;
   padding: 0 20rpx;
-  //border-bottom: 1rpx solid $uni-border-color;
   text {
-    font-size: 24rpx;
+    font-size: $form-label-font-size;
   }
 }
 </style>

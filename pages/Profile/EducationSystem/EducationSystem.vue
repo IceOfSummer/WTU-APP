@@ -25,10 +25,12 @@
         <text>加载个人信息中</text>
       </view>
     </view>
-    <view v-if="token">
-      <options-block title="退出登录" type="danger" @click="logout"></options-block>
+    <view v-if="token" class="edu-system-config">
+      <options-switch title="当登录过期后自动跳转到登录页面" :model-value="autoRedirectLoginPage" :update-callback="setAutoRedirectLoginPage"/>
+      <options-divider/>
+      <options-block title="清空登录凭据" type="danger" @click="logout"></options-block>
+      <options-divider/>
     </view>
-
   </view>
 </template>
 
@@ -36,13 +38,15 @@
 import { computed, reactive, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { getUserInfo } from '../../../api/schoolApp'
-import { EDU_SYSTEM_LOG_OUT, INVALID_EDU_SYSTEM_TOKEN } from '../../../store/mutations-type'
+import { EDU_SYSTEM_LOG_OUT, INVALID_EDU_SYSTEM_TOKEN, SET_EDU_SYSTEM_OPTIONS } from '../../../store/mutations-type'
 import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/OptionsBlock'
 import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
+import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
+import OptionsSwitch from '../../../component/OptionsComponent/OptionsSwitch/OptionsSwitch'
 
 export default {
   name: 'EducationSystem',
-  components: { OptionsBlock },
+  components: { OptionsSwitch, OptionsDivider, OptionsBlock },
   setup () {
     const store = useStore()
     if (!store.state.eduSystemUser.token) {
@@ -100,19 +104,27 @@ export default {
       }
     }
 
-
+    // 监听用户登录状态
     watchEffect(() => {
       if (token.value) {
         getUserInfoAjax()
       }
     })
 
-
+    // ----------设置栏-------------
     /**
      * 登出
      */
     const logout = () => {
       store.commit(EDU_SYSTEM_LOG_OUT)
+    }
+
+    /**
+     * 设置自动登录
+     * @param val {boolean} val
+     */
+    const setAutoRedirectLoginPage = (val) => {
+      store.commit(SET_EDU_SYSTEM_OPTIONS, { key: 'autoRedirectLoginPage', value: val })
     }
     return {
       token: computed(() => store.state.eduSystemUser.token),
@@ -120,7 +132,9 @@ export default {
       jump,
       userInfo,
       logout,
-      loadInfoStatus
+      loadInfoStatus,
+      autoRedirectLoginPage: computed(() => !!store.state.eduSystemUser.config.autoRedirectLoginPage),
+      setAutoRedirectLoginPage
     }
   }
 }

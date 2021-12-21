@@ -15,8 +15,8 @@ const showErrorMsg = (msg) => {
   })
 }
 
-// const BASE_URL = 'http://119.91.97.176:8080'
-const BASE_URL = 'http://10.181.216.32:8080'
+const BASE_URL = 'http://119.91.97.176:8080'
+// const BASE_URL = 'http://10.181.216.32:8080'
 /**
  * 任务管理器
  */

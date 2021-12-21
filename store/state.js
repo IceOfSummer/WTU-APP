@@ -69,6 +69,15 @@ export default {
     /**
      * token是否有效
      */
-    isUsableToken: false
+    isUsableToken: false,
+    /**
+     * 设置
+     */
+    config: {
+      /**
+       * 是否在登录过期后自动跳转到登录页面
+       */
+      autoRedirectLoginPage: false
+    }
   }
 }

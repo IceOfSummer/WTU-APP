@@ -32,8 +32,6 @@ export default {
           temp = 1
         }
       }
-
-
       commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: week })
       commit(SET_CLASSES_OPTIONS, { key: 'curWeekLastUpdate', value: Date.now() })
 
@@ -61,15 +59,19 @@ export default {
   /**
    * 代理学校接口响应
    * @param commit commit
+   * @param state state
    * @param promise {Promise}
    */
-  [TYPE.PROXY_SCHOOL_APP_AJAX] ({ commit }, promise) {
+  [TYPE.PROXY_SCHOOL_APP_AJAX] ({ commit, state }, promise) {
     return new Promise((resolve, reject) => {
       promise.then(resp => {
         if (resp.code === 100) {
           // 登录失效
           commit(INVALID_EDU_SYSTEM_TOKEN)
           reject('登录失效')
+          if (state.eduSystemUser.config.autoRedirectLoginPage) {
+            uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
+          }
         }
         // success
         try {

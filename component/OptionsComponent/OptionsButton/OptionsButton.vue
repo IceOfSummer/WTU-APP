@@ -11,6 +11,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../OptionStyle";
 .options-button{
   width: 630rpx;
   height: 98rpx;

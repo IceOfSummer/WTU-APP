@@ -15,9 +15,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../OptionStyle";
 .options-divider{
-  height: 1px;
-  margin: 2rpx auto;
+  height: 1rpx;
+  margin: 0 auto;
+  //background-color: $uni-text-color-grey;
   border-top: 1rpx solid $uni-border-color;
 }
 </style>

@@ -13,11 +13,12 @@ export default {
     modelValue: Number,
     title: String
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'change'],
   setup (props, { emit }) {
 
-    const changeEvent = ({ detail }) => {
-      emit('update:modelValue', detail.value)
+    const changeEvent = (event) => {
+      emit('update:modelValue', event.detail.value)
+      emit('change', event)
     }
 
     return {
@@ -28,15 +29,17 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../OptionStyle";
 .options-picker{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70rpx;
+  height: $form-height;
   box-sizing: border-box;
   padding: 0 20rpx;
+  margin: $form-margin;
   color: $uni-text-color-grey;
-  font-size: 24rpx;
+  font-size: $form-label-font-size;
   > text:last-child{
     color: $uni-color-primary;
   }

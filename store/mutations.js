@@ -102,5 +102,13 @@ export default {
    */
   [TYPE.INVALID_EDU_SYSTEM_TOKEN] (state) {
     state.eduSystemUser.isUsableToken = false
+  },
+  /**
+   * 修改教务系统设置
+   * @param state state
+   * @param option {{key: string, value: unknown}}
+   */
+  [TYPE.SET_EDU_SYSTEM_OPTIONS] (state, option) {
+    state.eduSystemUser.config[option.key] = option.value
   }
 }
