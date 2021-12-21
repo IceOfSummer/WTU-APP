@@ -1,6 +1,42 @@
 <script>
+import { getVersion } from './api/appVersion'
+import manifest from './manifest.json'
+import { showToast } from './hook/utils/TipUtils'
 export default {
   onLaunch: function() {
+    /**
+     * 下载新版本
+     * @param versionName {string}
+     */
+    function downLoadNewVersion (versionName) {
+      uni.downloadFile({
+        url: manifest.serverUrl + `/app/hotUpdate/${versionName}.wgt`,
+        success (result) {
+          if (result.statusCode === 200) {
+            plus.runtime.install(result.tempFilePath, {
+              force: false
+            }, function() {
+              console.log('install success...')
+              plus.runtime.restart()
+            }, function(e) {
+              console.error(e)
+            })
+          }
+        }
+      })
+    }
+
+    console.log('onLaunch')
+    // 检查更新
+    getVersion().then(resp => {
+      const temp = resp.data.versionCode - manifest.versionCode
+      if (temp >= 1) {
+        // 小更新
+        showToast('正在热更新, 安装成功后程序会重启')
+        // console.log('发现新版本: ' + resp.data.versionCode)
+        downLoadNewVersion(resp.data.versionName)
+      }
+    }).catch(e => console.log(e))
   },
   onShow: function() {
     console.log('App Show')

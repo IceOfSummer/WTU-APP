@@ -1,3 +1,4 @@
+import appConfig from '../../manifest.json'
 /**
  * 获取没有参数的url
  * @param url {string} url
@@ -14,8 +15,8 @@ const showErrorMsg = (msg) => {
     position: 'bottom'
   })
 }
-
-const BASE_URL = 'http://119.91.97.176:8080'
+const BASE_URL = appConfig.serverUrl
+// const BASE_URL = 'http://119.91.97.176:8080'
 // const BASE_URL = 'http://10.181.216.32:8080'
 /**
  * 任务管理器
