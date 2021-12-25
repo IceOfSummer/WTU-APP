@@ -79,5 +79,87 @@ export default {
        */
       autoRedirectLoginPage: false
     }
+  },
+  /**
+   * 选课系统缓存信息
+   */
+  classSelectInfo: {
+    /**
+     * 查询课程时所用参数
+     */
+    queryParam1: {
+      // rwlx: '',
+      // xkly: '',
+      // bklx_id: '',
+      // sfkkjyxdxnxq: '',
+      // xqh_id: '',
+      // // jg_id在input中name为jg_id_1
+      // jg_id: '',
+      // zyh_id: '',
+      // zyfx_id: '',
+      // njdm_id: '',
+      // bh_id: '',
+      // xbm: '',
+      // xslbdm: '',
+      // ccdm: '',
+      // xsbj: '',
+      // sfkknj: '',
+      // sfkkzy: '',
+      // kzybkxy: '',
+      // sfznkx: '',
+      // zdkxms: '',
+      // sfkxq: '',
+      // sfkcfx: '',
+      // kkbk: '',
+      // kkbkdj: '',
+      // sfkgbcx: '',
+      // sfrxtgkcxd: '',
+      // tykczgxdcs: '',
+      // xkxnm: '',
+      // xkxqm: '',
+      // kklxdm: '',
+      // rlkz: '',
+      // xkzgbj: ''
+      xqh_id: '',
+      // jg_id在input中name为jg_id_1
+      jg_id: '',
+      zyh_id: '',
+      zyfx_id: '',
+      njdm_id: '',
+      bh_id: '',
+      xbm: '',
+      xslbdm: '',
+      ccdm: '',
+      xsbj: '',
+      xkxnm: '',
+      xkxqm: '',
+      xszxzt: '',
+      kklxdm: '',
+      xkkz_id: ''
+    },
+    queryParam2: {
+      rwlx: '',
+      xkly: '',
+      bklx_id: '',
+      sfkkjyxdxnxq: '',
+      sfkknj: '',
+      sfkkzy: '',
+      kzybkxy: '',
+      sfznkx: '',
+      zdkxms: '',
+      sfkxq: '',
+      sfkcfx: '',
+      kkbk: '',
+      kkbkdj: '',
+      sfkgbcx: '',
+      sfrxtgkcxd: '',
+      tykczgxdcs: '',
+      rlkz: '',
+      xkzgbj: ''
+    },
+    /**
+     * 选择课程时所用参数
+     */
+    selectInfo: ''
   }
 }

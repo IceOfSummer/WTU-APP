@@ -1,5 +1,5 @@
 import * as TYPE from './mutations-type'
-
+import { getInputValue } from '../hook/utils/StringUtils'
 /**
  * 根据当前周,调整课表信息
  * @param subjects {Array} 课表信息, 该操作会修改数组原有的值
@@ -110,5 +110,37 @@ export default {
    */
   [TYPE.SET_EDU_SYSTEM_OPTIONS] (state, option) {
     state.eduSystemUser.config[option.key] = option.value
+  },
+  /**
+   * 加载选课工具查询参数
+   * @param state state
+   * @param html {string} html
+   */
+  [TYPE.LOAD_CLASS_QUERY_INFO_1] (state, html) {
+    Object.keys(state.classSelectInfo.queryParam1).forEach(key => {
+      const value = getInputValue(html, key)
+      if (value != null) {
+        state.classSelectInfo.queryParam1[key] = value
+      }
+    })
+    // 特殊值处理
+    state.classSelectInfo.queryParam1.jg_id = getInputValue(html, 'jg_id_1')
+    state.classSelectInfo.queryParam1.xkkz_id = getInputValue(html, 'firstXkkzId')
+    state.classSelectInfo.queryParam1.kklxdm = getInputValue(html, 'firstKklxdm')
+  },
+  /**
+   * 加载选课工具查询参数
+   * @param state state
+   * @param html {string} html
+   */
+  [TYPE.LOAD_CLASS_QUERY_INFO_2] (state, html) {
+    Object.keys(state.classSelectInfo.queryParam2).forEach(key => {
+      const value = getInputValue(html, key)
+      if (value != null) {
+        state.classSelectInfo.queryParam2[key] = value
+      }
+    })
+    // 特殊值处理
+
   }
 }

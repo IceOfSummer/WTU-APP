@@ -9,8 +9,8 @@
   },
   "main": "main.js",
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/eslint-parser": "^7.16.3",
+    "@babel/core": "^7.16.5",
+    "@babel/eslint-parser": "^7.16.5",
     "@types/uni-app": "^1.4.4",
     "@vue/cli-plugin-eslint": "^4.5.15",
     "@vue/eslint-config-standard": "^6.1.0",

@@ -88,6 +88,12 @@
 			"style": {
 				"navigationBarTitleText": "成绩查询"
 			}
+		},
+		{
+			"path": "pages/WtuAppList/ClassSelectTool/ClassSelectTool",
+			"style": {
+				"navigationBarTitleText": "选课工具"
+			}
 		}
 	],
 	"globalStyle": {
