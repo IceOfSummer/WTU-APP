@@ -26,15 +26,21 @@ export default {
       })
     }
 
-    console.log('onLaunch')
     // 检查更新
     getVersion().then(resp => {
       const temp = resp.data.versionCode - manifest.versionCode
       if (temp >= 1) {
-        // 小更新
-        showToast('正在热更新, 安装成功后程序会重启')
-        // console.log('发现新版本: ' + resp.data.versionCode)
-        downLoadNewVersion(resp.data.versionName)
+        uni.showModal({
+          title: '发现新版本! 是否需要更新?',
+          content: `当前版本: ${manifest.versionCode}, 最新版本: ${resp.data.versionCode}`,
+          success ({ confirm }) {
+            if (confirm) {
+              // 确定更新
+              showToast('正在下载中, 下载完毕后会自动安装并重启')
+              downLoadNewVersion(resp.data.versionName)
+            }
+          }
+        })
       }
     }).catch(e => console.log(e))
   },
