@@ -37,7 +37,7 @@
 <script>
 import { computed, reactive, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
-import { getUserInfo } from '../../../api/schoolApp'
+import { getUserInfo } from '../../../api/schoolApp/schoolAuth'
 import { EDU_SYSTEM_LOG_OUT, INVALID_EDU_SYSTEM_TOKEN, SET_EDU_SYSTEM_OPTIONS } from '../../../store/mutations-type'
 import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/OptionsBlock'
 import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'

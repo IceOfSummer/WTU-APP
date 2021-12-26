@@ -1,4 +1,4 @@
-import { noRepeatAjax } from '../hook/ajax'
+import { noRepeatAjax } from '../../hook/ajax'
 
 /**
  * 初始化登录请求
@@ -27,3 +27,12 @@ export const getCaptcha = (session, lt, route) => noRepeatAjax('/school/auth/cap
  */
 export const login = (session, lt, password, captcha, route, username) =>
   noRepeatAjax('/school/auth/login', 'POST', { session, lt, password, captcha, route, username })
+
+/**
+ * 获取用户信息
+ * @param username {string} 用户名
+ * @param token {string} token
+ */
+export const getUserInfo = (username, token) => noRepeatAjax('/wtu/eduSystem/info', 'GET', { username, token })
+
+

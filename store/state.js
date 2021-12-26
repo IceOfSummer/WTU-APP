@@ -88,38 +88,6 @@ export default {
      * 查询课程时所用参数
      */
     queryParam1: {
-      // rwlx: '',
-      // xkly: '',
-      // bklx_id: '',
-      // sfkkjyxdxnxq: '',
-      // xqh_id: '',
-      // // jg_id在input中name为jg_id_1
-      // jg_id: '',
-      // zyh_id: '',
-      // zyfx_id: '',
-      // njdm_id: '',
-      // bh_id: '',
-      // xbm: '',
-      // xslbdm: '',
-      // ccdm: '',
-      // xsbj: '',
-      // sfkknj: '',
-      // sfkkzy: '',
-      // kzybkxy: '',
-      // sfznkx: '',
-      // zdkxms: '',
-      // sfkxq: '',
-      // sfkcfx: '',
-      // kkbk: '',
-      // kkbkdj: '',
-      // sfkgbcx: '',
-      // sfrxtgkcxd: '',
-      // tykczgxdcs: '',
-      // xkxnm: '',
-      // xkxqm: '',
-      // kklxdm: '',
-      // rlkz: '',
-      // xkzgbj: ''
       xqh_id: '',
       // jg_id在input中name为jg_id_1
       jg_id: '',

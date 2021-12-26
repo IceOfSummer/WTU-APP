@@ -1,6 +1,6 @@
 import * as TYPE from './actions-type'
 import { INVALID_EDU_SYSTEM_TOKEN, SET_CLASSES_OPTIONS } from './mutations-type'
-import { getCurWeekFromServer } from '../api/schoolApp'
+import { getCurWeekFromServer } from '../api/schoolApp/classTableQuery'
 import { showToast } from '../hook/utils/TipUtils'
 export default {
   /**

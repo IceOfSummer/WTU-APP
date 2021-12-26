@@ -30,7 +30,7 @@
 
 <script>
 import { onUnmounted, ref } from 'vue'
-import { getCaptcha, init, login } from '../../api/schoolAuth'
+import { getCaptcha, init, login } from '../../api/schoolApp/schoolAuth'
 import { wtuEncrypt } from '../../hook/aes'
 import { SAVE_SCHOOL_LOGIN_INFO } from '../../store/mutations-type'
 import { useStore } from 'vuex'

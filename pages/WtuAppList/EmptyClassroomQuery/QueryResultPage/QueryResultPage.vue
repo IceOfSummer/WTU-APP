@@ -26,7 +26,7 @@
 
 <script>
 import { PROXY_SCHOOL_APP_AJAX } from '../../../../store/actions-type'
-import { getEmptyClassroom } from '../../../../api/schoolApp'
+import { getEmptyClassroom } from '../../../../api/schoolApp/emptyClassQuery'
 import LoadingMask from '../../../../component/LoadingMask/LoadingMask'
 
 export default {

@@ -26,7 +26,7 @@ import ScoreBlock from './ScoreBlock'
 import { useStore } from 'vuex'
 import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
 import { getCurTerm } from '../../../hook/utils/DateUtils'
-import { getStudentScore } from '../../../api/schoolApp'
+import { getStudentScore } from '../../../api/schoolApp/scoreQuery'
 import { showToast } from '../../../hook/utils/TipUtils'
 import LoadingMask from '../../../component/LoadingMask/LoadingMask'
 

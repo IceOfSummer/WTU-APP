@@ -87,7 +87,7 @@
 <script>
 import ClassItem from './ClassItem'
 import { computed, ref, watchEffect } from 'vue'
-import { getClasses } from '../../api/schoolApp'
+import { getClasses } from '../../api/schoolApp/classTableQuery'
 import { useStore } from 'vuex'
 import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../store/mutations-type'
 import { ADJUST_CUR_WEEK, PROXY_SCHOOL_APP_AJAX } from '../../store/actions-type'

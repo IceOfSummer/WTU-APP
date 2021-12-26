@@ -1,4 +1,4 @@
-import { noRepeatAjax } from '../hook/ajax'
+import { noRepeatAjax } from '../../hook/ajax'
 
 /**
  * 初始化选课

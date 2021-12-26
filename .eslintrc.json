@@ -26,5 +26,8 @@
     "space-infix-ops": "error",
     "space-before-blocks": "error"
   },
-  "root": true
+  "root": true,
+  "globals": {
+    "plus": true
+  }
 }

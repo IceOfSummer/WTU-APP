@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
-import { getClassList, initClassSelect, initClassSelect2 } from '../../../api/classSelect'
+import { ref } from 'vue'
+import { getClassList, initClassSelect, initClassSelect2 } from '../../../api/schoolApp/classSelect'
 import { useStore } from 'vuex'
 import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
 import { LOAD_CLASS_QUERY_INFO_1, LOAD_CLASS_QUERY_INFO_2 } from '../../../store/mutations-type'
@@ -75,12 +75,12 @@ export default {
 
 
 
-    onMounted(() => {
-      uni.showModal({
-        title: '提示',
-        content: '该功能仍在测试中, 即使是选择成功了也请前往官网检查一遍!'
-      })
-    })
+    // onMounted(() => {
+    //   uni.showModal({
+    //     title: '提示',
+    //     content: '该功能仍在测试中, 即使是选择成功了也请前往官网检查一遍!'
+    //   })
+    // })
     return {
       getClassListFromServer,
       classList
