@@ -15,10 +15,12 @@
 </template>
 
 <script>
-import { nextTick, onMounted, onUpdated, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
+import LoadingMask from '../LoadingMask/LoadingMask'
 
 export default {
   name: 'AnimatedCollapse',
+  components: { LoadingMask },
   props: {
     title: String,
     open: {
@@ -33,24 +35,19 @@ export default {
   },
   setup (props) {
 
+
     const collapseContentHeight = ref('0')
 
     function flushHeight() {
-      nextTick(() => {
-        uni.createSelectorQuery().select(`#${props.title}`).boundingClientRect(({ height }) => {
-          collapseContentHeight.value = height + 'px'
-        }).exec()
-      })
+      uni.createSelectorQuery().select(`#${props.title}`).boundingClientRect(({ height }) => {
+        collapseContentHeight.value = height + 'px'
+      }).exec()
     }
 
     onMounted(() => {
       flushHeight()
-      console.log('first' + collapseContentHeight.value)
     })
 
-    onUpdated(() => {
-      flushHeight()
-    })
 
     const show = ref(props.open)
     // 判断firstOpenCallback是否已经执行过了
@@ -68,7 +65,6 @@ export default {
           refData.value = data
           nextTick(() => {
             flushHeight()
-            console.log(collapseContentHeight.value)
           })
         }).catch(e => console.log(e))
       }

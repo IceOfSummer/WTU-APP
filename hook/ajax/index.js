@@ -1,4 +1,5 @@
 import appConfig from '../../manifest.json'
+
 /**
  * 获取没有参数的url
  * @param url {string} url
@@ -33,8 +34,8 @@ const missionManager = {
    * @param {'REJECT_IF_EXIST' | 'CANCEL_OLD_TASK' | 'NO_POLICY'} policy 拒绝策略
    */
   checkMission(url, policy) {
-    const noParamUrl = getNoParamUrl(url)
-    const task = missionManager.manager.get(noParamUrl)
+    // const noParamUrl = getNoParamUrl(url)
+    const task = missionManager.manager.get(url)
     if (task != null) {
       if (policy === 'CANCEL_OLD_TASK') {
         task.abort()

@@ -7,7 +7,12 @@ import { noRepeatAjax } from '../../hook/ajax'
  */
 export const initClassSelect = (username, token) => noRepeatAjax('/wtu/eduSystem/class/init', 'GET', { username, token })
 
-export const initClassSelect2 = (id, xszxzt, username, token) => noRepeatAjax('/wtu/eduSystem/class/init/2', 'GET', { username, token, id, xszxzt })
+export const initClassSelect2 = (store) => noRepeatAjax('/wtu/eduSystem/class/init/2', 'GET', {
+  username: store.state.eduSystemUser.username,
+  token: store.state.eduSystemUser.token,
+  id: store.state.classSelectInfo.queryParam1.xkkz_id,
+  xszxzt: store.state.classSelectInfo.queryParam1.xszxzt
+})
 
 
 
@@ -23,7 +28,7 @@ export const getClassList = (store, year, page = 1) => noRepeatAjax('/wtu/eduSys
   page,
   username: store.state.eduSystemUser.username,
   token: store.state.eduSystemUser.token,
-  'njdm_id_list[0]': year,
+  'kclb_id_list[0]': 95,
   rwlx: store.state.classSelectInfo.queryParam2.rwlx,
   xkly: store.state.classSelectInfo.queryParam2.xkly,
   bklx_id: store.state.classSelectInfo.queryParam2.bklx_id,
@@ -63,7 +68,7 @@ export const getClassList = (store, year, page = 1) => noRepeatAjax('/wtu/eduSys
 export const getClassDetail = (store, year, cxbj, fxbj, kch_id) => noRepeatAjax('/wtu/eduSystem/class/query', 'GET', {
   username: store.state.eduSystemUser.username,
   token: store.state.eduSystemUser.token,
-  'njdm_id_list[0]': year,
+  'kclb_id_list[0]': 95,
   rwlx: store.state.classSelectInfo.queryParam2.rwlx,
   xkly: store.state.classSelectInfo.queryParam2.xkly,
   bklx_id: store.state.classSelectInfo.queryParam2.bklx_id,
@@ -95,4 +100,29 @@ export const getClassDetail = (store, year, cxbj, fxbj, kch_id) => noRepeatAjax(
   xkkz_id: store.state.classSelectInfo.queryParam1.xkkz_id,
   cxbj,
   fxbj
+})
+
+export const selectClass = (store, jxb_id, kch_id, kcmc) => noRepeatAjax('/wtu/eduSystem/class/select', 'POST', {
+  username: store.state.eduSystemUser.username,
+  token: store.state.eduSystemUser.token,
+  jxb_ids: jxb_id,
+  kch_id,
+  kcmc,
+  rwlx: store.state.classSelectInfo.queryParam2.rwlx,
+  rlkz: store.state.classSelectInfo.queryParam2.rlkz,
+  rlzlkz: store.state.classSelectInfo.queryParam2.rlzlkz,
+  sxbj: (store.state.classSelectInfo.queryParam2.rlkz || store.state.classSelectInfo.queryParam2.rlzlkz ? '1' : '0'),
+  // xxkbj: 是否有先行课
+  xxkbj: 0,
+  // qz: 权重
+  qz: 0,
+  // cxbj: 是否重修
+  cxbj: 0,
+  xkkz_id: store.state.classSelectInfo.queryParam1.xkkz_id,
+  njdm_id: store.state.classSelectInfo.queryParam1.njdm_id,
+  zyh_id: store.state.classSelectInfo.queryParam1.zyh_id,
+  kklxdm: store.state.classSelectInfo.queryParam1.kklxdm,
+  xklc: store.state.classSelectInfo.queryParam2.xklc,
+  xkxnm: store.state.classSelectInfo.queryParam1.xkxnm,
+  xkxqm: store.state.classSelectInfo.queryParam1.xkxqm
 })

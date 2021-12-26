@@ -123,7 +123,9 @@ export default {
       sfrxtgkcxd: '',
       tykczgxdcs: '',
       rlkz: '',
-      xkzgbj: ''
+      xkzgbj: '',
+      rlzlkz: '',
+      xklc: ''
     },
     /**
      * 选择课程时所用参数
