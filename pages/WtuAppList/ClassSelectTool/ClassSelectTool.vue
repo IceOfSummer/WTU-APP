@@ -1,21 +1,29 @@
 <template>
-  <view>
+  <view class="class-select-tool">
     <button @click="getClassListFromServer">查询</button>
-    <view>
-      <text>{{classList}}</text>
+    <view v-for="(item, index) in classList" :key="index" >
+      <animated-collapse :title="item.kcmc" :first-open-promise="getClassDetailCallback" :class-back-args="{ item, store }">
+        <template #default="{data}">
+          {{data}}
+        </template>
+      </animated-collapse>
+      <options-divider/>
     </view>
   </view>
 </template>
 
 <script>
 import { ref } from 'vue'
-import { getClassList, initClassSelect, initClassSelect2 } from '../../../api/schoolApp/classSelect'
+import { getClassDetail, getClassList, initClassSelect, initClassSelect2 } from '../../../api/schoolApp/classSelect'
 import { useStore } from 'vuex'
 import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
 import { LOAD_CLASS_QUERY_INFO_1, LOAD_CLASS_QUERY_INFO_2 } from '../../../store/mutations-type'
+import AnimatedCollapse from '../../../component/AnimatedCollapse/AnimatedCollapse'
+import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
 
 export default {
   name: 'ClassSelectTool',
+  components: { OptionsDivider, AnimatedCollapse },
   setup () {
     const store = useStore()
 
@@ -70,8 +78,19 @@ export default {
     const getClassListFromServer = () => {
       store.dispatch(PROXY_SCHOOL_APP_AJAX, getClassList(store, 2020)).then(resp => {
         classList.value = resp
+        console.log(resp)
       })
     }
+
+    const getClassDetailAjax = (item) => {
+      store.dispatch(PROXY_SCHOOL_APP_AJAX, getClassDetail(store, 2020, item.cxbj, item.fxbj, item.kch_id)).then(resp => {
+        console.log(resp)
+      })
+    }
+    const getClassDetailCallback = ({ store, item }) => {
+      return store.dispatch(PROXY_SCHOOL_APP_AJAX, getClassDetail(store, 2020, item.cxbj, item.fxbj, item.kch_id))
+    }
+
 
 
 
@@ -83,12 +102,18 @@ export default {
     // })
     return {
       getClassListFromServer,
-      classList
+      classList,
+      getClassDetailAjax,
+      getClassDetailCallback,
+      store
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+.class-select-tool{
+  background-color: #fff;
+}
 
 </style>

@@ -28,11 +28,14 @@ export default {
 
     // 检查更新
     getVersion().then(resp => {
-      const temp = resp.data.versionCode - manifest.versionCode
+      const curVersion = manifest.versionCode
+      const newVersion = resp.data.versionCode
+      const temp = newVersion - curVersion
+      console.log(`当前版本: ${curVersion}, 最新版本: ${newVersion}`)
       if (temp >= 1) {
         uni.showModal({
           title: '发现新版本! 是否需要更新?',
-          content: `当前版本: ${manifest.versionCode}, 最新版本: ${resp.data.versionCode}`,
+          content: `当前版本: ${curVersion}, 最新版本: ${newVersion}`,
           success ({ confirm }) {
             if (confirm) {
               // 确定更新
