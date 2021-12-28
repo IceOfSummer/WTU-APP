@@ -105,7 +105,8 @@ export default {
       kklxdm: '',
       xkkz_id: ''
     },
-    queryParam2: {
+    // 体育课参数
+    sportsParam: {
       rwlx: '',
       xkly: '',
       bklx_id: '',
@@ -127,9 +128,51 @@ export default {
       rlzlkz: '',
       xklc: ''
     },
-    /**
-     * 选择课程时所用参数
-     */
-    selectInfo: ''
+    // 选修参数
+    electiveParam: {
+      rwlx: '',
+      xkly: '',
+      bklx_id: '',
+      sfkkjyxdxnxq: '',
+      sfkknj: '',
+      sfkkzy: '',
+      kzybkxy: '',
+      sfznkx: '',
+      zdkxms: '',
+      sfkxq: '',
+      sfkcfx: '',
+      kkbk: '',
+      kkbkdj: '',
+      sfkgbcx: '',
+      sfrxtgkcxd: '',
+      tykczgxdcs: '',
+      rlkz: '',
+      xkzgbj: '',
+      rlzlkz: '',
+      xklc: ''
+    },
+    // 英语参数
+    englishParam: {
+      rwlx: '',
+      xkly: '',
+      bklx_id: '',
+      sfkkjyxdxnxq: '',
+      sfkknj: '',
+      sfkkzy: '',
+      kzybkxy: '',
+      sfznkx: '',
+      zdkxms: '',
+      sfkxq: '',
+      sfkcfx: '',
+      kkbk: '',
+      kkbkdj: '',
+      sfkgbcx: '',
+      sfrxtgkcxd: '',
+      tykczgxdcs: '',
+      rlkz: '',
+      xkzgbj: '',
+      rlzlkz: '',
+      xklc: ''
+    }
   }
 }

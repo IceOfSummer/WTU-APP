@@ -2,13 +2,13 @@
     "name" : "wtu-app",
     "appid" : "__UNI__5C91DCE",
     "description" : "",
-    "versionName" : "0.2.0",
-    "versionCode" : 6,
+    "versionName" : "0.3.0",
+    "versionCode" : 7,
     "transformPx" : false,
     // dev
-    "serverUrl": "http://10.181.216.32:8080",
+     "serverUrl": "http://10.181.216.32:8080",
     // production
-    //  "serverUrl": "http://119.91.97.176:8080",
+//    "serverUrl" : "http://119.91.97.176:8080",
     /* 5+App特有相关 */
     "app-plus" : {
         "usingComponents" : true,

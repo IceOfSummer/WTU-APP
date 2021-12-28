@@ -127,20 +127,5 @@ export default {
     state.classSelectInfo.queryParam1.jg_id = getInputValue(html, 'jg_id_1')
     state.classSelectInfo.queryParam1.xkkz_id = getInputValue(html, 'firstXkkzId')
     state.classSelectInfo.queryParam1.kklxdm = getInputValue(html, 'firstKklxdm')
-  },
-  /**
-   * 加载选课工具查询参数
-   * @param state state
-   * @param html {string} html
-   */
-  [TYPE.LOAD_CLASS_QUERY_INFO_2] (state, html) {
-    Object.keys(state.classSelectInfo.queryParam2).forEach(key => {
-      const value = getInputValue(html, key)
-      if (value != null) {
-        state.classSelectInfo.queryParam2[key] = value
-      }
-    })
-    // 特殊值处理
-
   }
 }

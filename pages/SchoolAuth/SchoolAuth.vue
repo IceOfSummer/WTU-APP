@@ -163,6 +163,7 @@ export default {
               position: 'bottom'
             })
           }
+          loading.value.hideLoading()
         }).finally(() => {
           loading.value.hideLoading()
           if (!isLoginSuccess) {

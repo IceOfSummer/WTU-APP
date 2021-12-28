@@ -7,7 +7,7 @@
       </view>
     </view>
     <view class="ani-collapse-view" :style="`height: ${show ? collapseContentHeight : 0}`">
-      <view :id="title">
+      <view :id="collapseId">
         <slot :data="refData"/>
       </view>
     </view>
@@ -16,11 +16,9 @@
 
 <script>
 import { nextTick, onMounted, ref } from 'vue'
-import LoadingMask from '../LoadingMask/LoadingMask'
 
 export default {
   name: 'AnimatedCollapse',
-  components: { LoadingMask },
   props: {
     title: String,
     open: {
@@ -31,7 +29,11 @@ export default {
      * 当折叠面板第一次打开时会调用该方法返回一个promise, 并且将返回值绑定到prop插槽上
      */
     firstOpenPromise: Function,
-    classBackArgs: Object
+    classBackArgs: Object,
+    collapseId: {
+      type: String,
+      default: 'collapse'
+    }
   },
   setup (props) {
 
@@ -39,8 +41,10 @@ export default {
     const collapseContentHeight = ref('0')
 
     function flushHeight() {
-      uni.createSelectorQuery().select(`#${props.title}`).boundingClientRect(({ height }) => {
-        collapseContentHeight.value = height + 'px'
+      uni.createSelectorQuery().select(`#${props.collapseId}`).boundingClientRect((data) => {
+        if (data) {
+          collapseContentHeight.value = data.height + 'px'
+        }
       }).exec()
     }
 

@@ -59,13 +59,24 @@ export default {
 <style lang="scss">
 @font-face {
   font-family: 'iconfont';  /* Project id 3002046 */
-  src: url('https://at.alicdn.com/t/font_3002046_ongq5c6zkun.ttf?t=1639734647892') format('truetype');
+  src: url('https://at.alicdn.com/t/font_3002046_i0ebbl71qc.ttf?t=1640610109443') format('truetype');
 }
 .iconfont {
     font-family: iconfont, sans-serif;
 }
 page{
   background-color: rgb(248, 248, 248);
+}
+.text-info{
+  color: $uni-text-color-grey;
+  font-size: 22rpx;
+}
+.text-error{
+  color: $uni-color-error;
+  font-size: 22rpx;
+}
+.text-to-center{
+  text-align: center;
 }
 
 </style>

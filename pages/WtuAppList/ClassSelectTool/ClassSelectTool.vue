@@ -1,54 +1,59 @@
 <template>
   <view class="class-select-tool">
-    <button @click="getClassListFromServer" v-if="classList.length === 0">查询</button>
-    <view v-for="(item, index) in classList" :key="index" >
-      <animated-collapse :title="item.kcmc" :first-open-promise="getClassDetailCallback" :class-back-args="{ item, store }">
-        <template #default="{data}">
-          <view class="class-select-collapse-block">
-            <view :style="`color: ${data.hasLeft ? '#007aff' : '#dd524d'}`">
-              <text>{{data.hasLeft ? '可能还有剩余' : '可能已经被选完了'}}</text>
-            </view>
-            <view>
-              <text>{{parseClassTime(data)}}</text>
-            </view>
-            <view>
-              <button class="class-select-btn" @click="trySelectClass(item, data)">抢课</button>
-            </view>
-          </view>
-        </template>
-      </animated-collapse>
-      <options-divider/>
+    <top-collapse :provide-show-only="true" :open="true" ref="collapse" @co-open="reset">
+      <view class="class-select-options">
+        <view @click="select(1)">
+          <text class="iconfont">&#xe6e3;</text>
+          <text>&nbsp;&nbsp;选修课&nbsp;&nbsp;</text>
+        </view>
+        <view @click="select(2)">
+          <text class="iconfont">&#xe6e8;</text>
+          <text>&nbsp;&nbsp;体育课&nbsp;&nbsp;</text>
+        </view>
+        <view @click="select(3)">
+          <text class="iconfont">&#xe6e7;</text>
+          <text>英语分项</text>
+        </view>
+      </view>
+      <view class="text-info text-to-center">
+        <text>选择你需要查询的课程分类</text>
+      </view>
+    </top-collapse>
+    <view>
+      <class-list v-show="curSelect === 1" storage-key="electiveParam" xkkz_id="D3B144D655222A84E053813B43D3B59D" kklxdm="10"/>
+      <class-list v-show="curSelect === 2" storage-key="sportsParam" xkkz_id="D3B675F475E531EDE053813B43D3E9E0" kklxdm="06"/>
+      <class-list v-show="curSelect === 3" storage-key="englishParam" xkkz_id="D3B144D655342A84E053813B43D3B59D" kklxdm="07"/>
     </view>
-    <button v-if="classList.length > 0" @click="loadNextPage">加载更多</button>
     <loading-mask ref="loading"/>
   </view>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
-  getClassDetail,
-  getClassList,
   initClassSelect,
-  initClassSelect2,
-  selectClass
 } from '../../../api/schoolApp/classSelect'
 import { useStore } from 'vuex'
 import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
-import { LOAD_CLASS_QUERY_INFO_1, LOAD_CLASS_QUERY_INFO_2 } from '../../../store/mutations-type'
-import AnimatedCollapse from '../../../component/AnimatedCollapse/AnimatedCollapse'
-import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
+import { LOAD_CLASS_QUERY_INFO_1 } from '../../../store/mutations-type'
 import LoadingMask from '../../../component/LoadingMask/LoadingMask'
-import { showToast } from '../../../hook/utils/TipUtils'
+import TopCollapse from '../../../component/TopCollapse/TopCollapse'
+import ClassList from './ClassList'
 
 export default {
   name: 'ClassSelectTool',
-  components: { LoadingMask, OptionsDivider, AnimatedCollapse },
+  components: { ClassList, TopCollapse, LoadingMask },
   setup () {
     const store = useStore()
     const loading = ref()
+    const collapse = ref()
 
-    let curPageIndex = 1
+
+    console.log(store.state.classSelectInfo.queryParam1)
+    // 加载哪个选课类型
+    const curSelect = ref(0)
+
+    const isInitSuccess = ref(false)
 
     /**
      * 从服务器获取选课第一部分参数
@@ -56,121 +61,65 @@ export default {
     function getFirstInitParamFromServer() {
       return store.dispatch(PROXY_SCHOOL_APP_AJAX, initClassSelect(store.state.eduSystemUser.username, store.state.eduSystemUser.token)).then(resp => {
         store.commit(LOAD_CLASS_QUERY_INFO_1, resp)
-        console.log(store.state.classSelectInfo.queryParam1)
         const xszxzt = store.state.classSelectInfo.queryParam1.xszxzt
-        const id = store.state.classSelectInfo.queryParam1.xkkz_id
-        if (!xszxzt || !id) {
-          // 初始化失败
-          console.log('初始化失败')
-          return
+        if (xszxzt) {
+          isInitSuccess.value = true
         }
-
-
-
       }).catch(e => console.log(e))
     }
 
-    /**
-     * 从服务器获取选课第二部分参数
-     */
-    function getSecondInitParamFromServer() {
-      store.dispatch(PROXY_SCHOOL_APP_AJAX, initClassSelect2(store)).then(resp => {
-        store.commit(LOAD_CLASS_QUERY_INFO_2, resp)
-        // console.log(store.state.classSelectInfo.queryParam2)
-      }).catch(e => {
-        console.log(e)
-      })
-    }
 
     // 判断是否需要从服务器获取初始化参数
     const xqh_id = store.state.classSelectInfo.queryParam1.xqh_id
-    const rwlx = store.state.classSelectInfo.queryParam2.rwlx
     if (!xqh_id) {
-      // 第一部分没有初始化
-      getFirstInitParamFromServer().then(() => {
-        getSecondInitParamFromServer()
-      })
-    } else if (!rwlx) {
-      // 只有第二部分没有初始化
-      getSecondInitParamFromServer()
+      // 初始化
+      getFirstInitParamFromServer()
     }
 
-    // 课程列表
-    const classList = ref([])
-
-    const getClassListFromServer = () => {
-      store.dispatch(PROXY_SCHOOL_APP_AJAX, getClassList(store, 2020, curPageIndex)).then(resp => {
-        classList.value = resp
-        console.log(resp)
-      })
+    const select = (val) => {
+      collapse.value.closeCollapse()
+      curSelect.value = val
     }
 
-    const getClassDetailCallback = ({ store, item }) => {
-      return new Promise(resolve => {
-        store.dispatch(PROXY_SCHOOL_APP_AJAX, getClassDetail(store, 2020, item.cxbj, item.fxbj, item.kch_id)).then(data => {
-          if (data.wtuJsonData) {
-            data.wtuJsonData = JSON.parse(data.wtuJsonData.toString().replace(/\\/g, ''))[0]
-          }
-          resolve(data)
-        })
-      })
-
-    }
-
-    const trySelectClass = (item, data) => {
-      loading.value.showLoading()
-      // (04330069)计算机网络原理 - 4.0 学分
-      const kcmc = `(${item.kch_id})${item.kcmc} - ${item.xf} 学分`
-      console.log(data)
-      store.dispatch(PROXY_SCHOOL_APP_AJAX, selectClass(store, data.wtuJsonData.do_jxb_id, item.kch_id, kcmc)).then(data => {
-        console.log(data.flag)
-        if (Number.parseInt(data.flag) === 1) {
-          console.log('success')
-          showToast('选课成功! 请不要重复选课')
-        }
-      }).catch(e => {
-        console.log(e)
-      }).finally(() => {
-        loading.value.stopLoading()
-      })
-    }
-
-    const parseClassTime = (data) => {
-      if (data.wtuJsonData && data.wtuJsonData.sksj) {
-        return data.wtuJsonData.sksj.replace('<br/>', '\n')
-      } else {
-        return '加载失败'
-      }
-    }
-
-    const loadNextPage = () => {
-      curPageIndex++
+    const reset = () => {
+      curSelect.value = 0
     }
 
 
-
-
-    // onMounted(() => {
-    //   uni.showModal({
-    //     title: '提示',
-    //     content: '该功能仍在测试中, 即使是选择成功了也请前往官网检查一遍!'
-    //   })
-    // })
     return {
-      getClassListFromServer,
-      classList,
-      getClassDetailCallback,
       store,
-      trySelectClass,
-      parseClassTime,
       loading,
-      loadNextPage
+      curSelect,
+      select,
+      collapse,
+      xkkz_id: computed(() => store.state.classSelectInfo.queryParam1.xkkz_id),
+      reset
     }
   }
 }
 </script>
 
 <style lang="scss">
+.class-select-options{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 30rpx 0;
+  > view{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    > text:first-child{
+      font-size: 40rpx;
+      color: $uni-color-primary;
+    }
+    > text:last-child{
+      font-size: 24rpx;
+      color: skyblue;
+    }
+  }
+}
 .class-select-btn{
   width: 150rpx;
   height: 50rpx;
