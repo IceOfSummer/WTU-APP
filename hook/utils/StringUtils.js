@@ -27,3 +27,16 @@ export const getInputValue = (html, inputName) => {
   }
   return matchValue[0].replace(/"/g, '').replace('value=', '').replace(/\\/g, '')
 }
+
+/**
+ * 格式化文件大小
+ * @param size {number} 文件大小(KB)
+ * @return {string}
+ */
+export const formatSize = (size) => {
+  if (size < 1000) {
+    return size + 'KB'
+  } else {
+    return (size / 1000).toFixed(2) + 'MB'
+  }
+}

@@ -2,6 +2,7 @@
 import { getVersion } from './api/appVersion'
 import manifest from './manifest.json'
 import { showToast } from './hook/utils/TipUtils'
+import { formatSize } from './hook/utils/StringUtils'
 export default {
   onLaunch: function() {
     /**
@@ -9,17 +10,19 @@ export default {
      * @param versionName {string}
      */
     function downLoadNewVersion (versionName) {
+      console.log(`${manifest.updateServerUrl}/app/hotUpdate/${versionName}`)
       uni.downloadFile({
-        url: manifest.serverUrl + `/app/hotUpdate/${versionName}.wgt`,
+        url: `${manifest.updateServerUrl}/app/hotUpdate/${versionName}`,
         success (result) {
+          console.log(result)
           if (result.statusCode === 200) {
             plus.runtime.install(result.tempFilePath, {
               force: false
             }, function() {
               console.log('install success...')
               plus.runtime.restart()
-            }, function(e) {
-              console.error(e)
+            }, function() {
+              showToast('安装失败, 请稍后再试')
             })
           }
         }
@@ -30,12 +33,13 @@ export default {
     getVersion().then(resp => {
       const curVersion = manifest.versionCode
       const newVersion = resp.data.versionCode
+      const size = resp.data.size
       const temp = newVersion - curVersion
       console.log(`当前版本: ${curVersion}, 最新版本: ${newVersion}`)
       if (temp >= 1) {
         uni.showModal({
           title: '发现新版本! 是否需要更新?',
-          content: `当前版本: ${curVersion}, 最新版本: ${newVersion}`,
+          content: `当前版本: ${curVersion}, 最新版本: ${newVersion}\n大小: ${formatSize(size)}`,
           success ({ confirm }) {
             if (confirm) {
               // 确定更新
