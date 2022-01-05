@@ -3,31 +3,10 @@ import { getVersion } from './api/appVersion'
 import manifest from './manifest.json'
 import { showToast } from './hook/utils/TipUtils'
 import { formatSize } from './hook/utils/StringUtils'
+import { getServerUrl } from './hook/utils/serverUtils'
 export default {
   onLaunch: function() {
-    /**
-     * 下载新版本
-     * @param versionName {string}
-     */
-    function downLoadNewVersion (versionName) {
-      console.log(`${manifest.serverUrl}/vcs/app/hotUpdate/${versionName}`)
-      uni.downloadFile({
-        url: `${manifest.serverUrl}/vcs/app/hotUpdate/${versionName}`,
-        success (result) {
-          console.log(result)
-          if (result.statusCode === 200) {
-            plus.runtime.install(result.tempFilePath, {
-              force: false
-            }, function() {
-              console.log('install success...')
-              plus.runtime.restart()
-            }, function() {
-              showToast('安装失败, 请稍后再试')
-            })
-          }
-        }
-      })
-    }
+    const serverUrl = getServerUrl()
 
     // 检查更新
     getVersion().then(resp => {
@@ -50,6 +29,31 @@ export default {
         })
       }
     }).catch(e => console.log(e))
+
+    /**
+     * 下载新版本
+     * @param versionName {string}
+     */
+    function downLoadNewVersion (versionName) {
+      console.log(`${serverUrl}/vcs/app/hotUpdate/${versionName}`)
+      uni.downloadFile({
+        url: `${serverUrl}/vcs/app/hotUpdate/${versionName}`,
+        success (result) {
+          console.log(result)
+          if (result.statusCode === 200) {
+            plus.runtime.install(result.tempFilePath, {
+              force: false
+            }, function() {
+              console.log('install success...')
+              plus.runtime.restart()
+            }, function() {
+              showToast('安装失败, 请稍后再试')
+            })
+          }
+        }
+      })
+    }
+
   },
   onShow: function() {
     console.log('App Show')
