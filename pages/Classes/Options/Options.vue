@@ -21,6 +21,7 @@
       <options-block title="重置背景图片" type="danger" @click="resetBackgroundImage"></options-block>
       <options-divider/>
     </view>
+    <tip-dialog ref="dialog"/>
   </view>
 </template>
 
@@ -34,12 +35,14 @@ import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/Optio
 import OptionsPicker from '../../../component/OptionsComponent/OptionsPicker/OptionsPicker'
 import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
 import MyNavigator from '../../../component/Navigator/Navigator'
+import TipDialog from '../../../component/MyDialog/TipDialog'
 
 export default {
   name: 'ClassesOptions',
-  components: { MyNavigator, OptionsDivider, OptionsPicker, OptionsBlock, OptionsSwitch },
+  components: { TipDialog, MyNavigator, OptionsDivider, OptionsPicker, OptionsBlock, OptionsSwitch },
   setup() {
     const store = useStore()
+    const dialog = ref()
     const hideFinishedClass = ref(!!store.state.classes.classesOptions.hideClosedClasses)
 
     watch(hideFinishedClass, () => {
@@ -82,45 +85,57 @@ export default {
     }
 
     const resetBackgroundImage = () => {
-      uni.showModal({
+      dialog.value.showDialog({
         title: '重置背景图片',
-        content: '确定要重置背景图片吗?',
-        success({ confirm }) {
-          if (confirm) {
-            store.commit(SET_CLASSES_OPTIONS, { key: 'backgroundImagePath', value: '' })
-            uni.showToast({
-              title: '重置成功',
-              icon: 'none',
-              position: 'bottom'
-            })
-          }
+        message: '确定要重置背景图片吗?',
+        type: 'error',
+        confirmCallback () {
+          store.commit(SET_CLASSES_OPTIONS, { key: 'backgroundImagePath', value: '' })
+          uni.showToast({
+            title: '重置成功',
+            icon: 'none',
+            position: 'bottom'
+          })
         }
       })
+      // uni.showModal({
+      //   title: '重置背景图片',
+      //   content: '确定要重置背景图片吗?',
+      //   success({ confirm }) {
+      //     if (confirm) {
+      //       store.commit(SET_CLASSES_OPTIONS, { key: 'backgroundImagePath', value: '' })
+      //       uni.showToast({
+      //         title: '重置成功',
+      //         icon: 'none',
+      //         position: 'bottom'
+      //       })
+      //     }
+      //   }
+      // })
     }
 
     /**
      * 从服务器校准当前周
      */
     const tryAdjustCurWeekFromServer = () => {
-      uni.showModal({
+      dialog.value.showDialog({
         title: '校准当前周',
-        content: '确定要从服务器校准当前周吗?',
-        success({ confirm }) {
-          if (confirm) {
-            store.dispatch(ADJUST_CUR_WEEK_FROM_SERVER).then(() => {
-              uni.showToast({
-                title: '校准成功',
-                icon: 'none',
-                position: 'bottom'
-              })
-            }).catch(() => {
-              uni.showToast({
-                title: '校准失败,请稍后重试',
-                icon: 'none',
-                position: 'bottom'
-              })
+        message: '确定要从服务器校准当前周吗?',
+        type: 'success',
+        confirmCallback () {
+          store.dispatch(ADJUST_CUR_WEEK_FROM_SERVER).then(() => {
+            uni.showToast({
+              title: '校准成功',
+              icon: 'none',
+              position: 'bottom'
             })
-          }
+          }).catch(() => {
+            uni.showToast({
+              title: '校准失败,请稍后重试',
+              icon: 'none',
+              position: 'bottom'
+            })
+          })
         }
       })
     }
@@ -129,21 +144,21 @@ export default {
      * 清除本地课表缓存数据
      */
     const clearClassData = () => {
-      uni.showModal({
+      dialog.value.showDialog({
         title: '清除数据',
-        content: '确定要清除本地课表数据吗',
-        success({ confirm }) {
-          if (confirm) {
-            store.commit(SET_CLASSES, [])
-            uni.showToast({
-              title: '清除成功',
-              icon: 'none',
-              position: 'bottom'
-            })
-          }
+        message: '确定要清除本地课表数据吗',
+        type: 'error',
+        confirmCallback () {
+          store.commit(SET_CLASSES, [])
+          uni.showToast({
+            title: '清除成功',
+            icon: 'none',
+            position: 'bottom'
+          })
         }
       })
     }
+
 
     return {
       hideFinishedClass,
@@ -158,7 +173,8 @@ export default {
       yearData,
       termData,
       selectBackgroundImage,
-      resetBackgroundImage
+      resetBackgroundImage,
+      dialog
     }
   }
 }

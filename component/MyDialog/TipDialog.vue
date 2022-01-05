@@ -1,6 +1,6 @@
 <template>
   <uni-popup ref="popup" type="dialog">
-    <uni-popup-dialog  :type="type" :content="message" @close="cancelEvent" @confirm="confirmEvent"></uni-popup-dialog>
+    <uni-popup-dialog :title="title" :type="type" :content="message" @close="cancelEvent" @confirm="confirmEvent"></uni-popup-dialog>
   </uni-popup>
 </template>
 
@@ -9,39 +9,48 @@ import { ref } from 'vue'
 
 export default {
   name: 'TipDialog',
-  props: {
-    message: String,
-    type: {
-      type: String,
-      default: 'warn'
-    }
-  },
-  emits: ['confirm', 'cancel'],
-  setup (props, { emit }) {
+  setup () {
     const popup = ref()
+    const title = ref('提示')
+    const message = ref('')
+    const type = ref('warn')
+    let confirmCallback = null
+    let cancelCallback = null
 
     const confirmEvent = () => {
       uni.showTabBar()
       popup.value.close()
-      emit('confirm')
+      confirmCallback ? confirmCallback() : ''
     }
 
     const cancelEvent = () => {
       uni.showTabBar()
       popup.value.close()
-      emit('cancel')
+      cancelCallback ? cancelCallback() : ''
     }
 
-    const show = () => {
+    /**
+     * @param options {{title?: string, message?: string, type?: 'success'|'warn'|'info'|'error',
+     * confirmCallback?: function, cancelCallback?: function}}
+     */
+    const showDialog = (options) => {
       uni.hideTabBar()
       popup.value.open()
+      title.value = options.title ? options.title : '提示'
+      message.value = options.message ? options.message : message.value
+      type.value = options.type ? options.type : 'warn'
+      confirmCallback = options.confirmCallback
+      cancelCallback = options.cancelCallback
     }
 
     return {
       popup,
-      show,
+      showDialog,
       confirmEvent,
-      cancelEvent
+      cancelEvent,
+      message,
+      title,
+      type
     }
   }
 }

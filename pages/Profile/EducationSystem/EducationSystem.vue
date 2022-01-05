@@ -33,6 +33,7 @@
       <options-block title="清空登录凭据" type="danger" @click="logout"></options-block>
       <options-divider/>
     </view>
+    <tip-dialog ref="dialog"/>
   </view>
 </template>
 
@@ -46,16 +47,14 @@ import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
 import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
 import OptionsSwitch from '../../../component/OptionsComponent/OptionsSwitch/OptionsSwitch'
 import MyNavigator from '../../../component/Navigator/Navigator'
+import TipDialog from '../../../component/MyDialog/TipDialog'
 
 export default {
   name: 'EducationSystem',
-  components: { MyNavigator, OptionsSwitch, OptionsDivider, OptionsBlock },
+  components: { TipDialog, MyNavigator, OptionsSwitch, OptionsDivider, OptionsBlock },
   setup () {
+    const dialog = ref()
     const store = useStore()
-    // if (!store.state.eduSystemUser.token) {
-    //   // 未登录, 直接转跳
-    //   uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
-    // }
     const jump = (url) => {
       uni.navigateTo({ url })
     }
@@ -119,7 +118,14 @@ export default {
      * 登出
      */
     const logout = () => {
-      store.commit(EDU_SYSTEM_LOG_OUT)
+      dialog.value.showDialog({
+        title: '清空登录凭据',
+        message: '确定要清空吗?',
+        type: 'error',
+        confirmCallback () {
+          store.commit(EDU_SYSTEM_LOG_OUT)
+        }
+      })
     }
 
     /**
@@ -137,7 +143,8 @@ export default {
       logout,
       loadInfoStatus,
       autoRedirectLoginPage: computed(() => !!store.state.eduSystemUser.config.autoRedirectLoginPage),
-      setAutoRedirectLoginPage
+      setAutoRedirectLoginPage,
+      dialog
     }
   }
 }
