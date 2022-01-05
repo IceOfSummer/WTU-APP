@@ -17,6 +17,7 @@
     </view>
     <view>
       <profile-app-item title="教务系统" @click="jump('/pages/Profile/EducationSystem/EducationSystem')">&#xe643;</profile-app-item>
+      <options-divider/>
     </view>
   </view>
 </template>
@@ -26,10 +27,11 @@ import { useStore } from 'vuex'
 import { EDU_SYSTEM_LOG_OUT } from '../../store/mutations-type'
 import { computed } from 'vue'
 import ProfileAppItem from './ProfileAppItem'
+import OptionsDivider from '../../component/OptionsComponent/OptionsDivider/OptionsDivider'
 
 export default {
   name: 'MyProfile',
-  components: { ProfileAppItem },
+  components: { OptionsDivider, ProfileAppItem },
   setup () {
     const store = useStore()
     console.log()

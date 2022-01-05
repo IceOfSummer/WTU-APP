@@ -37,6 +37,5 @@ export default {
   height: 120rpx;
   box-sizing: border-box;
   padding: 0 30rpx;
-  border-bottom: 1px solid $uni-border-color;
 }
 </style>

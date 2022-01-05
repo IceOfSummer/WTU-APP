@@ -77,11 +77,11 @@ page{
 }
 .text-info{
   color: $uni-text-color-grey;
-  font-size: 22rpx;
+  font-size: $uni-font-size-sm;
 }
 .text-error{
   color: $uni-color-error;
-  font-size: 22rpx;
+  font-size: $uni-font-size-sm;
 }
 .text-to-center{
   text-align: center;

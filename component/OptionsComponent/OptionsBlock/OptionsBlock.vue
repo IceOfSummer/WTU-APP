@@ -3,7 +3,7 @@
     <view>
       <text v-if="type === 'danger'" style="color: #dd524d">{{title}}</text>
       <text v-else-if="type === 'primary'" style="color: #007aff">{{title}}</text>
-      <text v-else style="color: #999">{{title}}</text>
+      <text v-else>{{title}}</text>
       <slot name="left"/>
     </view>
     <view>

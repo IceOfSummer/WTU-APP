@@ -26,6 +26,7 @@
       </view>
     </view>
     <view v-if="token" class="edu-system-config">
+      <options-divider/>
       <options-switch title="当登录过期后自动跳转到登录页面" :model-value="autoRedirectLoginPage" :update-callback="setAutoRedirectLoginPage"/>
       <options-divider/>
       <options-block title="清空登录凭据" type="danger" @click="logout"></options-block>
@@ -49,10 +50,10 @@ export default {
   components: { OptionsSwitch, OptionsDivider, OptionsBlock },
   setup () {
     const store = useStore()
-    if (!store.state.eduSystemUser.token) {
-      // 未登录, 直接转跳
-      uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
-    }
+    // if (!store.state.eduSystemUser.token) {
+    //   // 未登录, 直接转跳
+    //   uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
+    // }
     const jump = (url) => {
       uni.navigateTo({ url })
     }
@@ -154,12 +155,12 @@ export default {
 .edu-system-header-btn{
   > button {
     margin-top: 50rpx;
-    width: 150rpx;
-    height: 60rpx;
+    width: 200rpx;
+    height: 80rpx;
     border-radius: 50px;
-    font-size: 25rpx;
+    font-size: $uni-font-size-base;
     color: white;
-    line-height: 60rpx;
+    line-height: 80rpx;
     background-color: rgb(61, 141, 253);
   }
 }
@@ -169,12 +170,12 @@ export default {
   color: $uni-text-color-grey;
 }
 .edu-system-header-title{
-  font-size: 50rpx;
+  font-size: 60rpx;
   text-align: center;
   color: $uni-color-primary;
 }
 .edu-system-header{
-  height: 327rpx;
+  height: 400rpx;
   padding-top: 20rpx;
   background-image: linear-gradient(to top, #64b3f4, #c2e59c);
 }

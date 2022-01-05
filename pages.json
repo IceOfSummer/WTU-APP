@@ -103,6 +103,7 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
+		"borderStyle": "white",
 		"list": [
 			{
 				"pagePath": "pages/Index/Index",

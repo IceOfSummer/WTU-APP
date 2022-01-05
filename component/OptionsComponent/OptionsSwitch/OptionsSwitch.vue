@@ -39,7 +39,6 @@ export default {
   box-sizing: border-box;
   padding: 0 20rpx;
   margin: $form-margin;
-  color: $uni-text-color-grey;
   text {
     font-size: $form-label-font-size;
   }

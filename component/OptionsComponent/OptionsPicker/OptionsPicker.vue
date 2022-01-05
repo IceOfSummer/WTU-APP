@@ -38,7 +38,6 @@ export default {
   box-sizing: border-box;
   padding: 0 20rpx;
   margin: $form-margin;
-  color: $uni-text-color-grey;
   font-size: $form-label-font-size;
   > text:last-child{
     color: $uni-color-primary;
