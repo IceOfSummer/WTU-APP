@@ -10,9 +10,9 @@ export default {
      * @param versionName {string}
      */
     function downLoadNewVersion (versionName) {
-      console.log(`${manifest.updateServerUrl}/app/hotUpdate/${versionName}`)
+      console.log(`${manifest.serverUrl}/vcs/app/hotUpdate/${versionName}`)
       uni.downloadFile({
-        url: `${manifest.updateServerUrl}/app/hotUpdate/${versionName}`,
+        url: `${manifest.serverUrl}/vcs/app/hotUpdate/${versionName}`,
         success (result) {
           console.log(result)
           if (result.statusCode === 200) {

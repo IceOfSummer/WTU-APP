@@ -6,4 +6,4 @@ import manifest from './../manifest.json'
  * 获取版本号
  * @return {Promise<{data: {versionCode: number, versionName: string, size: number}}>}
  */
-export const getVersion = () => noRepeatAjax(manifest.updateServerUrl + '/info/wgt')
+export const getVersion = () => noRepeatAjax(manifest.serverUrl + '/vcs/info/wgt')
