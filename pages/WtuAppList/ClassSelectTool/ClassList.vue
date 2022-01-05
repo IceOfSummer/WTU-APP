@@ -126,7 +126,9 @@ export default {
     }
 
     const getClassListFromServer = () => {
+      console.log('click')
       return store.dispatch(PROXY_SCHOOL_APP_AJAX, getClassList(store, paramObj, props.kklxdm, curPageIndex)).then(resp => {
+        console.log(resp)
         if (Array.isArray(resp.tmpList)) {
           if (resp.tmpList.length === 0) {
             showToast('没有更多数据了')
@@ -177,7 +179,7 @@ export default {
           console.log('success')
           showToast('选课成功! 请不要重复选课')
         } else {
-          showToast('选课失败, 可能是人数已满')
+          showToast(`选课失败, ${data.msg}`)
         }
       }).catch(e => {
         console.log(e)

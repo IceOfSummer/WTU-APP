@@ -41,7 +41,7 @@ const missionManager = {
       if (policy === 'CANCEL_OLD_TASK') {
         task.abort()
       } else if (policy === 'REJECT_IF_EXIST') {
-        throw 'the request is rejected because of the RejectPolicy'
+        throw `the request: ${url} is rejected because of the RejectPolicy`
       }
     }
   },

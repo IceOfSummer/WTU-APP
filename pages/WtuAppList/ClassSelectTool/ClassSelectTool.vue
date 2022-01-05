@@ -20,9 +20,9 @@
       </view>
     </top-collapse>
     <view>
-      <class-list v-show="curSelect === 1" storage-key="electiveParam" xkkz_id="D3B144D655222A84E053813B43D3B59D" kklxdm="10"/>
-      <class-list v-show="curSelect === 2" storage-key="sportsParam" xkkz_id="D3B675F475E531EDE053813B43D3E9E0" kklxdm="06"/>
-      <class-list v-show="curSelect === 3" storage-key="englishParam" xkkz_id="D3B144D655342A84E053813B43D3B59D" kklxdm="07"/>
+      <class-list v-if="curSelect === 1" storage-key="electiveParam" xkkz_id="D3B144D655222A84E053813B43D3B59D" kklxdm="10"/>
+      <class-list v-if="curSelect === 2" storage-key="sportsParam" xkkz_id="D3B675F475E531EDE053813B43D3E9E0" kklxdm="06"/>
+      <class-list v-if="curSelect === 3" storage-key="englishParam" xkkz_id="D3B144D655342A84E053813B43D3B59D" kklxdm="07"/>
     </view>
     <loading-mask ref="loading"/>
   </view>

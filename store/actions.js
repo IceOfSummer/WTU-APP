@@ -82,7 +82,7 @@ export default {
         }
       }).catch(e => {
         showToast('出错了! 请重新尝试')
-        console.log(e)
+         console.log(e)
         reject(e)
       })
     })
