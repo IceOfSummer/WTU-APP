@@ -1,30 +1,33 @@
 <template>
-  <view class="class-select-tool">
-    <top-collapse :provide-show-only="true" :open="true" ref="collapse" @co-open="reset">
-      <view class="class-select-options">
-        <view @click="select(1)">
-          <text class="iconfont">&#xe6e3;</text>
-          <text>&nbsp;&nbsp;选修课&nbsp;&nbsp;</text>
+  <view>
+    <my-navigator show-back title="选课工具"/>
+    <view class="class-select-tool">
+      <top-collapse :provide-show-only="true" :open="true" ref="collapse" @co-open="reset">
+        <view class="class-select-options">
+          <view @click="select(1)">
+            <text class="iconfont">&#xe6e3;</text>
+            <text>&nbsp;&nbsp;选修课&nbsp;&nbsp;</text>
+          </view>
+          <view @click="select(2)">
+            <text class="iconfont">&#xe6e8;</text>
+            <text>&nbsp;&nbsp;体育课&nbsp;&nbsp;</text>
+          </view>
+          <view @click="select(3)">
+            <text class="iconfont">&#xe6e7;</text>
+            <text>英语分项</text>
+          </view>
         </view>
-        <view @click="select(2)">
-          <text class="iconfont">&#xe6e8;</text>
-          <text>&nbsp;&nbsp;体育课&nbsp;&nbsp;</text>
+        <view class="text-info text-to-center">
+          <text>选择你需要查询的课程分类</text>
         </view>
-        <view @click="select(3)">
-          <text class="iconfont">&#xe6e7;</text>
-          <text>英语分项</text>
-        </view>
+      </top-collapse>
+      <view>
+        <class-list v-if="curSelect === 1" storage-key="electiveParam" xkkz_id="D3B144D655222A84E053813B43D3B59D" kklxdm="10"/>
+        <class-list v-if="curSelect === 2" storage-key="sportsParam" xkkz_id="D3B675F475E531EDE053813B43D3E9E0" kklxdm="06"/>
+        <class-list v-if="curSelect === 3" storage-key="englishParam" xkkz_id="D3B144D655342A84E053813B43D3B59D" kklxdm="07"/>
       </view>
-      <view class="text-info text-to-center">
-        <text>选择你需要查询的课程分类</text>
-      </view>
-    </top-collapse>
-    <view>
-      <class-list v-if="curSelect === 1" storage-key="electiveParam" xkkz_id="D3B144D655222A84E053813B43D3B59D" kklxdm="10"/>
-      <class-list v-if="curSelect === 2" storage-key="sportsParam" xkkz_id="D3B675F475E531EDE053813B43D3E9E0" kklxdm="06"/>
-      <class-list v-if="curSelect === 3" storage-key="englishParam" xkkz_id="D3B144D655342A84E053813B43D3B59D" kklxdm="07"/>
+      <loading-mask ref="loading"/>
     </view>
-    <loading-mask ref="loading"/>
   </view>
 </template>
 
@@ -39,10 +42,11 @@ import { LOAD_CLASS_QUERY_INFO_1 } from '../../../store/mutations-type'
 import LoadingMask from '../../../component/LoadingMask/LoadingMask'
 import TopCollapse from '../../../component/TopCollapse/TopCollapse'
 import ClassList from './ClassList'
+import MyNavigator from '../../../component/Navigator/Navigator'
 
 export default {
   name: 'ClassSelectTool',
-  components: { ClassList, TopCollapse, LoadingMask },
+  components: { MyNavigator, ClassList, TopCollapse, LoadingMask },
   setup () {
     const store = useStore()
     const loading = ref()

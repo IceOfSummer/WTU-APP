@@ -1,22 +1,25 @@
 <template>
-  <view class="score-query">
-    <view class="score-query-picker">
-      <picker :range="scoreRange" :value="curSelectIndex" @change="termChangeEvent">
-        <text class="iconfont">&#xe6b9;</text>
-        {{scoreRange[curSelectIndex]}}
-      </picker>
+  <view>
+    <my-navigator title="成绩查询" show-back/>
+    <view class="score-query">
+      <view class="score-query-picker">
+        <picker :range="scoreRange" :value="curSelectIndex" @change="termChangeEvent">
+          <text class="iconfont">&#xe6b9;</text>
+          {{scoreRange[curSelectIndex]}}
+        </picker>
+      </view>
+      <score-block title="专业必修课" :scores="majorSubject"/>
+      <score-block title="实践课" :scores="practiceSubject"/>
+      <score-block title="通识课" :scores="normalSubject"/>
+      <score-block title="选修课" :scores="optionalSubject"/>
+      <view v-if="isEmpty" class="score-query-tip">
+        <text>没有相关学期的成绩, 请切换其它学期</text>
+      </view>
+      <view v-else class="score-query-tip-info">
+        <text>成绩大于等于75分用绿色标记, 60分到75分为橙色, 小于60分为红色</text>
+      </view>
+      <loading-mask ref="mask"/>
     </view>
-    <score-block title="专业必修课" :scores="majorSubject"/>
-    <score-block title="实践课" :scores="practiceSubject"/>
-    <score-block title="通识课" :scores="normalSubject"/>
-    <score-block title="选修课" :scores="optionalSubject"/>
-    <view v-if="isEmpty" class="score-query-tip">
-      <text>没有相关学期的成绩, 请切换其它学期</text>
-    </view>
-    <view v-else class="score-query-tip-info">
-      <text>成绩大于等于75分用绿色标记, 60分到75分为橙色, 小于60分为红色</text>
-    </view>
-    <loading-mask ref="mask"/>
   </view>
 </template>
 
@@ -29,10 +32,11 @@ import { getCurTerm } from '../../../hook/utils/DateUtils'
 import { getStudentScore } from '../../../api/schoolApp/scoreQuery'
 import { showToast } from '../../../hook/utils/TipUtils'
 import LoadingMask from '../../../component/LoadingMask/LoadingMask'
+import MyNavigator from '../../../component/Navigator/Navigator'
 
 export default {
   name: 'ScoreQuery',
-  components: { LoadingMask, ScoreBlock },
+  components: { MyNavigator, LoadingMask, ScoreBlock },
   setup () {
     const store = useStore()
 

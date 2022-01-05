@@ -1,34 +1,37 @@
 <template>
-  <view class="empty-classroom-query">
-    <options-picker title="选择学年" :range="yearRange" v-model="curYearSelect">
-      {{yearRange[curYearSelect]}}
-    </options-picker>
-    <options-divider/>
-    <options-picker title="选择教室" :range="classPosRange" v-model="curClassPosSelect">
-      {{classPosRange[curClassPosSelect]}}
-    </options-picker>
-    <options-divider/>
-    <animated-collapse title="选择查询周(默认选择本周)">
-      <line-check-box-group :titles="[`第${curWeek}周`, `第${curWeek + 1}周`, `第${curWeek + 2}周`]"
-                            :default-select="[0]" :weight="[curWeek - 1, curWeek , curWeek + 1]" v-model="selectedWeek"/>
+  <view>
+    <my-navigator show-back title="空教室查询"/>
+    <view class="empty-classroom-query">
+      <options-picker title="选择学年" :range="yearRange" v-model="curYearSelect">
+        {{yearRange[curYearSelect]}}
+      </options-picker>
+      <options-divider/>
+      <options-picker title="选择教室" :range="classPosRange" v-model="curClassPosSelect">
+        {{classPosRange[curClassPosSelect]}}
+      </options-picker>
+      <options-divider/>
+      <animated-collapse title="选择查询周(默认选择本周)">
+        <line-check-box-group :titles="[`第${curWeek}周`, `第${curWeek + 1}周`, `第${curWeek + 2}周`]"
+                              :default-select="[0]" :weight="[curWeek - 1, curWeek , curWeek + 1]" v-model="selectedWeek"/>
+        <view class="empty-classroom-query-week-tip">
+          <text>若没有找到您想要的周数,请前往课程表设置当前周</text>
+        </view>
+      </animated-collapse>
+      <options-divider/>
+      <animated-collapse title="选择星期(默认选中今天)">
+        <line-check-box-group :titles="['周一', '周二', '周三', '周四', '周五', '周六', '周日']"
+                              :default-select="[getCurDay() - 1]" :weight="[0, 1, 2, 3, 4, 5, 6]" v-model="selectedDay"/>
+      </animated-collapse>
+      <options-divider/>
+      <animated-collapse title="选择上课时间" :open="true">
+        <line-check-box-group :titles="['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']"
+                              :weight="[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]" v-model="selectedClassTime"/>
+      </animated-collapse>
+      <options-divider/>
+      <options-button @click="tryQuery">查询</options-button>
       <view class="empty-classroom-query-week-tip">
-        <text>若没有找到您想要的周数,请前往课程表设置当前周</text>
+        <text>暂时仅支持阳光校区使用</text>
       </view>
-    </animated-collapse>
-    <options-divider/>
-    <animated-collapse title="选择星期(默认选中今天)">
-      <line-check-box-group :titles="['周一', '周二', '周三', '周四', '周五', '周六', '周日']"
-                            :default-select="[getCurDay() - 1]" :weight="[0, 1, 2, 3, 4, 5, 6]" v-model="selectedDay"/>
-    </animated-collapse>
-    <options-divider/>
-    <animated-collapse title="选择上课时间" :open="true">
-      <line-check-box-group :titles="['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']"
-                            :weight="[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]" v-model="selectedClassTime"/>
-    </animated-collapse>
-    <options-divider/>
-    <options-button @click="tryQuery">查询</options-button>
-    <view class="empty-classroom-query-week-tip">
-      <text>暂时仅支持阳光校区使用</text>
     </view>
   </view>
 </template>
@@ -43,9 +46,10 @@ import { getCurDay } from '../../../hook/utils/DateUtils'
 import { useStore } from 'vuex'
 import OptionsButton from '../../../component/OptionsComponent/OptionsButton/OptionsButton'
 import { showToast } from '../../../hook/utils/TipUtils'
+import MyNavigator from '../../../component/Navigator/Navigator'
 export default {
   name: 'EmptyClassroomQuery',
-  components: { OptionsButton, LineCheckBoxGroup, AnimatedCollapse, OptionsDivider, OptionsPicker },
+  components: { MyNavigator, OptionsButton, LineCheckBoxGroup, AnimatedCollapse, OptionsDivider, OptionsPicker },
   setup () {
     const store = useStore()
 
