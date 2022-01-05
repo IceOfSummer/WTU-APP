@@ -1,11 +1,14 @@
 <template>
-  <view class="wtu-app">
-    <wtu-app-list-block title="推荐">
-      <wtu-app-list-block-item title="查询空闲教室" @click="navTo('EmptyClassroomQuery')">&#xe661;</wtu-app-list-block-item>
-      <wtu-app-list-block-item title="成绩查询"  @click="navTo('ScoreQuery')">&#xe65e;</wtu-app-list-block-item>
-      <wtu-app-list-block-item title="选课工具" @click="navTo('ClassSelectTool')">&#xe668;</wtu-app-list-block-item>
-      <wtu-app-list-block-item title="登录教务系统" @click="showToast('敬请期待')">&#xe67a;</wtu-app-list-block-item>
-    </wtu-app-list-block>
+  <view>
+    <my-navigator title="其它应用"/>
+    <view class="wtu-app">
+      <wtu-app-list-block title="推荐">
+        <wtu-app-list-block-item title="查询空闲教室" @click="navTo('EmptyClassroomQuery')">&#xe661;</wtu-app-list-block-item>
+        <wtu-app-list-block-item title="成绩查询"  @click="navTo('ScoreQuery')">&#xe65e;</wtu-app-list-block-item>
+        <wtu-app-list-block-item title="选课工具" @click="navTo('ClassSelectTool')">&#xe668;</wtu-app-list-block-item>
+        <wtu-app-list-block-item title="登录教务系统" @click="showToast('敬请期待')">&#xe67a;</wtu-app-list-block-item>
+      </wtu-app-list-block>
+    </view>
   </view>
 </template>
 
@@ -14,9 +17,10 @@ import WtuAppListBlock from './WtuAppListBlock'
 import WtuAppListBlockItem from './WtuAppListBlockItem'
 import { useStore } from 'vuex'
 import { showToast } from '../../hook/utils/TipUtils'
+import MyNavigator from '../../component/Navigator/Navigator'
 export default {
   name: 'WtuAppList',
-  components: { WtuAppListBlockItem, WtuAppListBlock },
+  components: { MyNavigator, WtuAppListBlockItem, WtuAppListBlock },
   setup () {
     const store = useStore()
     const navTo = (name) => {

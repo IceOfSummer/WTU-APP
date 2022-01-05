@@ -1,25 +1,29 @@
 <template>
-  <view class="config-center">
-    <options-block title="课程表设置" @click="jump('/pages/Classes/Options/Options')">
-      <template #right>
-        <view class="config-center-right-arrow"></view>
-      </template>
-    </options-block>
-    <options-divider/>
-    <options-block title="教务系统设置" @click="jump('/pages/Profile/EducationSystem/EducationSystem')">
-      <template #right>
-        <view class="config-center-right-arrow"></view>
-      </template>
-    </options-block>
+  <view>
+    <my-navigator title="设置" show-back/>
+    <view class="config-center">
+      <options-block title="课程表设置" @click="jump('/pages/Classes/Options/Options')">
+        <template #right>
+          <view class="config-center-right-arrow"></view>
+        </template>
+      </options-block>
+      <options-divider/>
+      <options-block title="教务系统设置" @click="jump('/pages/Profile/EducationSystem/EducationSystem')">
+        <template #right>
+          <view class="config-center-right-arrow"></view>
+        </template>
+      </options-block>
+    </view>
   </view>
 </template>
 
 <script>
 import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/OptionsBlock'
 import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
+import MyNavigator from '../../../component/Navigator/Navigator'
 export default {
   name: 'ConfigCenter',
-  components: { OptionsDivider, OptionsBlock },
+  components: { MyNavigator, OptionsDivider, OptionsBlock },
   setup () {
     const jump = (url) => uni.navigateTo({ url })
     return {

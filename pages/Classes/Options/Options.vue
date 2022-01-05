@@ -1,23 +1,26 @@
 <template>
-  <view class="classes-option">
-    <options-picker :range="['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
+  <view>
+    <my-navigator title="课程表设置" show-back/>
+    <view class="classes-option">
+      <options-picker :range="['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
   '第十一周', '第十二周', '第十三周', '第十四周', '第十五周', '第十六周', '第十七周', '第十八周', '第十九周', '第二十周']"
-                    title="选择当前周" @change="selectWeek">第{{curWeek}}周</options-picker>
-    <options-divider/>
-    <options-picker :range="yearData" @change="selectYear" :model-value="yearData.indexOf(year)" title="选择学年">{{year}}年</options-picker>
-    <options-divider/>
-    <options-picker :range="termData" @change="selectTerm" :model-value="term - 1" title="选择学期">{{ termData[term - 1] }}</options-picker>
-    <options-divider/>
-    <options-switch title="隐藏已经结课的课程" v-model="hideFinishedClass"/>
-    <options-divider/>
-    <options-block title="设置背景图" @click="selectBackgroundImage"></options-block>
-    <options-divider/>
-    <options-block title="从服务器校准当前周" @click="tryAdjustCurWeekFromServer" type="primary"/>
-    <options-divider/>
-    <options-block @click="clearClassData" type="danger" title="情况本地课表缓存数据"/>
-    <options-divider/>
-    <options-block title="重置背景图片" type="danger" @click="resetBackgroundImage"></options-block>
-    <options-divider/>
+                      title="选择当前周" @change="selectWeek">第{{curWeek}}周</options-picker>
+      <options-divider/>
+      <options-picker :range="yearData" @change="selectYear" :model-value="yearData.indexOf(year)" title="选择学年">{{year}}年</options-picker>
+      <options-divider/>
+      <options-picker :range="termData" @change="selectTerm" :model-value="term - 1" title="选择学期">{{ termData[term - 1] }}</options-picker>
+      <options-divider/>
+      <options-switch title="隐藏已经结课的课程" v-model="hideFinishedClass"/>
+      <options-divider/>
+      <options-block title="设置背景图" @click="selectBackgroundImage"></options-block>
+      <options-divider/>
+      <options-block title="从服务器校准当前周" @click="tryAdjustCurWeekFromServer" type="primary"/>
+      <options-divider/>
+      <options-block @click="clearClassData" type="danger" title="情况本地课表缓存数据"/>
+      <options-divider/>
+      <options-block title="重置背景图片" type="danger" @click="resetBackgroundImage"></options-block>
+      <options-divider/>
+    </view>
   </view>
 </template>
 
@@ -30,10 +33,11 @@ import { ADJUST_CUR_WEEK_FROM_SERVER } from '../../../store/actions-type'
 import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/OptionsBlock'
 import OptionsPicker from '../../../component/OptionsComponent/OptionsPicker/OptionsPicker'
 import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
+import MyNavigator from '../../../component/Navigator/Navigator'
 
 export default {
   name: 'ClassesOptions',
-  components: { OptionsDivider, OptionsPicker, OptionsBlock, OptionsSwitch },
+  components: { MyNavigator, OptionsDivider, OptionsPicker, OptionsBlock, OptionsSwitch },
   setup() {
     const store = useStore()
     const hideFinishedClass = ref(!!store.state.classes.classesOptions.hideClosedClasses)

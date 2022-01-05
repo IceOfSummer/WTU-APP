@@ -82,6 +82,14 @@ $uni-font-size-paragraph:30rpx;
     border-right: 2rpx solid $color;
     transform: rotate(45deg);
 }
+
+@mixin left-arrow($color, $size) {
+    width: $size;
+    height: $size;
+    border-top: 2rpx solid $color;
+    border-right: 2rpx solid $color;
+    transform: rotate(-135deg);
+}
 @mixin split-line($color, $width) {
     height: 1px;
     width: $width;

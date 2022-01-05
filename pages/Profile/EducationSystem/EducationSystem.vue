@@ -1,5 +1,6 @@
 <template>
   <view>
+    <my-navigator title="教务系统" show-back/>
     <view class="edu-system-header">
       <view class="edu-system-header-title">
         <text v-if="token && isUsableToken">已登录</text>
@@ -44,10 +45,11 @@ import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/Optio
 import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
 import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
 import OptionsSwitch from '../../../component/OptionsComponent/OptionsSwitch/OptionsSwitch'
+import MyNavigator from '../../../component/Navigator/Navigator'
 
 export default {
   name: 'EducationSystem',
-  components: { OptionsSwitch, OptionsDivider, OptionsBlock },
+  components: { MyNavigator, OptionsSwitch, OptionsDivider, OptionsBlock },
   setup () {
     const store = useStore()
     // if (!store.state.eduSystemUser.token) {
