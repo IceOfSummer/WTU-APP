@@ -9,3 +9,10 @@ import { noRepeatAjax } from '../../hook/ajax'
  * @param term {number} 学期
  */
 export const getStudentScore = (year, username, token, term = getCurTerm()) => noRepeatAjax('/wtu/eduSystem/score/query', 'GET', { year, username, token, term })
+
+export const getScoreDetail = (username, jxb_id, xnm, xqm, kcmc) => noRepeatAjax(`/proxy/cjcx/cjcx_cxCjxqGjh.html?time=${Date.now()}&gnmkdm=N305005&su=${username}`, 'POST', {
+  jxb_id,
+  xnm,
+  xqm,
+  kcmc
+})

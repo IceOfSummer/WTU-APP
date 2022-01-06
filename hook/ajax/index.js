@@ -1,14 +1,4 @@
-import appConfig from '../../manifest.json'
 import { getServerUrl } from '../utils/serverUtils'
-
-/**
- * 获取没有参数的url
- * @param url {string} url
- * @return {string} 去掉参数的url
- */
-function getNoParamUrl(url) {
-  return url.replace(/\?\S+/, '')
-}
 
 const showErrorMsg = (msg) => {
   uni.showToast({
@@ -87,7 +77,9 @@ function baseAjax(config) {
         missionManager.removeMission(url)
       },
       success({ data, statusCode }) {
-        if (data.code !== 0) {
+        if (statusCode === 302) {
+          showErrorMsg('教务系统过期')
+        } else if (data.code && data.code !== 0) {
           showErrorMsg(data.message)
         }
         resolve(data)

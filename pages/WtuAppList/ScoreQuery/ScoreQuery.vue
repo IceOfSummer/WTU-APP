@@ -8,10 +8,10 @@
           {{scoreRange[curSelectIndex]}}
         </picker>
       </view>
-      <score-block title="专业必修课" :scores="majorSubject"/>
-      <score-block title="实践课" :scores="practiceSubject"/>
-      <score-block title="通识课" :scores="normalSubject"/>
-      <score-block title="选修课" :scores="optionalSubject"/>
+      <!-- 此处对二维数组进行遍历 -->
+      <view v-for="(items, index) in scores" :key="index">
+        <score-block :title="items[0].kcxzmc" :scores="items"/>
+      </view>
       <view v-if="isEmpty" class="score-query-tip">
         <text>没有相关学期的成绩, 请切换其它学期</text>
       </view>
@@ -53,7 +53,8 @@ export default {
     const cur = new Date()
     // 1: 上学期 2: 下学期
     const term = getCurTerm()
-    const curYear = cur.getFullYear()
+    // 减一个学期
+    const curYear = cur.getFullYear() - 1
     const scoreRange = [(curYear - 3) + '年上学期', (curYear - 3) + '年下学期', (curYear - 2) + '年上学期', (curYear - 2) + '年下学期',
       (curYear - 1) + '年上学期', (curYear - 1) + '年下学期', curYear + '年上学期', curYear + '年下学期']
     // 计算时将索引除二后向下取整
@@ -71,30 +72,16 @@ export default {
         store.state.eduSystemUser.username, store.state.eduSystemUser.token, index % 2 + 1))
     }
 
-    // 专业必修课
-    const majorSubject = ref([])
-    const MAJOR_SUBJECT_KEY = '专业课'
-    // 普通通识课
-    const normalSubject = ref([])
-    const NORMAL_SUBJECT_KEY = '通识课'
-    // 实践课
-    const practiceSubject = ref([])
-    const PRACTICE_SUBJECT_KEY = '实践课'
-    // 选修课
-    const optionalSubject = ref([])
-    const OPTIONAL_SUBJECT_KEY = '通识选修课'
     // 是否为空
     const isEmpty = ref(false)
+    const scores = ref([])
 
     /**
      * 清空成绩信息
-     * @param bool {boolean} 设置标记的状态, true代表完全清空
+     * @param bool {boolean} 设置标记的状态, true代表完全清空, 即页面会显示请求得到的数据为空
      */
     function setEmpty (bool = false) {
-      majorSubject.value = []
-      normalSubject.value = []
-      practiceSubject.value = []
-      optionalSubject.value = []
+      scores.value = []
       isEmpty.value = bool
     }
 
@@ -103,56 +90,56 @@ export default {
         showLoading()
       }
       doQueryAjax(curSelectIndex.value).then(resp => {
-        if (resp.items) {
-          setEmpty ()
+        if (resp.items && resp.items.length !== 0) {
+          setEmpty()
+          /**
+           * 存放不同类型的成绩
+           * @type {Map<string, Array<Object>>}
+           */
+          const scoreTypes = new Map()
           resp.items.forEach(value => {
-            switch (value.kclbmc) {
-              case MAJOR_SUBJECT_KEY :
-                majorSubject.value.push(value)
-                break
-              case NORMAL_SUBJECT_KEY :
-                normalSubject.value.push(value)
-                break
-              case PRACTICE_SUBJECT_KEY :
-                practiceSubject.value.push(value)
-                break
-              case OPTIONAL_SUBJECT_KEY :
-                optionalSubject.value.push(value)
-                break
+            const classType = value.kcxzmc
+            const arr = scoreTypes.get(classType)
+            if (arr) {
+              arr.push(value)
+            } else {
+              scoreTypes.set(classType, [value])
             }
           })
 
           // Arrays.sort
           const sortCallback = (a, b) => {
-            let aScore = Number.parseInt(a.cj)
-            let bScore = Number.parseInt(b.cj)
 
-            if (isNaN(aScore)) {
-              aScore = isNaN(aScore) && '及格' === a ? 100 : 0
+            /**
+             * 检查分数是否为number类型, 若不是则做特殊处理
+             * @param score {number|string} 分数
+             * @return {number} 分数
+             */
+            function checkScore(score) {
+              let numScore = Number.parseInt(score)
+              if (isNaN(numScore)) {
+                if (score === '及格' || score === '合格' || score === '优秀') {
+                  return 100
+                } else {
+                  return 0
+                }
+              }
+              return numScore
             }
-            if (isNaN(bScore)) {
-              bScore = isNaN(bScore) && '及格' === b ? 100 : 0
-            }
 
-            return bScore - aScore
-
+            return checkScore(b.cj) - checkScore(a.cj)
           }
 
-          if (majorSubject.value.length === 0 && normalSubject.value.length === 0 && practiceSubject.value.length === 0 && optionalSubject.value.length === 0) {
-            console.log('empty')
-            isEmpty.value = true
-            return
-          }
+          // 分类完后装进ref数据中
+          scoreTypes.forEach(value=> {
+            // 排个序
+            value.sort(sortCallback)
+            scores.value.push(value)
+          })
 
-          // sort
-          majorSubject.value = majorSubject.value.sort(sortCallback)
-          normalSubject.value = normalSubject.value.sort(sortCallback)
-          practiceSubject.value = practiceSubject.value.sort(sortCallback)
-          optionalSubject.value = optionalSubject.value.sort(sortCallback)
-
+        } else if (resp.items) {
+          setEmpty(true)
         } else {
-          console.log('empty')
-          isEmpty.value = true
           showToast('加载失败, 请重试')
         }
       }).catch((e) => {
@@ -174,12 +161,9 @@ export default {
       scoreRange,
       curSelectIndex,
       termChangeEvent,
-      majorSubject,
-      normalSubject,
-      practiceSubject,
-      optionalSubject,
+      scores,
       isEmpty,
-      mask
+      mask,
     }
   }
 }
