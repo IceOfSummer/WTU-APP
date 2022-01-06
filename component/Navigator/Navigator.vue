@@ -12,34 +12,114 @@
         <slot name="right"/>
       </view>
     </view>
+    <view v-if="showPercent" class="loading-bar" :style="`width: ${currentPercent / 100  * 750 }rpx; opacity: ${processBarOpacity}`"></view>
   </view>
 </template>
 
 <script>
+import { onUnmounted, ref } from 'vue'
+
 export default {
   name: 'MyNavigator',
   props: {
     title: String,
-    showBack: Boolean
+    showBack: Boolean,
+    showPercent: Boolean
   },
-  setup () {
+  setup (props) {
+    const currentPercent = ref(0)
+    const processBarOpacity = ref(1)
+
     const clickBack = () =>{
       uni.navigateBack()
     }
 
+    let slowAdd
+    let addPercent
+
+    /**
+     * 展示加载条
+     */
+    function startLoad() {
+      addPercent = setInterval(() => {
+        // 每秒加一点点进度
+        if (currentPercent.value <= 75) {
+          // 等于75时表示组件已经加载完毕, 还在等待ajax加载
+          currentPercent.value++
+        } else {
+          clearInterval(addPercent)
+
+          slowAdd = setInterval(() => {
+            // 等待ajax响应
+            if (currentPercent.value <= 90) {
+              currentPercent.value++
+            }
+          }, 1000)
+        }
+      }, 100)
+    }
+    if (props.showPercent) {
+      startLoad()
+    }
+
+    onUnmounted(() => {
+      clearAllInterval()
+    })
+
+    const loadSuccess = () => {
+      currentPercent.value = 100
+      setTimeout(() => {
+        // 清除加载条
+        // currentPercent.value = 0
+        processBarOpacity.value = 0
+        clearAllInterval()
+      }, 1000)
+    }
+
+    const viewInitSuccess = () => {
+      setTimeout(() => {
+        currentPercent.value = 50
+        setTimeout(() => {
+          currentPercent.value = 75
+        }, 600)
+      }, 500)
+    }
+
+    function clearAllInterval () {
+      if (addPercent) {
+        clearInterval(addPercent)
+      }
+      if (slowAdd) {
+        clearInterval(slowAdd)
+      }
+    }
+
+
     return {
-      clickBack
+      clickBack,
+      currentPercent,
+      loadSuccess,
+      processBarOpacity,
+      viewInitSuccess
     }
   }
 }
 </script>
 
 <style lang="scss">
+.loading-bar{
+  transition: all .5s;
+  height: 3rpx;
+  width: 0;
+  background-color: skyblue;
+}
 .navigator-content-left{
+  width: 50rpx;
   box-sizing: border-box;
   padding-left: 20rpx;
 }
 .navigator-content-right{
+  width: 50rpx;
   justify-content: flex-end;
   box-sizing: border-box;
   padding-right: 20rpx;
@@ -50,8 +130,10 @@ export default {
   width: 100%;
 }
 .navigator-content-title{
+  width: 650rpx;
   justify-content: center;
   font-size: $uni-font-size-subtitle;
+  flex-wrap: nowrap;
 }
 .back-arrow{
   @include left-arrow(black, 20rpx);
@@ -67,7 +149,6 @@ export default {
   height: 90rpx;
   > view {
     height: 90rpx;
-    width: 250rpx;
     display: flex;
     align-items: center;
   }
