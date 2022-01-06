@@ -121,13 +121,20 @@ export default {
                 break
             }
           })
-          const sortCallback = (a, b) => {
-            const aScore = Number.parseInt(a.cj)
-            const bScore = Number.parseInt(b.cj)
 
-            const tempA = isNaN(aScore)  ? 9999 : aScore
-            const tempB = isNaN(bScore) ? 9999 : bScore
-            return tempB - tempA
+          // Arrays.sort
+          const sortCallback = (a, b) => {
+            let aScore = Number.parseInt(a.cj)
+            let bScore = Number.parseInt(b.cj)
+
+            if (isNaN(aScore)) {
+              aScore = isNaN(aScore) && '及格' === a ? 100 : 0
+            }
+            if (isNaN(bScore)) {
+              bScore = isNaN(bScore) && '及格' === b ? 100 : 0
+            }
+
+            return bScore - aScore
 
           }
 

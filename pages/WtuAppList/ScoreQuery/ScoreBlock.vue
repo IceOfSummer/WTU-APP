@@ -54,8 +54,10 @@ export default {
         return '#f0ad4e'
       } else if (score < 60) {
         return '#dd524d'
-      } else {
+      } else if (score === '及格') {
         return '#4cd964'
+      } else {
+        return '#dd524d'
       }
     }
 
