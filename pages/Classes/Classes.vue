@@ -94,8 +94,8 @@ import ClassItem from './ClassItem'
 import { computed, ref, watchEffect } from 'vue'
 import { getClasses } from '../../api/schoolApp/classTableQuery'
 import { useStore } from 'vuex'
-import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../store/mutations-type'
-import { ADJUST_CUR_WEEK, PROXY_SCHOOL_APP_AJAX } from '../../store/actions-type'
+import { SET_CLASSES } from '../../store/mutations-type'
+import { ADJUST_CUR_WEEK, INIT_CLASS_LIST_OPTIONS, PROXY_SCHOOL_APP_AJAX } from '../../store/actions-type'
 import MyNavigator from '../../component/Navigator/Navigator'
 
 const getClassFromServer = (store) => store.dispatch(PROXY_SCHOOL_APP_AJAX, getClasses(store.state.classes.classesOptions.year,
@@ -169,21 +169,8 @@ export default {
       calendar.value.push(`${tempMonth}/${tempDate < 10 ? '0' + tempDate : tempDate}`)
     }
 
-    // 检查设置中是否有空值
-    const classesOptions = store.state.classes.classesOptions
-    if (!classesOptions.year) {
-      store.commit(SET_CLASSES_OPTIONS, { key: 'year', value: new Date().getFullYear() })
-    }
-    if (!classesOptions.term) {
-      const month = new Date().getMonth()
-      // 0是一月
-      let term = month >= 1 && month < 8 ? 2 : 1
-      store.commit(SET_CLASSES_OPTIONS, { key: 'term', value: term })
-    }
-    if (!classesOptions.curWeek) {
-      console.log('modify')
-      store.commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: 1 })
-    }
+    // 初始化课程表参数
+    store.dispatch(INIT_CLASS_LIST_OPTIONS)
 
     // 缓存没有保存课表信息, 尝试从服务器获取
     if (store.state.classes.list.length === 0) {

@@ -48,7 +48,6 @@ export default {
       getCurWeekFromServer().then(resp => {
         if (resp.code === 0) {
           commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: resp.data })
-          commit(SET_CLASSES_OPTIONS, { key: 'curWeekLastUpdate', value: Date.now() })
           resolve(1)
         } else {
           reject(resp.message)
@@ -86,5 +85,29 @@ export default {
         reject(e)
       })
     })
+  },
+  [TYPE.INIT_CLASS_LIST_OPTIONS] ({ commit, state }) {
+    // 检查设置中是否有空值
+    const classesOptions = state.classes.classesOptions
+    if (!classesOptions.year) {
+      commit(SET_CLASSES_OPTIONS, { key: 'year', value: new Date().getFullYear() })
+    }
+    if (!classesOptions.term) {
+      const month = new Date().getMonth()
+      // 0是一月
+      let term = month >= 1 && month < 8 ? 2 : 1
+      commit(SET_CLASSES_OPTIONS, { key: 'term', value: term })
+    }
+    if (!classesOptions.curWeek) {
+      getCurWeekFromServer().then(resp => {
+        if (resp.code === 0) {
+          commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: resp.data })
+        } else {
+          commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: 1 })
+        }
+      }).catch(() => {
+        commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: 1 })
+      })
+    }
   }
 }

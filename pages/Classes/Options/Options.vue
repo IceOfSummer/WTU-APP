@@ -30,7 +30,7 @@ import OptionsSwitch from '../../../component/OptionsComponent/OptionsSwitch/Opt
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { SET_CLASSES, SET_CLASSES_OPTIONS } from '../../../store/mutations-type'
-import { ADJUST_CUR_WEEK_FROM_SERVER } from '../../../store/actions-type'
+import { ADJUST_CUR_WEEK_FROM_SERVER, INIT_CLASS_LIST_OPTIONS } from '../../../store/actions-type'
 import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/OptionsBlock'
 import OptionsPicker from '../../../component/OptionsComponent/OptionsPicker/OptionsPicker'
 import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
@@ -44,6 +44,8 @@ export default {
     const store = useStore()
     const dialog = ref()
     const hideFinishedClass = ref(!!store.state.classes.classesOptions.hideClosedClasses)
+
+    store.dispatch(INIT_CLASS_LIST_OPTIONS)
 
     watch(hideFinishedClass, () => {
       store.commit(SET_CLASSES_OPTIONS, { key: 'hideClosedClasses', value: hideFinishedClass.value })
