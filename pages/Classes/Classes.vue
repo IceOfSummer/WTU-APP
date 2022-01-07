@@ -101,7 +101,7 @@ import MyNavigator from '../../component/Navigator/Navigator'
 import StatusBar from '../../component/Navigator/StatusBar'
 
 const getClassFromServer = (store) => store.dispatch(PROXY_SCHOOL_APP_AJAX, getClasses(store.state.classes.classesOptions.year,
-  store.state.classes.classesOptions.term, store.state.eduSystemUser.username, store.state.eduSystemUser.token)).then(resp => {
+  store.state.classes.classesOptions.term, store.state.eduSystemUser.username)).then(resp => {
   if (resp.kbList) {
     // 保存到vuex
     store.commit(SET_CLASSES, resp.kbList)
@@ -176,7 +176,7 @@ export default {
 
     // 缓存没有保存课表信息, 尝试从服务器获取
     if (store.state.classes.list.length === 0) {
-      if (store.state.eduSystemUser.token) {
+      if (store.state.eduSystemUser.isUsableToken) {
         // 尝试获取课表
         getClassFromServer(store)
       } else {
@@ -214,7 +214,7 @@ export default {
   },
   onPullDownRefresh () {
     const store = useStore()
-    if (store.state.eduSystemUser.token) {
+    if (store.state.eduSystemUser.isUsableToken) {
       // 尝试获取课表
       getClassFromServer(useStore()).finally(() => {
         uni.stopPullDownRefresh()

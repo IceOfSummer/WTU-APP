@@ -76,7 +76,6 @@ export default {
         // 获取用户信息
         console.log('run')
         store.dispatch(PROXY_SCHOOL_APP_AJAX, getUserInfo(username)).then(resp => {
-          console.log(resp)
           if (resp) {
             // 分离值
             const splitValue = (str) => str.replace('<p class="form-control-static">', '').replace('</p>', '')
