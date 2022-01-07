@@ -16,8 +16,19 @@
         <text @click="jumpToBrowser('https://github.com/HuPeng333/WTU-APP')">点我查看APP代码仓库</text>
       </view>
       <view>
-        <text @click="jumpToBrowser('https://github.com/HuPeng333/WTU-App-Server')">点我查看APP后端代码仓库</text>
+        <text @click="jumpToBrowser('https://github.com/HuPeng333/WTU-App-Server')"><del>点我查看APP后端代码仓库(已废弃)</del></text>
       </view>
+    </view>
+    <view class="text-error text-to-center">
+      <text>本代码可以完全脱离服务器使用!</text>
+      <br/>
+      <text>也就是APP完全不依赖除学校以外的服务器(在线更新除外)</text>
+      <br/>
+      <text>如果你有更多的需求</text>
+      <br/>
+      <text>请发送至我的邮箱: 2237803016@qq.com</text>
+      <br/>
+      <text>发现BUG麻烦在Github提交issue</text>
     </view>
   </view>
 </template>
