@@ -93,6 +93,13 @@
 			"style": {
 				"navigationBarTitleText": "成绩详细信息"
 			}
+		},
+		{
+			"path": "pages/WtuAppList/EduSystemPage/EduSystemPage",
+			"style": {
+				"navigationBarTitleText": "登录教务系统",
+				"navigationStyle": "default"
+			}
 		}
 	],
 	"globalStyle": {

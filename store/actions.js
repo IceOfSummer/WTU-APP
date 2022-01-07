@@ -81,7 +81,7 @@ export default {
           init().then(resp => {
             if (!resp) {
               // 登录成功
-              showToast('已经尝试重新登录, 请重新打开页面')
+              showToast('已尝试重新登录, 请重新打开页面')
             } else {
               commit(INVALID_EDU_SYSTEM_TOKEN)
               reject('登录失效')

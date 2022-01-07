@@ -5,7 +5,7 @@
         <view class="back-arrow" v-if="showBack" @click="clickBack"></view>
       </view>
       <view class="navigator-content-title">
-        <text>{{title}}</text>
+        <text :style="`font-size: ${title.length < 10 ? '36rpx': '28rpx'}`">{{title}}</text>
       </view>
       <view class="navigator-content-right">
         <slot name="right"/>
