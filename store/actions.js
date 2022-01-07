@@ -65,17 +65,19 @@ export default {
   [TYPE.PROXY_SCHOOL_APP_AJAX] ({ commit, state }, promise) {
     return new Promise((resolve, reject) => {
       promise.then(resp => {
-        const usernameInput = existInput(resp, 'yhm')
-        const passwordInput = existInput(resp, 'mm')
-        if (usernameInput && passwordInput) {
-          // 登录失效
-          commit(INVALID_EDU_SYSTEM_TOKEN)
-          showToast('登录失效')
-          reject('登录失效')
-          if (state.eduSystemUser.config.autoRedirectLoginPage) {
-            uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
+        if (typeof resp === 'string') {
+          const usernameInput = existInput(resp, 'yhm')
+          const passwordInput = existInput(resp, 'mm')
+          if (usernameInput && passwordInput) {
+            // 登录失效
+            commit(INVALID_EDU_SYSTEM_TOKEN)
+            showToast('登录失效')
+            reject('登录失效')
+            if (state.eduSystemUser.config.autoRedirectLoginPage) {
+              uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
+            }
+            return
           }
-          return
         }
         // success
         if (resp.data) {

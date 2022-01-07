@@ -27,7 +27,7 @@ export default {
     const store = useStore()
     const navTo = (name) => {
       // 检查是否登录
-      if (store.state.eduSystemUser.token) {
+      if (store.state.eduSystemUser.isUsableToken) {
         // 已登录
         uni.navigateTo({ url: `/pages/WtuAppList/${name}/${name}` })
       } else {

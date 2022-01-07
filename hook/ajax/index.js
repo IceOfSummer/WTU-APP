@@ -61,7 +61,13 @@ function baseAjax(config) {
     const url = config.url.startsWith('http') ? config.url : BASE_URL + config.url
 
     if (config.method === 'POST') {
-      config.headers['content-type'] = 'application/x-www-form-urlencoded'
+      if (!config.headers) {
+        config.headers = {
+          'content-type': 'application/x-www-form-urlencoded'
+        }
+      } else {
+        config.headers['content-type'] = 'application/x-www-form-urlencoded'
+      }
     }
     missionManager.checkMission(url, config.rejectPolicy ? config.rejectPolicy : 'REJECT_IF_EXIST')
     console.log('mark')

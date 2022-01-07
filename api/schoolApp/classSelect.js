@@ -3,14 +3,13 @@ import { noRepeatAjax } from '../../hook/ajax'
 /**
  * 初始化选课
  * @param username {string} 用户名
- * @param token {string} token
  */
-export const initClassSelect = (username, token) => noRepeatAjax('/wtu/eduSystem/class/init', 'GET', { username, token })
+export const initClassSelect = (username) =>
+  noRepeatAjax(`http://jwglxt.wtu.edu.cn/xsxk/zzxkyzb_cxZzxkYzbIndex.html?gnmkdm=N253512&layout=default&su=${username}`, 'GET')
 
-export const initClassSelect2 = (store, xkkz_id) => noRepeatAjax('/wtu/eduSystem/class/init/2', 'GET', {
-  username: store.state.eduSystemUser.username,
-  token: store.state.eduSystemUser.token,
-  id: xkkz_id,
+export const initClassSelect2 = (store, xkkz_id) =>
+  noRepeatAjax(`http://jwglxt.wtu.edu.cn/xsxk/zzxkyzb_cxZzxkYzbDisplay.html?gnmkdm=N253512&su=${store.state.eduSystemUser.username}`, 'POST', {
+  xkkz_id,
   xszxzt: store.state.classSelectInfo.queryParam1.xszxzt,
   kspage: '0',
   jspage: '0'
@@ -26,9 +25,8 @@ export const initClassSelect2 = (store, xkkz_id) => noRepeatAjax('/wtu/eduSystem
  * @param page {number} 查第几页
  * @return {Promise<unknown>}
  */
-export const getClassList = (store, queryParam , kklxdm, page = 1) => noRepeatAjax('/wtu/eduSystem/class/query/list', 'GET', {
-  username: store.state.eduSystemUser.username,
-  token: store.state.eduSystemUser.token,
+export const getClassList = (store, queryParam , kklxdm, page = 1) =>
+  noRepeatAjax(`http://jwglxt.wtu.edu.cn/xsxk/zzxkyzb_cxZzxkYzbPartDisplay.html?gnmkdm=N253512&su=${store.state.eduSystemUser.username}`, 'POST', {
   rwlx: queryParam.rwlx,
   xkly: queryParam.xkly,
   bklx_id: queryParam.bklx_id,
@@ -66,9 +64,8 @@ export const getClassList = (store, queryParam , kklxdm, page = 1) => noRepeatAj
 })
 
 
-export const getClassDetail = (store, year, cxbj, fxbj, kch_id, xkkz_id, kklxdm, queryParam) => noRepeatAjax('/wtu/eduSystem/class/query', 'GET', {
-  username: store.state.eduSystemUser.username,
-  token: store.state.eduSystemUser.token,
+export const getClassDetail = (store, year, cxbj, fxbj, kch_id, xkkz_id, kklxdm, queryParam) =>
+  noRepeatAjax(`http://jwglxt.wtu.edu.cn/xsxk/zzxkyzbjk_cxJxbWithKchZzxkYzb.html?gnmkdm=N253512&su=${store.state.eduSystemUser.username}`, 'POST', {
   rwlx: queryParam.rwlx,
   xkly: queryParam.xkly,
   bklx_id: queryParam.bklx_id,
@@ -102,9 +99,8 @@ export const getClassDetail = (store, year, cxbj, fxbj, kch_id, xkkz_id, kklxdm,
   fxbj
 })
 
-export const selectClass = (store, jxb_id, kch_id, kcmc, xkkz_id, queryParam) => noRepeatAjax('/wtu/eduSystem/class/select', 'POST', {
-  username: store.state.eduSystemUser.username,
-  token: store.state.eduSystemUser.token,
+export const selectClass = (store, jxb_id, kch_id, kcmc, xkkz_id, queryParam) =>
+  noRepeatAjax(`http://jwglxt.wtu.edu.cn/xsxk/zzxkyzbjk_xkBcZyZzxkYzb.html?gnmkdm=N253512&su=${store.state.eduSystemUser.username}`, 'POST', {
   jxb_ids: jxb_id,
   kch_id,
   kcmc,
