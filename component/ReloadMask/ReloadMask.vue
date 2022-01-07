@@ -1,5 +1,5 @@
 <template>
-  <view class="reload-mask" v-if="showReload">
+  <view class="reload-mask" v-if="showReload || apiReload">
     <view>
       <view class="text-info text-to-center">
         <text>Oops! 好像加载失败了</text>
@@ -13,6 +13,8 @@
 
 <script>
 
+import { ref } from 'vue'
+
 export default {
   name: 'ReloadMask',
   props: {
@@ -23,12 +25,20 @@ export default {
     showReload: Boolean
   },
   setup (props) {
+    const apiReload = ref(false)
 
     const reload = () => {
+      console.log('reload')
       uni.redirectTo({ url: props.reloadUrl })
     }
+
+    const needReload = () => {
+      apiReload.value = true
+    }
     return {
-      reload
+      reload,
+      apiReload,
+      needReload
     }
   }
 }
@@ -46,6 +56,7 @@ export default {
   top: 0;
   left: 0;
   z-index: 0;
+  background-color: white;
 }
 .reload-text-btn{
   color: $uni-color-primary;

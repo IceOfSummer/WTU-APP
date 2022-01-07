@@ -1,6 +1,7 @@
 <template>
   <view>
-    <my-navigator title="成绩查询" show-back/>
+    <reload-mask reload-url="/pages/WtuAppList/ScoreQuery/ScoreQuery" ref="reload"/>
+    <my-navigator title="成绩查询" show-back ref="nav"/>
     <view class="score-query">
       <view class="score-query-picker">
         <picker :range="scoreRange" :value="curSelectIndex" @change="termChangeEvent">
@@ -35,12 +36,14 @@ import { getStudentScore } from '../../../api/schoolApp/scoreQuery'
 import { showToast } from '../../../hook/utils/TipUtils'
 import LoadingMask from '../../../component/LoadingMask/LoadingMask'
 import MyNavigator from '../../../component/Navigator/Navigator'
+import ReloadMask from '../../../component/ReloadMask/ReloadMask'
 
 export default {
   name: 'ScoreQuery',
-  components: { MyNavigator, LoadingMask, ScoreBlock },
+  components: { ReloadMask, MyNavigator, LoadingMask, ScoreBlock },
   setup () {
     const store = useStore()
+    const reload = ref()
 
     // 加载条组件
     const mask = ref()
@@ -142,7 +145,7 @@ export default {
         } else if (resp.items) {
           setEmpty(true)
         } else {
-          showToast('加载失败, 请重试')
+          reload.value.needReload()
         }
       }).catch((e) => {
         console.log(e)
@@ -166,6 +169,7 @@ export default {
       scores,
       isEmpty,
       mask,
+      reload
     }
   }
 }

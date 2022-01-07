@@ -85,7 +85,7 @@ export default {
 }
 .score-block-item-table-header{
   > view {
-    font-size: 28rpx !important;
+    font-size: $uni-font-size-lg !important;
   }
 }
 .score-block-item-table{
@@ -101,7 +101,8 @@ export default {
     justify-content: center;
     text-align: center;
     width: 200rpx;
-    font-size: 20rpx;
+    margin: 10rpx 0;
+    font-size: $uni-font-size-sm;
   }
   &:nth-child(odd) {
     background-color: rgb(250, 250, 250);
@@ -113,7 +114,7 @@ export default {
 .score-block-item{
 }
 .score-block-title{
-  font-size: 35rpx;
+  font-size: $uni-font-size-title;
   margin-bottom: 15rpx;
   margin-left: 15rpx;
   color: $uni-color-primary;

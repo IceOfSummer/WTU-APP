@@ -139,6 +139,7 @@ export default {
   font-size: $uni-img-size-sm;
 }
 .navigator{
+  position: relative;
   background-color: rgb(236, 236, 236);
   width: 100%;
   z-index: 9;
@@ -153,8 +154,12 @@ export default {
   @include left-arrow(black, 20rpx);
 }
 .status-bar{
+  position: sticky;
+  top: 0;
   height: var(--status-bar-height);
-  width: 100%;
+  width: 750rpx;
+  z-index: 10;
+  background-color: rgb(236, 236, 236);
 }
 .navigator-content{
   display: flex;
