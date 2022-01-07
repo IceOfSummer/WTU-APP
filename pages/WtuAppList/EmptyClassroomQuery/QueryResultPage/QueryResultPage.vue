@@ -21,7 +21,7 @@
       <view class="query-result-page-control">
         <button class="query-result-btn" :disabled="curPageIndex === 1" @click="changeCurPageIndex(curPageIndex - 1)">上一页</button>
         <text class="query-result-page-tip">{{curPageIndex}}/{{maxPage}}页</text>
-        <button class="query-result-btn" @click="changeCurPageIndex(curPageIndex + 1)" :disabled="curPageIndex === maxPage">下一页</button>
+        <button class="query-result-btn" @click="changeCurPageIndex(curPageIndex + 1)" :disabled="curPageIndex === maxPage || maxPage === 0">下一页</button>
       </view>
       <loading-mask ref="mask"/>
     </view>
@@ -34,6 +34,7 @@ import { getEmptyClassroom } from '../../../../api/schoolApp/emptyClassQuery'
 import LoadingMask from '../../../../component/LoadingMask/LoadingMask'
 import MyNavigator from '../../../../component/Navigator/Navigator'
 import StatusBar from '../../../../component/Navigator/StatusBar'
+import { useStore } from 'vuex'
 
 export default {
   name: 'QueryResultPage',
@@ -45,7 +46,8 @@ export default {
         classPos: 0,
         week: 1,
         day: 1,
-        duration: 1
+        duration: 1,
+        term: ''
       },
       classroomDetail: [],
       curPageIndex: 1,
@@ -60,12 +62,12 @@ export default {
     loadEmptyClassRoom (pageIndex = 1) {
       const that = this
       const { queryParam } = this
-      const { token } = this.$store.state.eduSystemUser
+      const store = useStore()
       if (this.$refs.mask) {
         this.$refs.mask.showLoading()
       }
       this.$store.dispatch(PROXY_SCHOOL_APP_AJAX, getEmptyClassroom(queryParam.year, queryParam.classPos,
-        queryParam.week, queryParam.day, queryParam.duration, token, pageIndex)).then(resp => {
+        queryParam.week, queryParam.day, queryParam.duration, store.state.classes.classesOptions.term, pageIndex)).then(resp => {
         that.classroomDetail = resp.items
         that.maxPage = resp.totalPage
       }).catch(e => console.log(e)).finally(() => {

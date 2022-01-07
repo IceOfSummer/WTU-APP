@@ -8,18 +8,26 @@ import { getCurTerm } from '../../hook/utils/DateUtils'
  * @param week {number} 查哪几周
  * @param day {string} 查哪个星期
  * @param duration {number} 查哪几节课
- * @param token {string} token
+ * @param term {number} term
  * @param page {number} 查哪一页，默认为1
  */
-export const getEmptyClassroom = (year, classroomPos, week, day, duration, token, page = 1) => noRepeatAjax('/wtu/eduSystem/classroom/search', 'GET',
+export const getEmptyClassroom = (year, classroomPos, week, day, duration, term, page = 1) =>
+  noRepeatAjax('http://jwglxt.wtu.edu.cn/cdjy/cdjy_cxKxcdlb.html?doType=query&gnmkdm=N2155', 'POST',
   {
-    schoolPos: 2,
-    classroomPos,
-    year,
-    term: getCurTerm(),
-    week,
-    day,
-    duration,
-    token,
-    page
+    fwzt: 'cx',
+    xqh_id: 2,
+    xnm: year,
+    xqm: term === 1 ? 3 : 12,
+    lh: classroomPos,
+    jyfs: 0,
+    zcd: week,
+    xqj: day,
+    jcd: duration,
+    _search: false,
+    'queryModel.showCount': 15,
+    'queryModel.currentPage': page,
+    'queryModel.sortName': 'cdbh',
+    'queryModel.sortOrder': 'asc',
+    'time': 1,
+    'nd': Date.now()
   })
