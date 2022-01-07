@@ -36,6 +36,7 @@ import { SAVE_SCHOOL_LOGIN_INFO } from '../../store/mutations-type'
 import { useStore } from 'vuex'
 import AnimatedInput from '../../component/AnimatedInput/AnimatedInput'
 import LoadingMask from '../../component/LoadingMask/LoadingMask'
+import { showToast } from '../../hook/utils/TipUtils'
 
 export default {
   name: 'SchoolAuth',
@@ -54,10 +55,9 @@ export default {
     const captcha = ref('')
     const captchaErrorMsg = ref('')
 
-    let session = null
     let lt = null
-    let route = null
     let encryptSalt = null
+    let execution = null
 
     let interval
     /**
@@ -66,17 +66,20 @@ export default {
     const tryInit = () => {
       isInitSuccess.value = false
       init().then(resp => {
-        if (resp.code === 0) {
-          // success
-          isInitSuccess.value = true
-          session = resp.data.session
-          lt = resp.data.lt
-          encryptSalt = resp.data.encryptSalt
-          route = resp.data.route
-          // 获取验证码
-          tryGetCaptcha()
+        if (!resp) {
+          showToast('自动登录成功')
+          store.commit(SAVE_SCHOOL_LOGIN_INFO, {})
+          uni.navigateBack()
         }
-      }).finally(() => {
+        // success
+        isInitSuccess.value = true
+        lt = resp.lt
+        encryptSalt = resp.encryptSalt
+        execution = resp.execution
+        // 获取验证码
+        console.log(resp)
+        tryGetCaptcha()
+      }).catch(e => console.log(e)).finally(() => {
         if (!isInitSuccess.value) {
           uni.showToast({
             title: '连接服务器失败, 请检查你的网络',
@@ -105,8 +108,8 @@ export default {
      */
     const tryGetCaptcha = () => {
       if (isInitSuccess.value) {
-        getCaptcha(session, lt , route).then(resp => {
-          captchaBase64.value = resp.data
+        getCaptcha().then(resp => {
+          captchaBase64.value = 'data:image/gif;base64,' + uni.arrayBufferToBase64(resp)
         })
       }
     }
@@ -144,11 +147,13 @@ export default {
         loading.value.showLoading()
         const encryptedPassword = wtuEncrypt(password.value, encryptSalt)
         let isLoginSuccess = false
-        login(session, lt, encryptedPassword, captcha.value, route, username.value).then(resp => {
-          if (resp.code === 0) {
+        console.log(encryptedPassword)
+        login(lt, encryptedPassword, captcha.value, username.value, execution).then(resp => {
+          console.log(resp)
+          if (resp) {
             // success
             isLoginSuccess = true
-            store.commit(SAVE_SCHOOL_LOGIN_INFO, { token: resp.data, username: username.value, password: password.value })
+            store.commit(SAVE_SCHOOL_LOGIN_INFO, { username: username.value, password: password.value })
             uni.showToast({
               title: '登录成功',
               icon: 'none',

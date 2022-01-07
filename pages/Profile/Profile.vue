@@ -24,7 +24,6 @@
 
 <script>
 import { useStore } from 'vuex'
-import { EDU_SYSTEM_LOG_OUT } from '../../store/mutations-type'
 import { computed } from 'vue'
 import ProfileAppItem from './ProfileAppItem'
 import OptionsDivider from '../../component/OptionsComponent/OptionsDivider/OptionsDivider'
@@ -43,24 +42,11 @@ export default {
       uni.navigateTo({ url: path })
     }
 
-    /**
-     * 登出
-     */
-    const logout = () => {
-      store.commit(EDU_SYSTEM_LOG_OUT)
-      uni.showToast({
-        title: '注销成功',
-        icon: 'none',
-        position: 'bottom'
-      })
-    }
-
 
     return {
       jump,
       schoolToken: computed(() => store.state.schoolToken),
-      headIcon: computed(() => store.state.user.headIcon),
-      logout
+      headIcon: computed(() => store.state.user.headIcon)
     }
   }
 }

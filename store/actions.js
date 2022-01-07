@@ -2,6 +2,7 @@ import * as TYPE from './actions-type'
 import { INVALID_EDU_SYSTEM_TOKEN, SET_CLASSES_OPTIONS } from './mutations-type'
 import { getCurWeekFromServer } from '../api/schoolApp/classTableQuery'
 import { showToast } from '../hook/utils/TipUtils'
+import { existInput } from '../hook/utils/StringUtils'
 export default {
   /**
    * 校准课表显示的当前周
@@ -64,9 +65,12 @@ export default {
   [TYPE.PROXY_SCHOOL_APP_AJAX] ({ commit, state }, promise) {
     return new Promise((resolve, reject) => {
       promise.then(resp => {
-        if (resp.code === 100) {
+        const usernameInput = existInput(resp, 'yhm')
+        const passwordInput = existInput(resp, 'mm')
+        if (usernameInput && passwordInput) {
           // 登录失效
           commit(INVALID_EDU_SYSTEM_TOKEN)
+          showToast('登录失效')
           reject('登录失效')
           if (state.eduSystemUser.config.autoRedirectLoginPage) {
             uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })

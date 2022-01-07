@@ -58,17 +58,20 @@ const missionManager = {
  */
 function baseAjax(config) {
   return new Promise((resolve, reject) => {
-    // const token = uni.getStorageSync('token')
     const url = config.url.startsWith('http') ? config.url : BASE_URL + config.url
 
+    if (config.method === 'POST') {
+      config.headers['content-type'] = 'application/x-www-form-urlencoded'
+    }
     missionManager.checkMission(url, config.rejectPolicy ? config.rejectPolicy : 'REJECT_IF_EXIST')
+    console.log('mark')
     const task = uni.request({
       url,
       data: config.data,
       method: config.method ? config.method : 'GET',
       sslVerify: false,
       header: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62',
         // 'Authorization': token ? token : '',
         // eslint-disable-next-line
         ...config.headers
@@ -76,12 +79,7 @@ function baseAjax(config) {
       complete() {
         missionManager.removeMission(url)
       },
-      success({ data, statusCode }) {
-        if (statusCode === 302) {
-          showErrorMsg('教务系统过期')
-        } else if (data.code && data.code !== 0) {
-          showErrorMsg(data.message)
-        }
+      success({ data }) {
         resolve(data)
       },
       fail(e) {

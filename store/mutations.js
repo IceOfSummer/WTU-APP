@@ -47,21 +47,13 @@ export default {
   /**
    * 将登陆成功后的token保存到vuex中
    * @param state state
-   * @param data {{token: string, username: string, password: string}} token
+   * @param data {{username: string, password: string}} token
    */
   [TYPE.SAVE_SCHOOL_LOGIN_INFO] (state, data) {
-    state.eduSystemUser.token = data.token
-    state.eduSystemUser.username = data.username
-    state.eduSystemUser.password = data.password
+    state.eduSystemUser.username = data.username ? data.username : state.eduSystemUser.username
+    state.eduSystemUser.password = data.password ? data.password : state.eduSystemUser.password
+    console.log('set')
     state.eduSystemUser.isUsableToken = true
-  },
-  /**
-   * 登出
-   * @param state state
-   */
-  [TYPE.EDU_SYSTEM_LOG_OUT] (state) {
-    state.eduSystemUser.token = ''
-    state.eduSystemUser.isUsableToken = false
   },
   /**
    * 添加课程表

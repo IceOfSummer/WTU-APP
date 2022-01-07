@@ -63,10 +63,6 @@ export default {
      */
     password: '',
     /**
-     * 登录成功的token
-     */
-    token: '',
-    /**
      * token是否有效
      */
     isUsableToken: false,
