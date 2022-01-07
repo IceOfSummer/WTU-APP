@@ -77,7 +77,7 @@ export default {
      */
     function doQueryAjax (index) {
       return store.dispatch(PROXY_SCHOOL_APP_AJAX, getStudentScore(yearMapping[Math.floor(index / 2)],
-        store.state.eduSystemUser.username, store.state.eduSystemUser.token, index % 2 + 1))
+        store.state.eduSystemUser.username, index % 2 + 1))
     }
 
     // 是否为空
@@ -148,6 +148,7 @@ export default {
         } else if (resp.items) {
           setEmpty(true)
         } else {
+          console.log(resp)
           reload.value.needReload()
         }
       }).catch((e) => {

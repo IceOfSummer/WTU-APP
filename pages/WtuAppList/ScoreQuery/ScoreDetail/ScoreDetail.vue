@@ -110,7 +110,7 @@ export default {
     const that = this
     const nav = this.$refs.navigator
     nav.viewInitSuccess()
-    store.dispatch(PROXY_SCHOOL_APP_AJAX, getScoreDetail(store.state.eduSystemUser.username, detail.jxb_id, detail.xnm, detail.xqm, detail.kcmc, store.state.eduSystemUser.token)).then(resp => {
+    store.dispatch(PROXY_SCHOOL_APP_AJAX, getScoreDetail(store.state.eduSystemUser.username, detail.jxb_id, detail.xnm, detail.xqm, detail.kcmc)).then(resp => {
       // 分离成绩表格
       const scoreList = resp.match(/<tbody>[\s\S]*<\/tbody>/)
       if (scoreList == null) {
