@@ -1,6 +1,5 @@
 <template>
   <view class="navigator">
-    <view class="status-bar"></view>
     <view class="navigator-content">
       <view class="navigator-content-left">
         <view class="back-arrow" v-if="showBack" @click="clickBack"></view>
@@ -152,14 +151,6 @@ export default {
 }
 .back-arrow{
   @include left-arrow(black, 20rpx);
-}
-.status-bar{
-  position: sticky;
-  top: 0;
-  height: var(--status-bar-height);
-  width: 750rpx;
-  z-index: 10;
-  background-color: rgb(236, 236, 236);
 }
 .navigator-content{
   display: flex;

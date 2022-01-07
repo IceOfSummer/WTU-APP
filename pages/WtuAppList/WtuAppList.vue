@@ -1,5 +1,6 @@
 <template>
   <view>
+    <status-bar/>
     <my-navigator title="其它应用"/>
     <view class="wtu-app">
       <wtu-app-list-block title="推荐">
@@ -18,9 +19,10 @@ import WtuAppListBlockItem from './WtuAppListBlockItem'
 import { useStore } from 'vuex'
 import { showToast } from '../../hook/utils/TipUtils'
 import MyNavigator from '../../component/Navigator/Navigator'
+import StatusBar from '../../component/Navigator/StatusBar'
 export default {
   name: 'WtuAppList',
-  components: { MyNavigator, WtuAppListBlockItem, WtuAppListBlock },
+  components: { StatusBar, MyNavigator, WtuAppListBlockItem, WtuAppListBlock },
   setup () {
     const store = useStore()
     const navTo = (name) => {

@@ -1,5 +1,6 @@
 <template>
   <view>
+    <status-bar/>
     <my-navigator title="教务系统" show-back/>
     <view class="edu-system-header">
       <view class="edu-system-header-title">
@@ -48,10 +49,11 @@ import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/O
 import OptionsSwitch from '../../../component/OptionsComponent/OptionsSwitch/OptionsSwitch'
 import MyNavigator from '../../../component/Navigator/Navigator'
 import TipDialog from '../../../component/MyDialog/TipDialog'
+import StatusBar from '../../../component/Navigator/StatusBar'
 
 export default {
   name: 'EducationSystem',
-  components: { TipDialog, MyNavigator, OptionsSwitch, OptionsDivider, OptionsBlock },
+  components: { StatusBar, TipDialog, MyNavigator, OptionsSwitch, OptionsDivider, OptionsBlock },
   setup () {
     const dialog = ref()
     const store = useStore()

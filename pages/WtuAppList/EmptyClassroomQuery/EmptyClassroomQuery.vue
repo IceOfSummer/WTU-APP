@@ -1,5 +1,6 @@
 <template>
   <view>
+    <status-bar/>
     <my-navigator show-back title="空教室查询"/>
     <view class="empty-classroom-query">
       <options-picker title="选择学年" :range="yearRange" v-model="curYearSelect">
@@ -47,9 +48,10 @@ import { useStore } from 'vuex'
 import OptionsButton from '../../../component/OptionsComponent/OptionsButton/OptionsButton'
 import { showToast } from '../../../hook/utils/TipUtils'
 import MyNavigator from '../../../component/Navigator/Navigator'
+import StatusBar from '../../../component/Navigator/StatusBar'
 export default {
   name: 'EmptyClassroomQuery',
-  components: { MyNavigator, OptionsButton, LineCheckBoxGroup, AnimatedCollapse, OptionsDivider, OptionsPicker },
+  components: { StatusBar, MyNavigator, OptionsButton, LineCheckBoxGroup, AnimatedCollapse, OptionsDivider, OptionsPicker },
   setup () {
     const store = useStore()
 

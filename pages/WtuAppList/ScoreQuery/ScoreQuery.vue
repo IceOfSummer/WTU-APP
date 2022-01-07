@@ -1,7 +1,8 @@
 <template>
   <view>
+    <status-bar/>
     <reload-mask reload-url="/pages/WtuAppList/ScoreQuery/ScoreQuery" ref="reload"/>
-    <my-navigator title="成绩查询" show-back ref="nav"/>
+    <my-navigator title="成绩查询" show-back ref="nav" show-percent/>
     <view class="score-query">
       <view class="score-query-picker">
         <picker :range="scoreRange" :value="curSelectIndex" @change="termChangeEvent">
@@ -33,17 +34,18 @@ import { useStore } from 'vuex'
 import { PROXY_SCHOOL_APP_AJAX } from '../../../store/actions-type'
 import { getCurTerm } from '../../../hook/utils/DateUtils'
 import { getStudentScore } from '../../../api/schoolApp/scoreQuery'
-import { showToast } from '../../../hook/utils/TipUtils'
 import LoadingMask from '../../../component/LoadingMask/LoadingMask'
 import MyNavigator from '../../../component/Navigator/Navigator'
 import ReloadMask from '../../../component/ReloadMask/ReloadMask'
+import StatusBar from '../../../component/Navigator/StatusBar'
 
 export default {
   name: 'ScoreQuery',
-  components: { ReloadMask, MyNavigator, LoadingMask, ScoreBlock },
+  components: { StatusBar, ReloadMask, MyNavigator, LoadingMask, ScoreBlock },
   setup () {
     const store = useStore()
     const reload = ref()
+    const nav = ref()
 
     // 加载条组件
     const mask = ref()
@@ -53,6 +55,7 @@ export default {
     onMounted(() => {
       showLoading = mask.value.showLoading
       stopLoading = mask.value.stopLoading
+      nav.value.viewInitSuccess()
     })
 
     const cur = new Date()
@@ -151,6 +154,7 @@ export default {
         console.log(e)
         setEmpty(true)
       }).finally(() => {
+        nav.value.loadSuccess()
         if (stopLoading) {
           stopLoading()
         }
@@ -169,7 +173,8 @@ export default {
       scores,
       isEmpty,
       mask,
-      reload
+      reload,
+      nav
     }
   }
 }

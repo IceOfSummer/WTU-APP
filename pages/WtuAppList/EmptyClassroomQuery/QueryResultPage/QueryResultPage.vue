@@ -1,26 +1,30 @@
 <template>
-  <view class="query-result">
-    <view class="query-result-list">
-      <view class="query-result-row query-result-header">
-        <view>教室名称</view>
-        <view>适用范围</view>
-        <view>教室位置</view>
+  <view>
+    <status-bar/>
+    <my-navigator show-percent show-back ref="nav" title="空闲教室查询"/>
+    <view class="query-result">
+      <view class="query-result-list">
+        <view class="query-result-row query-result-header">
+          <view>教室名称</view>
+          <view>适用范围</view>
+          <view>教室位置</view>
+        </view>
+        <view class="query-result-row" v-for="(item, index) in classroomDetail" :key="index">
+          <view>{{item.cdlbmc}}</view>
+          <view>{{item.cdjylx}}</view>
+          <view>{{item.cdmc}}</view>
+        </view>
+        <view class="query-result-empty-tip" v-if="classroomDetail.length === 0">
+          <text>没有查询到结果, 请修改相关查询条件</text>
+        </view>
       </view>
-      <view class="query-result-row" v-for="(item, index) in classroomDetail" :key="index">
-        <view>{{item.cdlbmc}}</view>
-        <view>{{item.cdjylx}}</view>
-        <view>{{item.cdmc}}</view>
+      <view class="query-result-page-control">
+        <button class="query-result-btn" :disabled="curPageIndex === 1" @click="changeCurPageIndex(curPageIndex - 1)">上一页</button>
+        <text class="query-result-page-tip">{{curPageIndex}}/{{maxPage}}页</text>
+        <button class="query-result-btn" @click="changeCurPageIndex(curPageIndex + 1)" :disabled="curPageIndex === maxPage">下一页</button>
       </view>
-      <view class="query-result-empty-tip" v-if="classroomDetail.length === 0">
-        <text>没有查询到结果, 请修改相关查询条件</text>
-      </view>
+      <loading-mask ref="mask"/>
     </view>
-    <view class="query-result-page-control">
-      <button class="query-result-btn" :disabled="curPageIndex === 1" @click="changeCurPageIndex(curPageIndex - 1)">上一页</button>
-      <text class="query-result-page-tip">{{curPageIndex}}/{{maxPage}}页</text>
-      <button class="query-result-btn" @click="changeCurPageIndex(curPageIndex + 1)" :disabled="curPageIndex === maxPage">下一页</button>
-    </view>
-    <loading-mask ref="mask"/>
   </view>
 </template>
 
@@ -28,10 +32,12 @@
 import { PROXY_SCHOOL_APP_AJAX } from '../../../../store/actions-type'
 import { getEmptyClassroom } from '../../../../api/schoolApp/emptyClassQuery'
 import LoadingMask from '../../../../component/LoadingMask/LoadingMask'
+import MyNavigator from '../../../../component/Navigator/Navigator'
+import StatusBar from '../../../../component/Navigator/StatusBar'
 
 export default {
   name: 'QueryResultPage',
-  components: { LoadingMask },
+  components: { StatusBar, MyNavigator, LoadingMask },
   data () {
     return {
       queryParam: {
@@ -63,6 +69,7 @@ export default {
         that.classroomDetail = resp.items
         that.maxPage = resp.totalPage
       }).catch(e => console.log(e)).finally(() => {
+        that.$refs.nav.loadSuccess()
         if (that.$refs.mask) {
           that.$refs.mask.stopLoading()
         }
@@ -72,6 +79,9 @@ export default {
       this.curPageIndex = val
       this.loadEmptyClassRoom(val)
     }
+  },
+  mounted() {
+    this.$refs.nav.viewInitSuccess()
   }
 }
 </script>
@@ -106,7 +116,7 @@ export default {
 }
 .query-result{
   box-sizing: border-box;
-  padding: 0 30rpx;
+  padding: 30rpx;
   background-color: #fff;
 }
 .query-result-row{

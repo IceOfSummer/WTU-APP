@@ -1,5 +1,6 @@
 <template>
   <view :style="'background-image: url(' + absoluteBackgroundImage + ')'" class="classes-bg">
+    <status-bar/>
     <my-navigator title="课程表">
       <template #right>
         <text class="iconfont" @click="onNavigationBarButtonTap">&#xe600;</text>
@@ -97,6 +98,7 @@ import { useStore } from 'vuex'
 import { SET_CLASSES } from '../../store/mutations-type'
 import { ADJUST_CUR_WEEK, INIT_CLASS_LIST_OPTIONS, PROXY_SCHOOL_APP_AJAX } from '../../store/actions-type'
 import MyNavigator from '../../component/Navigator/Navigator'
+import StatusBar from '../../component/Navigator/StatusBar'
 
 const getClassFromServer = (store) => store.dispatch(PROXY_SCHOOL_APP_AJAX, getClasses(store.state.classes.classesOptions.year,
   store.state.classes.classesOptions.term, store.state.eduSystemUser.username, store.state.eduSystemUser.token)).then(resp => {
@@ -125,7 +127,7 @@ const getClassFromServer = (store) => store.dispatch(PROXY_SCHOOL_APP_AJAX, getC
 
 export default {
   name: 'SchoolClasses',
-  components: { MyNavigator, ClassItem },
+  components: { StatusBar, MyNavigator, ClassItem },
   setup () {
     const store = useStore()
 

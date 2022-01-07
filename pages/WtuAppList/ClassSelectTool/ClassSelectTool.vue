@@ -1,5 +1,6 @@
 <template>
   <view>
+    <status-bar/>
     <my-navigator show-back title="选课工具"/>
     <view class="class-select-tool">
       <top-collapse :provide-show-only="true" :open="true" ref="collapse" @co-open="reset">
@@ -43,10 +44,11 @@ import LoadingMask from '../../../component/LoadingMask/LoadingMask'
 import TopCollapse from '../../../component/TopCollapse/TopCollapse'
 import ClassList from './ClassList'
 import MyNavigator from '../../../component/Navigator/Navigator'
+import StatusBar from '../../../component/Navigator/StatusBar'
 
 export default {
   name: 'ClassSelectTool',
-  components: { MyNavigator, ClassList, TopCollapse, LoadingMask },
+  components: { StatusBar, MyNavigator, ClassList, TopCollapse, LoadingMask },
   setup () {
     const store = useStore()
     const loading = ref()

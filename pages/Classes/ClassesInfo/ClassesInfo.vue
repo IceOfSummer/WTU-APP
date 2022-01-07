@@ -1,5 +1,7 @@
 <template>
   <view>
+    <status-bar/>
+    <my-navigator title="课程详细" show-percent ref="nav"/>
     <classes-info-item v-for="(item, index) in detail" :key="index" :detail="item" :type="item.type"/>
   </view>
 </template>
@@ -8,10 +10,12 @@
 
 import { useStore } from 'vuex'
 import ClassesInfoItem from './ClassesInfoItem'
+import MyNavigator from '../../../component/Navigator/Navigator'
+import StatusBar from '../../../component/Navigator/StatusBar'
 
 export default {
   name: 'ClassesInfo',
-  components: { ClassesInfoItem },
+  components: { StatusBar, MyNavigator, ClassesInfoItem },
   data () {
     return {
       detail: []
@@ -37,7 +41,9 @@ export default {
       }
     })
   },
-  setup () {}
+  mounted() {
+    this.$refs.nav.loadSuccess()
+  }
 }
 </script>
 

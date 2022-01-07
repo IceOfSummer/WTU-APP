@@ -1,5 +1,6 @@
 <template>
   <view>
+    <status-bar/>
     <my-navigator title="设置" show-back/>
     <view class="config-center">
       <options-block title="课程表设置" @click="jump('/pages/Classes/Options/Options')">
@@ -21,9 +22,10 @@
 import OptionsBlock from '../../../component/OptionsComponent/OptionsBlock/OptionsBlock'
 import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
 import MyNavigator from '../../../component/Navigator/Navigator'
+import StatusBar from '../../../component/Navigator/StatusBar'
 export default {
   name: 'ConfigCenter',
-  components: { MyNavigator, OptionsDivider, OptionsBlock },
+  components: { StatusBar, MyNavigator, OptionsDivider, OptionsBlock },
   setup () {
     const jump = (url) => uni.navigateTo({ url })
     return {

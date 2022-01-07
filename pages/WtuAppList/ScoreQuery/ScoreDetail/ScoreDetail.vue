@@ -1,6 +1,7 @@
 <template>
   <view>
     <reload-mask :reload-url="reloadUrl" :show-reload="showReload"/>
+    <status-bar/>
     <my-navigator :title="detail.kcmc" show-back ref="navigator" show-percent/>
     <view>
       <view>
@@ -86,9 +87,10 @@ import { useStore } from 'vuex'
 import ReloadMask from '../../../../component/ReloadMask/ReloadMask'
 import { PROXY_SCHOOL_APP_AJAX } from '../../../../store/actions-type'
 import OptionsDivider from '../../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
+import StatusBar from '../../../../component/Navigator/StatusBar'
 export default {
   name: 'ScoreDetail',
-  components: { OptionsDivider, ReloadMask, MyNavigator },
+  components: { StatusBar, OptionsDivider, ReloadMask, MyNavigator },
   data () {
     return {
       detail: {},

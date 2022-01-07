@@ -1,5 +1,6 @@
 <template>
   <view class="content">
+    <status-bar/>
     <my-navigator title="首页"/>
     <text>选课工具仍然是测试版!</text>
     <text>选完后一定要去教务系统确认</text>
@@ -10,9 +11,10 @@
 <script>
 import manifest from '../../manifest.json'
 import MyNavigator from '../../component/Navigator/Navigator'
+import StatusBar from '../../component/Navigator/StatusBar'
 export default {
   name: 'HomeIndex',
-  components: { MyNavigator },
+  components: { StatusBar, MyNavigator },
   setup() {
     return {
       version: manifest.versionName

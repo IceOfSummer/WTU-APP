@@ -1,5 +1,6 @@
 <template>
   <view>
+    <status-bar/>
     <my-navigator title="课程表设置" show-back/>
     <view class="classes-option">
       <options-picker :range="['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
@@ -36,10 +37,11 @@ import OptionsPicker from '../../../component/OptionsComponent/OptionsPicker/Opt
 import OptionsDivider from '../../../component/OptionsComponent/OptionsDivider/OptionsDivider'
 import MyNavigator from '../../../component/Navigator/Navigator'
 import TipDialog from '../../../component/MyDialog/TipDialog'
+import StatusBar from '../../../component/Navigator/StatusBar'
 
 export default {
   name: 'ClassesOptions',
-  components: { TipDialog, MyNavigator, OptionsDivider, OptionsPicker, OptionsBlock, OptionsSwitch },
+  components: { StatusBar, TipDialog, MyNavigator, OptionsDivider, OptionsPicker, OptionsBlock, OptionsSwitch },
   setup() {
     const store = useStore()
     const dialog = ref()
