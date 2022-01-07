@@ -7,13 +7,6 @@
 			}
 		},
 		{
-			"path": "pages/Auth/Auth",
-			"style": {
-				"navigationBarTitleText": "认证页面",
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/WtuAppList/WtuAppList",
 			"style": {
 				"navigationBarTitleText": "其它应用"

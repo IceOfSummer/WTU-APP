@@ -6,10 +6,10 @@
       </view>
       <view class="profile-user-info">
         <view class="profile-user-info-block">
-          <image :src="headIcon ? headIcon : 'static/image/user.jpg'"/>
+          <image src="~@/static/image/user.jpg"/>
           <view class="profile-user-info-detail">
-            <text>用户名</text>
-            <text>Account Number</text>
+            <text>欢迎!</text>
+            <text>{{username}}</text>
           </view>
         </view>
         <view class="profile-user-info-more"></view>
@@ -45,8 +45,7 @@ export default {
 
     return {
       jump,
-      schoolToken: computed(() => store.state.schoolToken),
-      headIcon: computed(() => store.state.user.headIcon)
+      username: computed(() => store.state.eduSystemUser.username)
     }
   }
 }

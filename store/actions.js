@@ -3,6 +3,7 @@ import { INVALID_EDU_SYSTEM_TOKEN, SET_CLASSES_OPTIONS } from './mutations-type'
 import { getCurWeekFromServer } from '../api/schoolApp/classTableQuery'
 import { showToast } from '../hook/utils/TipUtils'
 import { existInput } from '../hook/utils/StringUtils'
+import { init } from '../api/schoolApp/schoolAuth'
 export default {
   /**
    * 校准课表显示的当前周
@@ -65,20 +66,34 @@ export default {
   [TYPE.PROXY_SCHOOL_APP_AJAX] ({ commit, state }, promise) {
     return new Promise((resolve, reject) => {
       promise.then(resp => {
-        if (typeof resp === 'string') {
-          const usernameInput = existInput(resp, 'yhm')
-          const passwordInput = existInput(resp, 'mm')
-          if (usernameInput && passwordInput) {
-            // 登录失效
-            commit(INVALID_EDU_SYSTEM_TOKEN)
-            showToast('登录失效')
-            reject('登录失效')
-            if (state.eduSystemUser.config.autoRedirectLoginPage) {
-              uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
+        function checkIsSessionInvalid (data) {
+          if (typeof data === 'string') {
+            const usernameInput = existInput(data, 'yhm')
+            const passwordInput = existInput(data, 'mm')
+            if (usernameInput && passwordInput) {
+              // 登录失效
+              return true
             }
-            return
           }
+          return false
         }
+        if (checkIsSessionInvalid(resp)) {
+          init().then(resp => {
+            if (!resp) {
+              // 登录成功
+              showToast('已经尝试重新登录, 请重新打开页面')
+            } else {
+              commit(INVALID_EDU_SYSTEM_TOKEN)
+              reject('登录失效')
+              showToast('登录失效, 请重新登录')
+              if (state.eduSystemUser.config.autoRedirectLoginPage) {
+                uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
+              }
+            }
+          })
+          return
+        }
+
         // success
         if (resp.data) {
           try {

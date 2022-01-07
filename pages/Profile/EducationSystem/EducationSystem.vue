@@ -74,7 +74,6 @@ export default {
     const getUserInfoAjax = () => {
       if (isUsableToken.value) {
         // 获取用户信息
-        console.log('run')
         store.dispatch(PROXY_SCHOOL_APP_AJAX, getUserInfo(username)).then(resp => {
           if (resp) {
             // 分离值
