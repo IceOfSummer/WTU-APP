@@ -1,10 +1,23 @@
 <template>
-  <view class="content">
+  <view>
     <status-bar/>
     <my-navigator title="首页"/>
-    <text>选课工具仍然是测试版!</text>
-    <text>选完后一定要去教务系统确认</text>
-    <text>当前版本: {{version}}</text>
+    <view class="content">
+      <text>感谢您使用本APP!</text>
+      <text>APP代码全部开源且遵守MIT开源协议</text>
+      <text>目前仅有4个功能即</text>
+      <text>查询课程表, 查询空教室, 查询成绩和选课工具</text>
+      <text>还有很多功能想做, 但有没有那个力气就是另一回事了</text>
+      <text>当前版本: {{version}}</text>
+    </view>
+    <view class="fast-links">
+      <view>
+        <text @click="jumpToBrowser('https://github.com/HuPeng333/WTU-APP')">点我查看APP代码仓库</text>
+      </view>
+      <view>
+        <text @click="jumpToBrowser('https://github.com/HuPeng333/WTU-App-Server')">点我查看APP后端代码仓库</text>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -16,19 +29,32 @@ export default {
   name: 'HomeIndex',
   components: { StatusBar, MyNavigator },
   setup() {
+    const jumpToBrowser = (url) => {
+      plus.runtime.openURL(url)
+    }
+
     return {
-      version: manifest.versionName
+      version: manifest.versionName,
+      jumpToBrowser
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+.fast-links{
+  margin-top: 40rpx;
+  >view {
+    text-align: center;
+    margin: 20rpx 0;
+  }
+  color: $uni-color-primary;
+}
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 20rpx;
+  font-size: $uni-font-size-sm;
 }
 </style>
