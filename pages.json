@@ -94,6 +94,12 @@
 			"style": {
 				"navigationBarTitleText": "选课工具"
 			}
+		},
+		{
+			"path": "pages/WtuAppList/ScoreQuery/ScoreDetail/ScoreDetail",
+			"style": {
+				"navigationBarTitleText": "成绩详细信息"
+			}
 		}
 	],
 	"globalStyle": {

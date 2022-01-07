@@ -117,4 +117,16 @@ export function cancelOldAjax(url, method = 'GET', data = {}) {
   })
 }
 
+export function sessionAjax(url, session, method = 'GET', data = {}) {
+  return baseAjax({
+    url,
+    data,
+    method,
+    rejectPolicy: 'CANCEL_OLD_TASK',
+    headers: {
+      Cookie: 'JSESSIONID=' + session
+    }
+  })
+}
+
 export default baseAjax

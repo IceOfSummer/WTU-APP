@@ -71,13 +71,19 @@ export default {
           if (state.eduSystemUser.config.autoRedirectLoginPage) {
             uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
           }
+          return
         }
         // success
-        try {
-          resolve(JSON.parse(resp.data))
-        } catch (e) {
-          // JSON解析失败
-          resolve(resp.data)
+        if (resp.data) {
+          try {
+            resolve(JSON.parse(resp.data))
+          } catch (e) {
+            // JSON解析失败
+            resolve(resp.data)
+          }
+        } else {
+          // 使用了反向代理访问
+          resolve(resp)
         }
       }).catch(e => {
         showToast('出错了! 请重新尝试')

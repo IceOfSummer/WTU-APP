@@ -38,6 +38,16 @@ export default {
     let addPercent
 
     /**
+     * 设置进度条进度
+     * @param val {number} 进度
+     */
+    function setPercent(val) {
+      if (val > currentPercent.value) {
+        currentPercent.value = val
+      }
+    }
+
+    /**
      * 展示加载条
      */
     function startLoad() {
@@ -67,20 +77,23 @@ export default {
     })
 
     const loadSuccess = () => {
-      currentPercent.value = 100
       setTimeout(() => {
-        // 清除加载条
-        // currentPercent.value = 0
-        processBarOpacity.value = 0
-        clearAllInterval()
-      }, 1000)
+        // 防止加载太快
+        setPercent(100)
+        setTimeout(() => {
+          // 清除加载条
+          // currentPercent.value = 0
+          processBarOpacity.value = 0
+          clearAllInterval()
+        }, 1000)
+      }, 200)
     }
 
     const viewInitSuccess = () => {
       setTimeout(() => {
-        currentPercent.value = 50
+        setPercent(50)
         setTimeout(() => {
-          currentPercent.value = 75
+          setPercent(75)
         }, 600)
       }, 500)
     }
@@ -128,6 +141,7 @@ export default {
 .navigator{
   background-color: rgb(236, 236, 236);
   width: 100%;
+  z-index: 9;
 }
 .navigator-content-title{
   width: 650rpx;

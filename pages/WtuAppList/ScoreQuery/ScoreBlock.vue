@@ -15,7 +15,7 @@
           <text>最终成绩</text>
         </view>
       </view>
-      <view v-for="(item, index) in scores" :key="index" class="score-block-item-table" :style="`color: ${getSubjectColor(item.cj)}`">
+      <view v-for="(item, index) in scores" :key="index" class="score-block-item-table" :style="`color: ${getSubjectColor(item.cj)}`" @click="seeDetail(item)">
         <view>
           <text>{{item.kcmc}}</text>
         </view>
@@ -61,8 +61,19 @@ export default {
       }
     }
 
+    /**
+     * 查看课程详细信息
+     * @param detail {Object} 课程信息
+     */
+    const seeDetail = (detail) => {
+      uni.navigateTo({
+        url: `/pages/WtuAppList/ScoreQuery/ScoreDetail/ScoreDetail?detail=${JSON.stringify(detail)}`
+      })
+    }
+
     return {
-      getSubjectColor
+      getSubjectColor,
+      seeDetail
     }
   }
 }

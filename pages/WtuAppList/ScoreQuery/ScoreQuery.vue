@@ -16,6 +16,8 @@
         <text>没有相关学期的成绩, 请切换其它学期</text>
       </view>
       <view v-else class="score-query-tip-info">
+        <text>点击某项成绩即可查看详细</text>
+        <br/>
         <text>成绩大于等于75分用绿色标记, 60分到75分为橙色, 小于60分为红色</text>
       </view>
       <loading-mask ref="mask"/>
