@@ -65,7 +65,7 @@ export default {
             }
           }, 1000)
         }
-      }, 100)
+      }, 50)
     }
     if (props.showPercent) {
       startLoad()
