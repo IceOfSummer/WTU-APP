@@ -21,6 +21,9 @@
 						"buttons": [
 							{"type": "menu"}
 						]
+					},
+					"pullToRefresh": {
+						"offset": "100px"
 					}
 				},
 				"enablePullDownRefresh": true

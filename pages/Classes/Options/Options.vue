@@ -17,7 +17,7 @@
       <options-divider/>
       <options-block title="从服务器校准当前周" @click="tryAdjustCurWeekFromServer" type="primary"/>
       <options-divider/>
-      <options-block @click="clearClassData" type="danger" title="情况本地课表缓存数据"/>
+      <options-block @click="clearClassData" type="danger" title="清除本地课表缓存数据"/>
       <options-divider/>
       <options-block title="重置背景图片" type="danger" @click="resetBackgroundImage"></options-block>
       <options-divider/>
