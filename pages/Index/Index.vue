@@ -51,6 +51,11 @@
           <view class="index-menu-title">
             <text>新闻</text>
           </view>
+          <news-block title="1.1.0更新概况">
+            <text>- 显著提升了APP的启动速度</text>
+            <text>- 更新了启动贴图</text>
+            <text>你知道吗: 每当版本号x.y.z中的x或y变化时, 都需要重新下载安装包安装</text>
+          </news-block>
           <news-block title="1.0.3更新概况">
             <text>- 重写了首页</text>
             <text>- 修改了课程表设置的错别字</text>
@@ -68,20 +73,24 @@
         </view>
       </movable-view>
     </movable-area>
+    <tip-dialog ref="dialog"/>
   </view>
 </template>
 
 <script>
 import manifest from '../../manifest.json'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { formatDate } from '../../hook/utils/DateUtils'
 import NewsBlock from './NewsBlock'
 import LinkBlock from './LinkBlock'
+import TipDialog from '../../component/MyDialog/TipDialog'
 
 export default {
   name: 'HomeIndex',
-  components: { LinkBlock, NewsBlock },
+  components: { TipDialog, LinkBlock, NewsBlock },
   setup() {
+    const dialog = ref()
+
     const jumpToBrowser = (url) => {
       plus.runtime.openURL(url)
     }
@@ -93,7 +102,6 @@ export default {
     const year = ref(date.getFullYear())
     const month = ref(date.getMonth() + 1)
     const curDay = ref(date.getDate())
-    console.log(curDay.value)
 
 
     // 日历, 用二维数组, 第一纬表示行
@@ -171,7 +179,18 @@ export default {
       dateList.value.push(lastLine)
     }
 
-
+    onMounted(() => {
+      if (manifest.versionName !== '1.1.0') {
+        dialog.value.showDialog({
+          title: '发现更新',
+          message: '发现新版本(v1.1.0)! 需要重新安装安装包下载',
+          type: 'success',
+          confirmCallback () {
+            jumpToBrowser('http://xds.fit/vcs/download/android')
+          }
+        })
+      }
+    })
     return {
       version: manifest.versionName,
       jumpToBrowser,
@@ -180,7 +199,8 @@ export default {
       formatDate,
       dateList,
       jumpToArticle,
-      curDay
+      curDay,
+      dialog
     }
   }
 }

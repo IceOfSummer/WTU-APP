@@ -72,6 +72,7 @@ export const login = (lt, password, captcha, username, execution) => {
       username,
       password,
       captchaResponse: captcha,
+      rememberMe: 'on',
       lt,
       dllt: 'userNamePasswordLogin',
       execution,

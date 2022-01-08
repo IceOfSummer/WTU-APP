@@ -2,8 +2,8 @@
     "name" : "wtu-app",
     "appid" : "__UNI__5C91DCE",
     "description" : "",
-    "versionName" : "1.0.3",
-    "versionCode" : 13,
+    "versionName" : "1.0.4",
+    "versionCode" : 14,
     "transformPx" : false,
     // 热更新服务器 dev
     /* 5+App特有相关 */
@@ -15,7 +15,8 @@
             "alwaysShowBeforeRender" : true,
             "waiting" : false,
             "autoclose" : true,
-            "delay" : 0
+            "delay" : 0,
+            "androidTranslucent" : false
         },
         /* 模块配置 */
         "modules" : {},
@@ -76,6 +77,9 @@
                     "parameters" : {}
                 }
             }
+        },
+        "uniStatistics" : {
+            "enable" : true
         }
     },
     /* 快应用特有相关 */
@@ -100,5 +104,10 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "3"
+    "vueVersion" : "3",
+    "h5" : {
+        "uniStatistics" : {
+            "enable" : true
+        }
+    }
 }
