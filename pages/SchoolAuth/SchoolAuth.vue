@@ -18,13 +18,12 @@
       <button class="school-auth-form-btn" hover-class="school-auth-form-btn-hover" @click="tryLogin">登录</button>
     </view>
     <view class="school-auth-info">
-      <text>您的密码是以AES加密的方式上传给服务器,加密密匙是由学校服务器提供,本软件无法破解</text>
+      <text>密码是以AES加密的方式上传给服务器,加密密匙是由学校服务器提供,本软件无法破解</text>
       <br/>
-      <text>您的密码会被保存到本地, 以便于下次快速登录</text>
-      <br/>
-      <text>为了节省服务器资源, 在登录时出现错误无法查看哪个地方填错了</text>
+      <text>密码会被保存到本地, 以便于下次快速登录</text>
     </view>
     <loading-mask ref="loading"/>
+    <tip-dialog ref="dialog"/>
   </view>
 </template>
 
@@ -37,13 +36,15 @@ import { useStore } from 'vuex'
 import AnimatedInput from '../../component/AnimatedInput/AnimatedInput'
 import LoadingMask from '../../component/LoadingMask/LoadingMask'
 import { showToast } from '../../hook/utils/TipUtils'
+import TipDialog from '../../component/MyDialog/TipDialog'
 
 export default {
   name: 'SchoolAuth',
-  components: { LoadingMask, AnimatedInput },
+  components: { TipDialog, LoadingMask, AnimatedInput },
   setup () {
     const store = useStore()
     const isInitSuccess = ref(false)
+    const dialog = ref()
 
     // loading组件
     const loading = ref()
@@ -147,10 +148,9 @@ export default {
         loading.value.showLoading()
         const encryptedPassword = wtuEncrypt(password.value, encryptSalt)
         let isLoginSuccess = false
-        console.log(encryptedPassword)
         login(lt, encryptedPassword, captcha.value, username.value, execution).then(resp => {
-          console.log(resp)
-          if (resp) {
+          const match = resp.match(/<span id="msg" class="auth_error".+</)
+          if (match == null) {
             // success
             isLoginSuccess = true
             store.commit(SAVE_SCHOOL_LOGIN_INFO, { username: username.value, password: password.value })
@@ -159,18 +159,19 @@ export default {
               icon: 'none',
               position: 'bottom'
             })
-            console.log(resp.data)
             uni.navigateBack()
           } else {
-            uni.showToast({
-              title: '登录失败,请检查你提交的数据',
-              icon: 'none',
-              position: 'bottom'
+            let errMsg = match[0].replace(/<.+>/, '').replace('<', '')
+            dialog.value.showDialog({
+              title: '登录失败',
+              message: errMsg,
+              hideCancel: true,
+              type: 'error'
             })
           }
-          loading.value.hideLoading()
+          loading.value.stopLoading()
         }).finally(() => {
-          loading.value.hideLoading()
+          loading.value.stopLoading()
           if (!isLoginSuccess) {
             tryInit()
           }
@@ -190,7 +191,8 @@ export default {
       userNameErrorMsg: userNameErrorMsg,
       passwordErrorMsg: passwordErrorMsg,
       captchaErrorMsg: captchaErrorMsg,
-      loading
+      loading,
+      dialog
     }
   }
 }

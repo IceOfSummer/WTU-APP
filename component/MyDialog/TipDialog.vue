@@ -1,6 +1,6 @@
 <template>
   <uni-popup ref="popup" type="dialog">
-    <uni-popup-dialog :title="title" :type="type" :content="message" @close="cancelEvent" @confirm="confirmEvent"></uni-popup-dialog>
+    <uni-popup-dialog :hide-cancel="hideCancel" :title="title" :type="type" :content="message" @close="cancelEvent" @confirm="confirmEvent"></uni-popup-dialog>
   </uni-popup>
 </template>
 
@@ -14,6 +14,7 @@ export default {
     const title = ref('提示')
     const message = ref('')
     const type = ref('warn')
+    const hideCancel = ref(false)
     let confirmCallback = null
     let cancelCallback = null
 
@@ -31,7 +32,7 @@ export default {
 
     /**
      * @param options {{title?: string, message?: string, type?: 'success'|'warn'|'info'|'error',
-     * confirmCallback?: function, cancelCallback?: function}}
+     * confirmCallback?: function, cancelCallback?: function, hideCancel?: boolean}}
      */
     const showDialog = (options) => {
       uni.hideTabBar()
@@ -39,6 +40,7 @@ export default {
       title.value = options.title ? options.title : '提示'
       message.value = options.message ? options.message : message.value
       type.value = options.type ? options.type : 'warn'
+      hideCancel.value = options.hideCancel ? options.hideCancel : false
       confirmCallback = options.confirmCallback
       cancelCallback = options.cancelCallback
     }
@@ -50,7 +52,8 @@ export default {
       cancelEvent,
       message,
       title,
-      type
+      type,
+      hideCancel
     }
   }
 }

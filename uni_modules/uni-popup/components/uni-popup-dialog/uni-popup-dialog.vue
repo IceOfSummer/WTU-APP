@@ -14,10 +14,10 @@
 			</slot>
 		</view>
 		<view class="uni-dialog-button-group">
-			<view class="uni-dialog-button" @click="closeDialog">
+			<view class="uni-dialog-button" @click="closeDialog" v-if="!hideCancel">
 				<text class="uni-dialog-button-text">{{cancelText}}</text>
 			</view>
-			<view class="uni-dialog-button uni-border-left" @click="onOk">
+			<view class="uni-dialog-button" @click="onOk" :class="{'uni-border-left': !hideCancel}">
 				<text class="uni-dialog-button-text uni-button-color">{{okText}}</text>
 			</view>
 		</view>
@@ -84,7 +84,11 @@
 			beforeClose: {
 				type: Boolean,
 				default: false
-			}
+			},
+      hideCancel: {
+        type: Boolean,
+        default: false
+      }
 		},
 		data() {
 			return {
