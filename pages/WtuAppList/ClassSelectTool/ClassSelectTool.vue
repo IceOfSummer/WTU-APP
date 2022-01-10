@@ -1,8 +1,9 @@
 <template>
   <view>
+    <reload-mask reload-url="/pages/WtuAppList/ClassSelectTool/ClassSelectTool" ref="reload"/>
     <status-bar/>
     <my-navigator show-back title="选课工具"/>
-    <view class="class-select-tool">
+    <view class="class-select-tool" v-if="isInitSuccess">
       <top-collapse :provide-show-only="true" :open="true" ref="collapse" @co-open="reset">
         <view class="class-select-options">
           <view @click="select(1)">
@@ -45,15 +46,16 @@ import TopCollapse from '../../../component/TopCollapse/TopCollapse'
 import ClassList from './ClassList'
 import MyNavigator from '../../../component/Navigator/Navigator'
 import StatusBar from '../../../component/Navigator/StatusBar'
+import ReloadMask from '../../../component/ReloadMask/ReloadMask'
 
 export default {
   name: 'ClassSelectTool',
-  components: { StatusBar, MyNavigator, ClassList, TopCollapse, LoadingMask },
+  components: { ReloadMask, StatusBar, MyNavigator, ClassList, TopCollapse, LoadingMask },
   setup () {
     const store = useStore()
     const loading = ref()
     const collapse = ref()
-
+    const reload = ref()
 
     console.log(store.state.classSelectInfo.queryParam1)
     // 加载哪个选课类型
@@ -65,13 +67,33 @@ export default {
      * 从服务器获取选课第一部分参数
      */
     function getFirstInitParamFromServer() {
-      return store.dispatch(PROXY_SCHOOL_APP_AJAX, initClassSelect(store.state.eduSystemUser.username, store.state.eduSystemUser.token)).then(resp => {
-        store.commit(LOAD_CLASS_QUERY_INFO_1, resp)
-        const xszxzt = store.state.classSelectInfo.queryParam1.xszxzt
-        if (xszxzt) {
-          isInitSuccess.value = true
+      return store.dispatch(PROXY_SCHOOL_APP_AJAX, initClassSelect(store.state.eduSystemUser.username)).then(resp => {
+        const note = getFirstInitParamNote(resp)
+        if (note) {
+          const initError = new Error(note)
+          initError.name = '初始化失败'
+          reload.value.needReload(initError)
+          return
         }
-      }).catch(e => console.log(e))
+        store.commit(LOAD_CLASS_QUERY_INFO_1, resp)
+        isInitSuccess.value = true
+      }).catch(e => {
+        console.log(e)
+        reload.value.needReload(e)
+      })
+    }
+
+    /**
+     * 获取第一次初始化参数的告示, 一般是错误提示
+     * @param html {string} html
+     */
+    function getFirstInitParamNote(html) {
+      const match = html.match(/<div class="nodata">.+<\/s/)
+      console.log(match)
+      if (match == null) {
+        return null
+      }
+      return match[0].replace('<div class="nodata"><span>', '').replace('</s', '')
     }
 
 
@@ -80,7 +102,10 @@ export default {
     if (!xqh_id) {
       // 初始化
       getFirstInitParamFromServer()
+    } else {
+      isInitSuccess.value = true
     }
+    console.log(isInitSuccess.value)
 
     const select = (val) => {
       collapse.value.closeCollapse()
@@ -99,7 +124,9 @@ export default {
       select,
       collapse,
       xkkz_id: computed(() => store.state.classSelectInfo.queryParam1.xkkz_id),
-      reset
+      reset,
+      reload,
+      isInitSuccess
     }
   }
 }

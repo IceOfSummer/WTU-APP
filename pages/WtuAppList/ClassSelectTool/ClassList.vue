@@ -79,7 +79,7 @@ const paramObjMapping = {
 
 export default {
   name: 'ClassList',
-  components: { OptionsButton, LoadingMask, AnimatedCollapse, OptionsDivider },
+  components: {  OptionsButton, LoadingMask, AnimatedCollapse, OptionsDivider },
   props: {
     xkkz_id: {
       type: String,
@@ -126,7 +126,7 @@ export default {
     }
 
     const getClassListFromServer = () => {
-      console.log('click')
+      loading.value.showLoading()
       return store.dispatch(PROXY_SCHOOL_APP_AJAX, getClassList(store, paramObj, props.kklxdm, curPageIndex)).then(resp => {
         console.log(resp)
         if (Array.isArray(resp.tmpList)) {
@@ -141,6 +141,8 @@ export default {
       }).catch(e => {
         showToast('加载失败, 请稍后再试')
         console.log(e)
+      }).finally(() => {
+        loading.value.stopLoading()
       })
     }
 
@@ -248,8 +250,6 @@ export default {
 
     const loadMore = () => {
       curPageIndex++
-      console.log('++')
-      console.log(curPageIndex)
       getClassListFromServer()
     }
 
