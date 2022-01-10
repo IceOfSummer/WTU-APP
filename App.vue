@@ -1,7 +1,9 @@
 <script>
-import { getVersion } from './api/appVersion'
 import { showToast } from './hook/utils/TipUtils'
-import { getServerUrl } from './hook/utils/serverUtils'
+import { useStore } from 'vuex'
+import { GET_UPDATE_INFO } from './store/actions-type'
+import manifest from './manifest.json'
+import { CLEAR_APP_UPDATE_INFO } from './store/mutations-type'
 export default {
   data () {
     return {
@@ -9,49 +11,24 @@ export default {
     }
   },
   onLaunch: function() {
-    const serverUrl = getServerUrl()
-    const that = this
-
-    // 检查更新
-    getVersion().then(resp => {
-      const newVersion = resp.data.versionCode
-      plus.runtime.getProperty(plus.runtime.appid, (inf) => {
-        console.log(`当前版本: ${inf.versionCode}, 最新版本: ${newVersion}`)
-
-        if (newVersion - Number.parseInt(inf.versionCode) >= 1) {
-          downLoadNewVersion(resp.data.versionName)
-        }
-      })
-    }).catch(e => console.log(e))
-
-    /**
-     * 下载新版本
-     * @param versionName {string}
-     */
-    function downLoadNewVersion (versionName) {
-      console.log('downloading: ' + versionName)
-      uni.downloadFile({
-        url: `${serverUrl}/vcs/app/hotUpdate/${versionName}`,
-        success (result) {
-          console.log(result)
-          if (result.statusCode === 200) {
-            that.newVersionPath = result.tempFilePath
-          }
-        }
-      })
-    }
-
+    const store = useStore()
+    store.dispatch(GET_UPDATE_INFO)
   },
   onShow: function() {
     console.log('App Show')
   },
   onHide: function() {
+    const store = useStore()
     // 隐藏APP后直接更新
-    if (this.newVersionPath) {
-      plus.runtime.install(this.newVersionPath, {
+    const wgtPath = store.state.appUpdate.wgtPath
+    const minVersionCode = store.state.appUpdate.minVersionCode
+    if (manifest.versionCode >= minVersionCode && wgtPath) {
+      console.log('1')
+      plus.runtime.install(wgtPath, {
         force: false
       }, function() {
         console.log('install success...')
+        store.commit(CLEAR_APP_UPDATE_INFO, { path: '', minVersionCode: '' })
         plus.runtime.restart()
       }, function() {
         showToast('安装失败, 请稍后再试')

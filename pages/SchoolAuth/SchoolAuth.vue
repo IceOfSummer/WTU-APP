@@ -78,7 +78,6 @@ export default {
         encryptSalt = resp.encryptSalt
         execution = resp.execution
         // 获取验证码
-        console.log(resp)
         tryGetCaptcha()
       }).catch(e => console.log(e)).finally(() => {
         if (!isInitSuccess.value) {

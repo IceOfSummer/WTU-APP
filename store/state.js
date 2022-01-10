@@ -170,5 +170,15 @@ export default {
       rlzlkz: '',
       xklc: ''
     }
+  },
+  appUpdate: {
+    /**
+     * 热更新资源包安装路径
+     */
+    wgtPath: '',
+    /**
+     * 安装所需最小版本号
+     */
+    minVersionCode: ''
   }
 }

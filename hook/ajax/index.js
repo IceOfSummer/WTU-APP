@@ -1,12 +1,6 @@
 import { getServerUrl } from '../utils/serverUtils'
 
-const showErrorMsg = (msg) => {
-  uni.showToast({
-    title: msg,
-    icon: 'none',
-    position: 'bottom'
-  })
-}
+
 const BASE_URL = getServerUrl()
 // const BASE_URL = 'http://119.91.97.176:8080'
 // const BASE_URL = 'http://10.181.216.32:8080'
@@ -70,7 +64,6 @@ function baseAjax(config) {
       }
     }
     missionManager.checkMission(url, config.rejectPolicy ? config.rejectPolicy : 'REJECT_IF_EXIST')
-    console.log('mark')
     const task = uni.request({
       url,
       data: config.data,

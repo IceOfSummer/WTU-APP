@@ -14,16 +14,13 @@ const text = '<p style="text-align: center;">\n' +
   '    <span style="background-color: rgb(255, 255, 255); color: rgb(127, 127, 127); font-size: 16px;"><br/></span>\n' +
   '</p>\n' +
   '<p>\n' +
-  '    <span style="background-color: rgb(255, 255, 255); color: rgb(127, 127, 127); font-size: 16px;">&nbsp;&nbsp;&nbsp;&nbsp;我只想说：<span style="background-color: rgb(255, 255, 255); font-size: 18px; color: rgb(255, 0, 0);">APP是绝对安全的</span></span>\n' +
-  '</p>\n' +
-  '<p>\n' +
   '    <span style="background-color: rgb(255, 255, 255); font-size: 18px; color: rgb(255, 0, 0);"><br/></span>\n' +
   '</p>\n' +
   '<p>\n' +
-  '    <span style="background-color: rgb(255, 255, 255); color: rgb(255, 0, 0); font-size: 16px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(0, 0, 0);">首先，</span><span style="font-size: 18px; background-color: rgb(255, 255, 255); color: rgb(255, 0, 0);">APP不需要借助除学校教务系统的第三方服务器(在线更新除外)</span>。<span style="background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(0, 0, 0);">如果你不信，你可以尝试抓包APP，所有的请求全部都没有向外发送，所以不存在我盗你教务系统账号什么的。</span></span>\n' +
+  '    <span style="background-color: rgb(255, 255, 255); color: rgb(255, 0, 0); font-size: 16px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(0, 0, 0);">首先，</span><span style="font-size: 18px; background-color: rgb(255, 255, 255); color: rgb(255, 0, 0);">APP不需要借助除学校教务系统的第三方服务器(在线更新除外)</span>。<span style="background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(0, 0, 0);">如果你不信，你可以尝试抓包APP，所有的请求全部都没有向外发送，所以不存在盗号什么的。</span></span>\n' +
   '</p>\n' +
   '<p>\n' +
-  '    <span style="background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(0, 0, 0);">然后就是关于病毒什么的，你都知道这软件是谁写得了，都是一个学校的，我也不会故意恶心人:)</span>\n' +
+  '    <span style="background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(0, 0, 0);">咱们都是一个学校的，更不会搞病毒什么的</span>\n' +
   '</p>\n' +
   '<p>\n' +
   '    <span style="font-size: 18px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"><br/></span>\n' +

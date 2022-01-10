@@ -1,5 +1,6 @@
 <template>
   <view class="index">
+    <view class="index-status-bar"></view>
     <view class="index-nav">
       <text>首页</text>
     </view>
@@ -51,6 +52,11 @@
           <view class="index-menu-title">
             <text>新闻</text>
           </view>
+          <news-block title="1.1.1更新概况">
+            <text>- 重写了更新逻辑</text>
+            <text>- 优化了绝大部分应用的错误提示</text>
+            <text>- 修复了首页导航栏过低的问题</text>
+          </news-block>
           <news-block title="1.1.0更新概况">
             <text>- 显著提升了APP的启动速度</text>
             <text>- 更新了启动贴图</text>
@@ -84,12 +90,14 @@ import { formatDate } from '../../hook/utils/DateUtils'
 import NewsBlock from './NewsBlock'
 import LinkBlock from './LinkBlock'
 import TipDialog from '../../component/MyDialog/TipDialog'
+import { useStore } from 'vuex'
 
 export default {
   name: 'HomeIndex',
   components: { TipDialog, LinkBlock, NewsBlock },
   setup() {
     const dialog = ref()
+    const store = useStore()
 
     const jumpToBrowser = (url) => {
       plus.runtime.openURL(url)
@@ -179,11 +187,15 @@ export default {
       dateList.value.push(lastLine)
     }
 
+
     onMounted(() => {
-      if (manifest.versionName !== '1.1.0') {
+      // 检查更新
+      const minVersionCode = store.state.appUpdate.minVersionCode
+      if (manifest.versionCode < minVersionCode) {
+        // 版本太旧
         dialog.value.showDialog({
-          title: '发现更新',
-          message: '发现新版本(v1.1.0)! 需要重新安装安装包下载',
+          title: '发现新版本了!',
+          message: '当前版本过低, 需要重新安装安装包下载',
           type: 'success',
           confirmCallback () {
             jumpToBrowser('http://xds.fit/vcs/download/android')
@@ -191,6 +203,7 @@ export default {
         })
       }
     })
+
     return {
       version: manifest.versionName,
       jumpToBrowser,
@@ -284,11 +297,15 @@ $nav-height: 40rpx;
   color: $uni-color-primary;
 }
 .index-nav{
-  padding-top: var(--status-bar-height);
   padding-bottom: 10rpx;
+  margin-top: 10rpx;
   height: $nav-height;
   font-size: $uni-font-size-subtitle;
   text-align: center;
   color: #fff;
+}
+.index-status-bar {
+  height: var(--status-bar-height);
+  width: 100%;
 }
 </style>

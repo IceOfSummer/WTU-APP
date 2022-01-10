@@ -1,9 +1,11 @@
 import * as TYPE from './actions-type'
-import { INVALID_EDU_SYSTEM_TOKEN, SET_CLASSES_OPTIONS } from './mutations-type'
+import { INVALID_EDU_SYSTEM_TOKEN, SET_CLASSES_OPTIONS, SET_APP_UPDATE_INFO } from './mutations-type'
 import { getCurWeekFromServer } from '../api/schoolApp/classTableQuery'
 import { showToast } from '../hook/utils/TipUtils'
 import { existInput } from '../hook/utils/StringUtils'
 import { init } from '../api/schoolApp/schoolAuth'
+import { getVersion } from '../api/appVersion'
+import { getServerUrl } from '../hook/utils/ServerUtils'
 export default {
   /**
    * 校准课表显示的当前周
@@ -139,6 +141,39 @@ export default {
         }
       }).catch(() => {
         commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: 1 })
+      })
+    }
+  },
+  [TYPE.GET_UPDATE_INFO] ({ commit }) {
+    const serverUrl = getServerUrl()
+    getVersion().then(resp => {
+      const newVersion = resp.data.versionCode
+      plus.runtime.getProperty(plus.runtime.appid, (inf) => {
+        console.log(`当前版本: ${inf.versionCode}, 最新版本: ${newVersion}`)
+        if (inf.versionCode < resp.data.minVersionCode) {
+          // 不允许直接升级, 需要重新安装
+          commit(SET_APP_UPDATE_INFO, { minVersionCode: resp.data.minVersionCode })
+        } else {
+          if (newVersion - Number.parseInt(inf.versionCode) >= 1) {
+            downLoadNewVersion(resp.data.versionName)
+          }
+        }
+      })
+    }).catch(e => console.log(e))
+
+    /**
+     * 下载新版本
+     * @param versionName {string}
+     */
+    function downLoadNewVersion (versionName) {
+      console.log('downloading: ' + versionName)
+      uni.downloadFile({
+        url: `${serverUrl}/vcs/app/hotUpdate/${versionName}`,
+        success (result) {
+          if (result.statusCode === 200) {
+            commit(SET_APP_UPDATE_INFO, { path: result.tempFilePath })
+          }
+        }
       })
     }
   }

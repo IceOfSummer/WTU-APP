@@ -119,5 +119,26 @@ export default {
     state.classSelectInfo.queryParam1.jg_id = getInputValue(html, 'jg_id_1')
     state.classSelectInfo.queryParam1.xkkz_id = getInputValue(html, 'firstXkkzId')
     state.classSelectInfo.queryParam1.kklxdm = getInputValue(html, 'firstKklxdm')
+  },
+  /**
+   * 设置下载好后的wgt安装包路径
+   * @param state state
+   * @param data {{path: string, minVersionCode: number}} 安装路径
+   */
+  [TYPE.SET_APP_UPDATE_INFO] (state, data) {
+    if (data.path) {
+      state.appUpdate.wgtPath = data.path
+    }
+    if (data.minVersionCode) {
+      state.appUpdate.minVersionCode = data.minVersionCode
+    }
+  },
+  /**
+   * 清除更新信息
+   * @param state state
+   */
+  [TYPE.CLEAR_APP_UPDATE_INFO] (state) {
+    state.appUpdate.wgtPath = ''
+    state.appUpdate.minVersionCode = ''
   }
 }
