@@ -3,7 +3,7 @@
     <reload-mask ref="reload" :reload-url="reloadUrl"/>
     <status-bar/>
     <my-navigator show-percent show-back ref="nav" title="空闲教室查询"/>
-    <view class="query-result">
+    <view class="query-result" v-if="classroomDetail.length !== 0">
       <view class="query-result-list">
         <view class="query-result-row query-result-header">
           <view>教室名称</view>
@@ -15,17 +15,17 @@
           <view>{{item.cdjylx}}</view>
           <view>{{item.cdmc}}</view>
         </view>
-        <view class="query-result-empty-tip" v-if="classroomDetail.length === 0">
-          <text>没有查询到结果, 请修改相关查询条件</text>
-        </view>
       </view>
       <view class="query-result-page-control">
         <button class="query-result-btn" :disabled="curPageIndex === 1" @click="changeCurPageIndex(curPageIndex - 1)">上一页</button>
         <text class="query-result-page-tip">{{curPageIndex}}/{{maxPage}}页</text>
         <button class="query-result-btn" @click="changeCurPageIndex(curPageIndex + 1)" :disabled="curPageIndex === maxPage || maxPage === 0">下一页</button>
       </view>
-      <loading-mask ref="mask"/>
     </view>
+    <view class="query-result-empty-tip" v-else>
+      <text>没有查询到结果, 请修改相关查询条件</text>
+    </view>
+    <loading-mask ref="mask"/>
   </view>
 </template>
 
@@ -35,7 +35,6 @@ import { getEmptyClassroom } from '../../../../api/schoolApp/emptyClassQuery'
 import LoadingMask from '../../../../component/LoadingMask/LoadingMask'
 import MyNavigator from '../../../../component/Navigator/Navigator'
 import StatusBar from '../../../../component/Navigator/StatusBar'
-import { useStore } from 'vuex'
 import ReloadMask from '../../../../component/ReloadMask/ReloadMask'
 
 export default {
@@ -66,7 +65,7 @@ export default {
     loadEmptyClassRoom (pageIndex = 1) {
       const that = this
       const { queryParam } = this
-      const store = useStore()
+      const store = this.$store
       if (this.$refs.mask) {
         this.$refs.mask.showLoading()
       }
@@ -75,7 +74,8 @@ export default {
         that.classroomDetail = resp.items
         that.maxPage = resp.totalPage
       }).catch(e => {
-        that.$refs.needReload(e)
+        console.log('1')
+        that.$refs.reload.needReload(e)
       }).finally(() => {
         that.$refs.nav.loadSuccess()
         if (that.$refs.mask) {
