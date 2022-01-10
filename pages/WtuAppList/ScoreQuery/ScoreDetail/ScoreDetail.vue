@@ -1,6 +1,6 @@
 <template>
   <view>
-    <reload-mask :reload-url="reloadUrl" :show-reload="showReload"/>
+    <reload-mask :reload-url="reloadUrl" ref="reload"/>
     <status-bar/>
     <my-navigator :title="detail.kcmc" show-back ref="navigator" show-percent/>
     <view>
@@ -95,13 +95,11 @@ export default {
     return {
       detail: {},
       reloadUrl: '',
-      showReload: false,
       scoreList: []
     }
   },
   onLoad ({ detail }) {
     this.detail = JSON.parse(detail)
-    console.log(this.detail)
     this.reloadUrl = `/pages/WtuAppList/ScoreQuery/ScoreDetail/ScoreDetail?detail=${detail}`
   },
   mounted() {
@@ -113,10 +111,6 @@ export default {
     store.dispatch(PROXY_SCHOOL_APP_AJAX, getScoreDetail(store.state.eduSystemUser.username, detail.jxb_id, detail.xnm, detail.xqm, detail.kcmc)).then(resp => {
       // 分离成绩表格
       const scoreList = resp.match(/<tbody>[\s\S]*<\/tbody>/)
-      if (scoreList == null) {
-        that.showReload = true
-        return
-      }
       // 每三个一组, 第一个是分数的类型, 第二个是分数占比, 第三个是具体分数
       const data = scoreList[0].match(/>.+</g)
       let currentIndex = 0
@@ -132,7 +126,9 @@ export default {
         scoreDetail.score = data[currentIndex++].replace('&nbsp;<', '').replace('>', '')
         that.scoreList.push(scoreDetail)
       }
-      console.log(that.scoreList)
+    }).catch(e => {
+      console.log(e)
+      that.$refs.reload.needReload(e)
     }).finally(() => {
       nav.loadSuccess()
     })

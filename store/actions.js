@@ -81,17 +81,22 @@ export default {
           init().then(resp => {
             if (!resp) {
               // 登录成功
+              const sessionInvalidError = new Error('已尝试重试登录, 请重新加载')
+              sessionInvalidError.name = '登录失效'
               showToast('已尝试重新登录, 请重新打开页面')
+              reject(sessionInvalidError)
             } else {
+              const sessionInvalidError = new Error('请重新登录')
+              sessionInvalidError.name = '登录失效'
               commit(INVALID_EDU_SYSTEM_TOKEN)
-              reject('登录失效')
+              reject(sessionInvalidError)
               showToast('登录失效, 请重新登录')
               if (state.eduSystemUser.config.autoRedirectLoginPage) {
                 uni.navigateTo({ url: '/pages/SchoolAuth/SchoolAuth' })
               }
             }
           })
-          return
+            return
         }
 
         // success

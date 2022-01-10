@@ -147,12 +147,9 @@ export default {
 
         } else if (resp.items) {
           setEmpty(true)
-        } else {
-          console.log(resp)
-          reload.value.needReload()
         }
       }).catch((e) => {
-        console.log(e)
+        reload.value.needReload(e)
         setEmpty(true)
       }).finally(() => {
         nav.value.loadSuccess()

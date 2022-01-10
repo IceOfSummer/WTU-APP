@@ -1,5 +1,6 @@
 <template>
   <view>
+    <reload-mask ref="reload" :reload-url="reloadUrl"/>
     <status-bar/>
     <my-navigator show-percent show-back ref="nav" title="空闲教室查询"/>
     <view class="query-result">
@@ -35,10 +36,11 @@ import LoadingMask from '../../../../component/LoadingMask/LoadingMask'
 import MyNavigator from '../../../../component/Navigator/Navigator'
 import StatusBar from '../../../../component/Navigator/StatusBar'
 import { useStore } from 'vuex'
+import ReloadMask from '../../../../component/ReloadMask/ReloadMask'
 
 export default {
   name: 'QueryResultPage',
-  components: { StatusBar, MyNavigator, LoadingMask },
+  components: { ReloadMask, StatusBar, MyNavigator, LoadingMask },
   data () {
     return {
       queryParam: {
@@ -51,10 +53,12 @@ export default {
       },
       classroomDetail: [],
       curPageIndex: 1,
-      maxPage: 1
+      maxPage: 1,
+      reloadUrl: ''
     }
   },
   onLoad ({ queryParam }) {
+    this.reloadUrl = `/pages/WtuAppList/EmptyClassroomQuery/QueryResultPage/QueryResultPage?queryParam=${queryParam}`
     this.queryParam = JSON.parse(queryParam)
     this.loadEmptyClassRoom(this.curPageIndex)
   },
@@ -70,7 +74,9 @@ export default {
         queryParam.week, queryParam.day, queryParam.duration, store.state.classes.classesOptions.term, pageIndex)).then(resp => {
         that.classroomDetail = resp.items
         that.maxPage = resp.totalPage
-      }).catch(e => console.log(e)).finally(() => {
+      }).catch(e => {
+        that.$refs.needReload(e)
+      }).finally(() => {
         that.$refs.nav.loadSuccess()
         if (that.$refs.mask) {
           that.$refs.mask.stopLoading()
