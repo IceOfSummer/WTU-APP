@@ -52,10 +52,11 @@
           <view class="index-menu-title">
             <text>新闻</text>
           </view>
-          <news-block title="1.1.1更新概况">
+          <news-block title="1.1.1更新概况(2022-01-10)">
             <text>- 重写了更新逻辑</text>
             <text>- 优化了绝大部分应用的错误提示</text>
             <text>- 修复了首页导航栏过低的问题</text>
+            <text>- 修复了查询空闲教室的一个翻页bug</text>
           </news-block>
           <news-block title="1.1.0更新概况">
             <text>- 显著提升了APP的启动速度</text>
