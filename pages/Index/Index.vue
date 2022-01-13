@@ -45,39 +45,38 @@
     </view>
     <movable-area class="index-menu">
       <movable-view direction="vertical" :out-of-bounds="true" y="500rpx" :inertia="true" style="width: 100%">
-        <view class="index-menu-content">
-          <view class="index-menu-content-drag">
-            <view></view>
+          <view class="index-menu-content">
+            <view class="index-menu-content-drag">
+              <view></view>
+            </view>
+            <view class="index-menu-title">
+              <text>新闻</text>
+            </view>
+            <news-block title="重要提示!(2022-01-13)">
+              <text>服务器已经备案完毕,因此APP现在可以后台自动热更新了</text>
+              <text>APP的v1.1.0更新需要重新下载安装包安装才有效</text>
+              <text>如果你发现你的开屏页面还是旧版的"迎接美好的每一天", 请重新下载安装包获取更好的体验</text>
+              <text>滑动到底部即可快速跳转下载</text>
+            </news-block>
+            <news-block title="1.1.1更新概况(2022-01-10)">
+              <text>- 重写了更新逻辑</text>
+              <text>- 优化了绝大部分应用的错误提示</text>
+              <text>- 修复了首页导航栏过低的问题</text>
+              <text>- 修复了查询空闲教室的一个翻页bug</text>
+            </news-block>
+            <news-block title="1.1.0更新概况">
+              <text>- 显著提升了APP的启动速度</text>
+              <text>- 更新了启动贴图</text>
+              <text>你知道吗: 每当版本号x.y.z中的x或y变化时, 都需要重新下载安装包安装</text>
+            </news-block>
+            <view class="index-menu-link">
+              <link-block @click="jumpToArticle(0)">APP使用说明</link-block>
+              <link-block @click="jumpToBrowser('https://github.com/HuPeng333/WTU-APP')">查看APP代码</link-block>
+              <link-block @click="jumpToBrowser('https://xds.fit/vcs/download/android')">重新下载APP</link-block>
+            </view>
+            <!-- 下外边距 -->
+            <view style="height: 500rpx"/>
           </view>
-          <view class="index-menu-title">
-            <text>新闻</text>
-          </view>
-          <news-block title="1.1.1更新概况(2022-01-10)">
-            <text>- 重写了更新逻辑</text>
-            <text>- 优化了绝大部分应用的错误提示</text>
-            <text>- 修复了首页导航栏过低的问题</text>
-            <text>- 修复了查询空闲教室的一个翻页bug</text>
-          </news-block>
-          <news-block title="1.1.0更新概况">
-            <text>- 显著提升了APP的启动速度</text>
-            <text>- 更新了启动贴图</text>
-            <text>你知道吗: 每当版本号x.y.z中的x或y变化时, 都需要重新下载安装包安装</text>
-          </news-block>
-          <news-block title="1.0.3更新概况">
-            <text>- 重写了首页</text>
-            <text>- 修改了课程表设置的错别字</text>
-            <text>- 添加了APP使用说明</text>
-          </news-block>
-          <news-block title="1.0.2更新概况">
-            <text>- 优化了登录系统的提示: 现在登录会提示哪里出错了</text>
-          </news-block>
-          <view class="index-menu-link">
-            <link-block @click="jumpToArticle(0)">APP使用说明</link-block>
-            <link-block @click="jumpToBrowser('https://github.com/HuPeng333/WTU-APP')">查看APP代码</link-block>
-          </view>
-          <!-- 下外边距 -->
-          <view style="height: 500rpx"/>
-        </view>
       </movable-view>
     </movable-area>
     <tip-dialog ref="dialog"/>
@@ -229,6 +228,7 @@ $nav-height: 40rpx;
 }
 .index-menu-link{
   display: flex;
+  justify-content: center;
 }
 .index-menu-title{
   color: #fff;
@@ -237,6 +237,7 @@ $nav-height: 40rpx;
   margin-top: 20rpx;
 }
 .index-menu-content-drag{
+  margin-bottom: 20rpx;
   padding: 10rpx 0;
   > view {
     margin: 0 auto;
