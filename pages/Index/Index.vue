@@ -40,7 +40,7 @@
           </view>
         </view>
         <!-- 下外边距 -->
-        <view style="height: 100rpx"></view>
+        <view style="height: 500rpx"></view>
       </view>
     </view>
     <movable-area class="index-menu">
@@ -52,6 +52,9 @@
             <view class="index-menu-title">
               <text>新闻</text>
             </view>
+            <news-block title="1.1.2.1更新概况(2022-02-11)">
+              <text>- 修复了首页的一个显示BUG</text>
+            </news-block>
             <news-block title="1.1.2更新概况(2022-02-11)">
               <text>- 修复了校准当前周接口</text>
             </news-block>

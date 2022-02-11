@@ -2,8 +2,8 @@
     "name" : "wtu-app",
     "appid" : "__UNI__5C91DCE",
     "description" : "",
-    "versionName" : "1.1.2",
-    "versionCode" : 18,
+    "versionName" : "1.1.2.1",
+    "versionCode" : 19,
     "transformPx" : false,
     // 热更新服务器 dev
     /* 5+App特有相关 */
