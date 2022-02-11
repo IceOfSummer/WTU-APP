@@ -47,14 +47,18 @@ export default {
   /**
    * 从服务器校准当前周
    */
-  [TYPE.ADJUST_CUR_WEEK_FROM_SERVER] ({ commit }) {
+  [TYPE.ADJUST_CUR_WEEK_FROM_SERVER] ({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getCurWeekFromServer().then(resp => {
-        if (resp.code === 0) {
-          commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: resp.data })
-          resolve(1)
+      getCurWeekFromServer(state.classes.classesOptions.year, state.classes.classesOptions.term).then(resp => {
+        if (!resp.jcList) {
+          reject('查询失败')
         } else {
-          reject(resp.message)
+          if (!resp.jcList[0]) {
+            reject('查询失败! 可能是当前所选学年有误!')
+          } else {
+            commit(SET_CLASSES_OPTIONS, { key: 'curWeek', value: resp.jcList[0].JCMC })
+            resolve()
+          }
         }
       })
     })

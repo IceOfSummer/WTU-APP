@@ -102,20 +102,6 @@ export default {
           })
         }
       })
-      // uni.showModal({
-      //   title: '重置背景图片',
-      //   content: '确定要重置背景图片吗?',
-      //   success({ confirm }) {
-      //     if (confirm) {
-      //       store.commit(SET_CLASSES_OPTIONS, { key: 'backgroundImagePath', value: '' })
-      //       uni.showToast({
-      //         title: '重置成功',
-      //         icon: 'none',
-      //         position: 'bottom'
-      //       })
-      //     }
-      //   }
-      // })
     }
 
     /**
@@ -133,9 +119,9 @@ export default {
               icon: 'none',
               position: 'bottom'
             })
-          }).catch(() => {
+          }).catch((e) => {
             uni.showToast({
-              title: '校准失败,请稍后重试',
+              title: e,
               icon: 'none',
               position: 'bottom'
             })
