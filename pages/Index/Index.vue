@@ -52,6 +52,9 @@
             <view class="index-menu-title">
               <text>新闻</text>
             </view>
+            <news-block title="1.1.2更新概况(2022-02-11)">
+              <text>- 修复了校准当前周接口</text>
+            </news-block>
             <news-block title="重要提示!(2022-01-13)">
               <text>服务器已经备案完毕,因此APP现在可以后台自动热更新了</text>
               <text>APP的v1.1.0更新需要重新下载安装包安装才有效</text>
@@ -63,11 +66,6 @@
               <text>- 优化了绝大部分应用的错误提示</text>
               <text>- 修复了首页导航栏过低的问题</text>
               <text>- 修复了查询空闲教室的一个翻页bug</text>
-            </news-block>
-            <news-block title="1.1.0更新概况">
-              <text>- 显著提升了APP的启动速度</text>
-              <text>- 更新了启动贴图</text>
-              <text>你知道吗: 每当版本号x.y.z中的x或y变化时, 都需要重新下载安装包安装</text>
             </news-block>
             <view class="index-menu-link">
               <link-block @click="jumpToArticle(0)">APP使用说明</link-block>
