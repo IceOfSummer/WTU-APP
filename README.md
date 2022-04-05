@@ -1,4 +1,7 @@
 # Wtu-App
+
+**已停止维护, 新架构: [wtu-app-react-native](https://github.com/HuPeng333/wtu-app-react-native)**
+
 *本APP与官方没有任何关系！纯粹出于个人兴趣制作*
 
 ## 功能一览
